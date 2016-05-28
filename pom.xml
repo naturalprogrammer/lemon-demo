@@ -48,11 +48,16 @@
 			<scope>test</scope>
 		</dependency>
 		
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-social-facebook</artifactId>
+        </dependency>
+		
 		<!-- Spring Lemon -->
 		<dependency>
 		    <groupId>com.naturalprogrammer.spring</groupId>
-		    <artifactId>spring-lemon</artifactId>
-		    <version>0.8.6</version>
+		    <artifactId>spring-lemon-social</artifactId>
+		    <version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		
 		<!-- RestAssured -->
