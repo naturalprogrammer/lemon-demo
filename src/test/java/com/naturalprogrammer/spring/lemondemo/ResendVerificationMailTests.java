@@ -1,7 +1,7 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static com.jayway.restassured.RestAssured.given;
+import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.Assert;

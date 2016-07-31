@@ -121,7 +121,7 @@ public class BasicTests extends AbstractTests {
     	login(filters, "some-login-id", "some-password")
     	.then()
     		.statusCode(403)
-    		.body("message", equalTo("Expected CSRF token not found. Has your session expired?"));
+    		.body("message", equalTo("Could not verify the provided CSRF token because your session was not found."));
     }
     
     /**
@@ -248,7 +248,7 @@ public class BasicTests extends AbstractTests {
 		.post("/logout")
 		.then()
 			.statusCode(200)
-			.cookie(LemonSecurityConfig.REMEMBER_ME_COOKIE, equalTo("\"\""));
+			.cookie(LemonSecurityConfig.REMEMBER_ME_COOKIE, equalTo(""));
 	}
     
     
