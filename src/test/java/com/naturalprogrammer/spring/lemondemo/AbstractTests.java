@@ -1,5 +1,7 @@
 package com.naturalprogrammer.spring.lemondemo;
 
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+
 import java.sql.SQLException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -12,10 +14,9 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.specification.RequestSpecification;
@@ -29,9 +30,8 @@ import com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil;
  * @author Sanjay Patel
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = LemonDemoApplication.class)
-@WebIntegrationTest
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment=RANDOM_PORT)
 @ActiveProfiles("itest")
 public abstract class AbstractTests {
 

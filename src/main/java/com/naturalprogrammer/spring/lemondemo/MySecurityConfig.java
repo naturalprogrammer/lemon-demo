@@ -11,7 +11,7 @@ public class MySecurityConfig extends LemonSecurityConfig {
 	@Override
 	protected void authorizeRequests(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/admin/**").hasRole("GOOD_ADMIN");
+			.mvcMatchers("/admin/**").hasRole("GOOD_ADMIN");
 		super.authorizeRequests(http);
 	}
 }
