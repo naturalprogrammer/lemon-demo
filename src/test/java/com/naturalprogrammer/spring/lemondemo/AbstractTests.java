@@ -14,6 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -44,8 +45,8 @@ public abstract class AbstractTests {
 	@Autowired
 	protected MyService service;
 	
-    @Value("${local.server.port}")
-    public void setPort(int port) {
+	@LocalServerPort
+	public void setPort(int port) {
     	RestAssured.port = port;   	
     }
     
