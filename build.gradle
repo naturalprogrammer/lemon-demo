@@ -47,7 +47,7 @@ dependencies {
 	compile "com.naturalprogrammer.spring:spring-lemon:0.10.0"
 
 	runtime "org.hsqldb:hsqldb"
-	runtime "mysql:mysql-connector-java"
+	runtime "org.postgresql:postgresql"
 
 	testCompile "org.springframework.boot:spring-boot-starter-test"
 	testCompile "org.springframework.restdocs:spring-restdocs-restassured"
