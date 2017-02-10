@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.0.RELEASE</version>
+		<version>1.4.3.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -37,8 +37,8 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		
@@ -52,7 +52,7 @@
 		<dependency>
 		    <groupId>com.naturalprogrammer.spring</groupId>
 		    <artifactId>spring-lemon</artifactId>
-		    <version>0.9.0</version>
+		    <version>0.11.0</version>
 		</dependency>
 		
 		<!-- RestAssured -->
