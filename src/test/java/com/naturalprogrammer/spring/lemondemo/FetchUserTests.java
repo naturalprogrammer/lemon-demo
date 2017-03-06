@@ -264,7 +264,7 @@ public class FetchUserTests extends AbstractTests {
     	
     	return given().spec(filters)
 				   .pathParam("id", id)
-			   .get("/api/core/users/{id}/fetch-by-id");	
+			   .get("/api/core/users/{id}");	
     }
 
 	

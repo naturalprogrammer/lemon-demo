@@ -42,7 +42,7 @@ public class SignupTests extends AbstractTests {
 		return given().spec(filters)
 			.contentType(MediaType.APPLICATION_JSON_VALUE)
 			.body(user)
-		.post("/api/core/signup");
+		.post("/api/core/users");
 	}
     
     /**

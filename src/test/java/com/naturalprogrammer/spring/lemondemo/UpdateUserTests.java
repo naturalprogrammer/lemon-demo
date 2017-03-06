@@ -342,7 +342,7 @@ public class UpdateUserTests extends AbstractTests {
 	    		.pathParam("id", userId)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				.body(updateData)
-			.post("/api/core/users/{id}/update");	
+			.put("/api/core/users/{id}");	
 	}
 
 }
