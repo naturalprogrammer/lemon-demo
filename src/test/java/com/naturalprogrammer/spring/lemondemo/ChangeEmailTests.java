@@ -135,7 +135,6 @@ public class ChangeEmailTests extends AbstractTests {
     	.then()
     		.statusCode(200)
     		.body("id", equalTo(signedUp.getId().intValue()));
-    	BasicTests.ping(filters);		
     	
     	// try to change email
     	changeEmail(signedUp.getChangeEmailCode())

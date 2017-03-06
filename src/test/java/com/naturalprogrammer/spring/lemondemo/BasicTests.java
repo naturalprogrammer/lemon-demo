@@ -11,7 +11,6 @@ import org.junit.Test;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser;
-import com.naturalprogrammer.spring.lemon.security.LemonCsrfFilter;
 import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
 import com.naturalprogrammer.spring.lemondemo.services.MyService;
 import com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil;
@@ -34,7 +33,7 @@ public class BasicTests extends AbstractTests {
     	ping(filters)
     	.then()
     		// CSRF cookie should be returned
-    		.cookie(LemonCsrfFilter.XSRF_TOKEN_COOKIE_NAME);    	
+    		.cookie(LemonSecurityConfig.XSRF_TOKEN_COOKIE_NAME);    	
 	}
     
     /**
@@ -182,9 +181,6 @@ public class BasicTests extends AbstractTests {
     		.body("roles", hasItem(AbstractUser.Role.ADMIN))
     		// should have been decorated
     		.body("goodAdmin", equalTo(true));
-    	
-    	// Obtain the new CSRF token
-    	ping(filters);
     }    
     
     /**

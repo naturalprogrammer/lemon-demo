@@ -201,7 +201,6 @@ public class UpdateUserTests extends AbstractTests {
     	
     	// Login as User 1, which is now a bad ADMIN 
     	BasicTests.login(filters, user1.getEmail(), user1.getPassword());
-    	BasicTests.ping(filters);
 
     	// Try to update another should not succeed
     	tryToUpdateAnother();

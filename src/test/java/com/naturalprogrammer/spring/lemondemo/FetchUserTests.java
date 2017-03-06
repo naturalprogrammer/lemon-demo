@@ -37,7 +37,6 @@ public class FetchUserTests extends AbstractTests {
     	
     	// Login
     	BasicTests.login(filters, user1.getEmail(), user1.getPassword());
-    	BasicTests.ping(filters);
     	
     	// Fetch and test
     	fetchByEmail(user1.getEmail())
@@ -109,7 +108,6 @@ public class FetchUserTests extends AbstractTests {
 		
 		// Log User1 in
 		BasicTests.login(filters, user1.getEmail(), user1.getPassword());
-    	BasicTests.ping(filters);
     	
     	// Fetch another user and test that all confidential fields are null
     	fetchOther();
@@ -128,7 +126,6 @@ public class FetchUserTests extends AbstractTests {
 		
 		// Log User1 in
 		BasicTests.login(filters, user1.getEmail(), user1.getPassword());
-    	BasicTests.ping(filters);
     	
     	// Fetch another user and test that all confidential fields are null
     	fetchOther();

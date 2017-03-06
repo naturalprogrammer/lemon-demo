@@ -137,7 +137,6 @@ public class ResendVerificationMailTests extends AbstractTests {
 		
     	// Login as User1
     	BasicTests.login(filters, user1.getEmail(), user1.getPassword());
-    	BasicTests.ping(filters);
 
 		unauthorizedResendVerificationMail(anotherUser.getId());
 	}

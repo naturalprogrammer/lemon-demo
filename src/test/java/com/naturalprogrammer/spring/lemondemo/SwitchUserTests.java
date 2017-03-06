@@ -87,7 +87,6 @@ public class SwitchUserTests extends AbstractTests {
     	
     	// Login as User1
     	BasicTests.login(filters, user1.getEmail(), user1.getPassword());
-    	BasicTests.ping(filters);
     	
     	// try switching to another user
     	switchUser(filters, lemonProperties.getAdmin().getUsername())
