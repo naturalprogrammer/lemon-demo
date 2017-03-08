@@ -27,7 +27,7 @@ public class User extends AbstractUser<User,Long> {
 		this.name = name;
 	}
 
-	@JsonView(SignupView.class)
+	@JsonView(SignupInput.class)
 	@NotBlank(message = "{blank.name}", groups = {SignUpValidation.class, UpdateValidation.class})
     @Size(min=NAME_MIN, max=NAME_MAX, groups = {SignUpValidation.class, UpdateValidation.class})
     @Column(nullable = false, length = NAME_MAX)
