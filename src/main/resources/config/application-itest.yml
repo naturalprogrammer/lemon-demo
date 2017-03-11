@@ -1,0 +1,7 @@
+spring
+	jpa.database: HSQL
+	datasource.max-active: 5
+	
+logging
+	level.root: ERROR
+	file: D:\\tmp\\itest-log.txt

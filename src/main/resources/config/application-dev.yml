@@ -1,0 +1,52 @@
+## Development environment
+
+spring:
+  jpa.hibernate.ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/lemon
+    username: lemon
+    password: lemon
+
+logging:
+  level:
+    root: INFO
+    com.naturalprogrammer: DEBUG
+  file: D:\\tmp\\dev-log.txt
+
+lemon:
+
+  cors:
+    # Comma separated values of CORS allowedOrigins
+    # If this property is not given, CORS is not configured
+    allowed-origins: http://localhost:9000
+    
+  recaptcha:
+    sitekey: 6LdwxRcUAAAAABkhOGWQXhl9FsR27D5YUJRuGzx0
+    secretkey: 6LdwxRcUAAAAADaG0Eo1qkYCco15cnngiBoBt2IO
+    
+  # Oauth2 client related properties
+  client-resources:
+  -
+    name: facebook
+    client:
+      clientId: 1234020186718741
+      clientSecret: 0c0abaf685a83e879e8e48b1167c96ab
+      accessTokenUri: https://graph.facebook.com/oauth/access_token
+      userAuthorizationUri: https://www.facebook.com/dialog/oauth
+      tokenName: oauth_token
+      authenticationScheme: query
+      clientAuthenticationScheme: form
+    resource:
+      userInfoUri: https://graph.facebook.com/me
+  -
+    name: github
+    client:
+      clientId: bd1c0a783ccdd1c9b9e4
+      clientSecret: 1a9030fbca47a5b2c28e92f19050bb77824b5ad1
+      accessTokenUri: https://github.com/login/oauth/access_token
+      userAuthorizationUri: https://github.com/login/oauth/authorize
+      clientAuthenticationScheme: form
+    resource:
+      userInfoUri: https://api.github.com/user
+      
+    
