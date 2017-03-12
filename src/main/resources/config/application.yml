@@ -13,7 +13,7 @@ spring:
   
   # uncomment this if you don't want restart
   # when source code changes
-  # devtools.livereload.enabled: false
+  devtools.livereload.enabled: false
   
 # Spring Lemon related properties
 lemon:
