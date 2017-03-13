@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
+import com.naturalprogrammer.spring.lemon.domain.AbstractUser;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 
@@ -82,7 +83,7 @@ public class ForgotPasswordTests extends AbstractTests {
 			.body("errors", hasErrors("newPassword", "{com.naturalprogrammer.spring.invalid.password.size}"));
 
 		// Try resetting with a long password
-    	resetPassword(forgotPasswordCode, StringUtils.repeat('x', 31))
+    	resetPassword(forgotPasswordCode, StringUtils.repeat('x', AbstractUser.PASSWORD_MAX + 1))
 		.then()
 			.statusCode(400)
 			.body("exception", equalTo("ConstraintViolationException"))

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
 import com.jayway.restassured.response.Response;
+import com.naturalprogrammer.spring.lemon.domain.AbstractUser;
 import com.naturalprogrammer.spring.lemon.domain.ChangePasswordForm;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
@@ -196,7 +197,7 @@ public class ChangePasswordTests extends AbstractTests {
 			"changePasswordForm.retypePassword", "{com.naturalprogrammer.spring.invalid.password.size}"				
 		));
 		
-		String longPassword = StringUtils.repeat('x', 31);
+		String longPassword = StringUtils.repeat('x', AbstractUser.PASSWORD_MAX + 1);
 				
 		// Long passwords
 		changeUser1Password(new ChangePasswordForm(longPassword, longPassword, longPassword))
