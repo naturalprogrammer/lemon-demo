@@ -11,9 +11,11 @@ spring:
     default-property-inclusion: NON_NULL
     deserialization.accept-single-value-as-array: true
   
-  # uncomment this if you don't want restart
-  # when source code changes
-  devtools.livereload.enabled: false
+  devtools:
+    # Unomment this if you don't want the app to restart
+    # when source code changes
+    # restart.enabled: false
+    livereload.enabled: false
   
 # Spring Lemon related properties
 lemon:
