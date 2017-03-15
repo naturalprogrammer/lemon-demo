@@ -698,6 +698,35 @@
 				"description": "When a user requests for changing his email, a mail is sent to him, which contains a link with a changeEmailCode embedded. Clicking on the link brings him back to the client, where first he should login if he is not already. He then would click a button for proceeding with the change, which will send the following request to the server:"
 			},
 			"response": []
+		},
+		{
+			"name": "Verify User with Auth Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Verify user status code is 200\"] = responseCode.code === 200;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{lemonDemoUrl}}/api/core/users/f7d3b469-7199-4110-95cd-95d8c5cc7693/verify",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 23:84dff186-3aca-4bc6-899a-6061abed76ae",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "After a user signs up, he receives a verification mail. The mail contains a link with an embedded verificationCode. Clicking on it takes the user to the front-end application, where he is first asked to login if he is not already, and then click a verify button. On clicking verify, a POST request is sent like this."
+			},
+			"response": []
 		}
 	]
 }
