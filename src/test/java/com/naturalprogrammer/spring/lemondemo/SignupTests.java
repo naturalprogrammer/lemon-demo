@@ -6,9 +6,12 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasItem;
 
+import javax.validation.ConstraintViolationException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
 
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
@@ -126,8 +129,8 @@ public class SignupTests extends AbstractTests {
     	// Try signing up with the same email id
     	signup(filters, user1)
     	.then()
-    		.statusCode(400)
-    		.body("exception", equalTo("ConstraintViolationException"))
+    		.statusCode(422)
+    		.body("exception", equalTo(ConstraintViolationException.class.getName()))
     		.body("errors", hasErrors("user.email",
     				"{com.naturalprogrammer.spring.duplicate.email}"));
     }
@@ -144,8 +147,8 @@ public class SignupTests extends AbstractTests {
     	// Try signing up with null data
     	signup(filters, new User())
     	.then()
-    		.statusCode(400)
-    		.body("exception", equalTo("ConstraintViolationException"))
+    		.statusCode(422)
+    		.body("exception", equalTo(ConstraintViolationException.class.getName()))
     		.body("errors", hasErrors(
     			"user.email", "{com.naturalprogrammer.spring.blank.email}",    					
     			"user.name", "{blank.name}",
@@ -167,8 +170,8 @@ public class SignupTests extends AbstractTests {
     	// Try signing up with null data
     	signup(filters, user)
     	.then()
-    		.statusCode(400)
-    		.body("exception", equalTo("ConstraintViolationException"))
+    		.statusCode(422)
+    		.body("exception", equalTo(ConstraintViolationException.class.getName()))
     		.body("errors", hasErrors(
     			"user.email", "{com.naturalprogrammer.spring.invalid.email}",    					    				
     			"user.email", "{com.naturalprogrammer.spring.invalid.email.size}",    					    				
@@ -192,8 +195,8 @@ public class SignupTests extends AbstractTests {
     	// Try signing up with null data
     	signup(filters, user)
     	.then()
-    		.statusCode(400)
-    		.body("exception", equalTo("ConstraintViolationException"))
+    		.statusCode(422)
+    		.body("exception", equalTo(ConstraintViolationException.class.getName()))
     		.body("errors", hasErrors(
     			"user.email", "{com.naturalprogrammer.spring.invalid.email.size}",    					    				
     			"user.name", "{javax.validation.constraints.Size.message}", 					    				
@@ -217,7 +220,7 @@ public class SignupTests extends AbstractTests {
      	.then()
      		.statusCode(403)
     		// name of the logged in user should now be "User 1"
-    		.body("exception", equalTo("AccessDeniedException"))
+    		.body("exception", equalTo(AccessDeniedException.class.getName()))
     		.body("message", equalTo("Access is denied"));    	
     }
     

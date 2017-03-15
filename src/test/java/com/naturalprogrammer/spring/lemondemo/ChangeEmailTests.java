@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jayway.restassured.response.Response;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser.Role;
+import com.naturalprogrammer.spring.lemon.exceptions.MultiErrorException;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 
@@ -66,8 +67,8 @@ public class ChangeEmailTests extends AbstractTests {
     	// try to change the email
 		changeEmail(signedUp.getChangeEmailCode())
 	    .then()
-        	.statusCode(400)
-			.body("exception", equalTo("MultiErrorException"))
+        	.statusCode(422)
+			.body("exception", equalTo(MultiErrorException.class.getName()))
 			.body("errors", hasErrors(
 				null, "com.naturalprogrammer.spring.wrong.changeEmailCode"
 			));
@@ -86,8 +87,8 @@ public class ChangeEmailTests extends AbstractTests {
     	// try to change the email
     	changeEmail("wrong-change-email-code")
 	    .then()
-        	.statusCode(400)
-			.body("exception", equalTo("MultiErrorException"))
+        	.statusCode(422)
+			.body("exception", equalTo(MultiErrorException.class.getName()))
 			.body("errors", hasErrors(
 				null, "com.naturalprogrammer.spring.wrong.changeEmailCode"
 			));
@@ -107,8 +108,8 @@ public class ChangeEmailTests extends AbstractTests {
     	// Try changing email without first requesting
 		changeEmail("some-random-code")
 	    .then()
-        	.statusCode(400)
-			.body("exception", equalTo("MultiErrorException"))
+        	.statusCode(422)
+			.body("exception", equalTo(MultiErrorException.class.getName()))
 			.body("errors", hasErrors(
 				null, "com.naturalprogrammer.spring.wrong.changeEmailCode"
 			));
@@ -139,8 +140,8 @@ public class ChangeEmailTests extends AbstractTests {
     	// try to change email
     	changeEmail(signedUp.getChangeEmailCode())
 	    .then()
-	    	.statusCode(400)
-			.body("exception", equalTo("MultiErrorException"))
+	    	.statusCode(422)
+			.body("exception", equalTo(MultiErrorException.class.getName()))
 			.body("errors", hasErrors(
 				null, "com.naturalprogrammer.spring.duplicate.email"
 			));

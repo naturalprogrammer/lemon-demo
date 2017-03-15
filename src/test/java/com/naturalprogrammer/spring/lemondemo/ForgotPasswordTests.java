@@ -4,6 +4,8 @@ import static com.jayway.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static org.hamcrest.Matchers.equalTo;
 
+import javax.validation.ConstraintViolationException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser;
+import com.naturalprogrammer.spring.lemon.exceptions.MultiErrorException;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 
@@ -46,8 +49,8 @@ public class ForgotPasswordTests extends AbstractTests {
     	// Forgot password with wrong email
     	forgotPassword("wrong.email@example.com")
 		.then()
-			.statusCode(400)
-    		.body("exception", equalTo("MultiErrorException"))
+			.statusCode(422)
+    		.body("exception", equalTo(MultiErrorException.class.getName()))
     		.body("errors", hasErrors(null, "com.naturalprogrammer.spring.userNotFound"));
 
     	// Forgot password
@@ -64,29 +67,29 @@ public class ForgotPasswordTests extends AbstractTests {
     	// Try resetting with a wrong forgot password code
     	resetPassword("wrong-code", newPassword)
 		.then()
-			.statusCode(400)   	
-			.body("exception", equalTo("MultiErrorException"))
+			.statusCode(422)   	
+			.body("exception", equalTo(MultiErrorException.class.getName()))
 			.body("errors", hasErrors(null, "com.naturalprogrammer.spring.invalidLink"));		
     	
     	// Try resetting with a blank password
     	resetPassword(forgotPasswordCode, "")
 		.then()
-			.statusCode(400)
-			.body("exception", equalTo("ConstraintViolationException"))
+			.statusCode(422)
+			.body("exception", equalTo(ConstraintViolationException.class.getName()))
 			.body("errors", hasErrors("newPassword", "{com.naturalprogrammer.spring.blank.password}"));
 
 		// Try resetting with a short password
     	resetPassword(forgotPasswordCode, "short")
 		.then()
-			.statusCode(400)
-			.body("exception", equalTo("ConstraintViolationException"))
+			.statusCode(422)
+			.body("exception", equalTo(ConstraintViolationException.class.getName()))
 			.body("errors", hasErrors("newPassword", "{com.naturalprogrammer.spring.invalid.password.size}"));
 
 		// Try resetting with a long password
     	resetPassword(forgotPasswordCode, StringUtils.repeat('x', AbstractUser.PASSWORD_MAX + 1))
 		.then()
-			.statusCode(400)
-			.body("exception", equalTo("ConstraintViolationException"))
+			.statusCode(422)
+			.body("exception", equalTo(ConstraintViolationException.class.getName()))
 			.body("errors", hasErrors("newPassword", "{com.naturalprogrammer.spring.invalid.password.size}"));
 		
     	// Try resetting with a proper password
@@ -97,8 +100,8 @@ public class ForgotPasswordTests extends AbstractTests {
     	// Try resetting again
     	resetPassword(forgotPasswordCode, newPassword)
 		.then()
-			.statusCode(400)   	
-			.body("exception", equalTo("MultiErrorException"))
+			.statusCode(422)   	
+			.body("exception", equalTo(MultiErrorException.class.getName()))
 			.body("errors", hasErrors(null,	"com.naturalprogrammer.spring.invalidLink"));		
     	
     	// Try logging in with the new password

@@ -4,11 +4,14 @@ import static com.jayway.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static org.hamcrest.Matchers.equalTo;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
+import com.naturalprogrammer.spring.lemon.exceptions.MultiErrorException;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 import com.naturalprogrammer.spring.lemondemo.services.MyService;
@@ -165,15 +168,15 @@ public class FetchUserTests extends AbstractTests {
 		// Fetch with an blank email id
 		fetchByEmail("")
 		.then()
-			.statusCode(400)
-    		.body("exception", equalTo("ConstraintViolationException"))
+			.statusCode(422)
+    		.body("exception", equalTo(ConstraintViolationException.class.getName()))
     		.body("errors", hasErrors("email", "{org.hibernate.validator.constraints.NotBlank.message}"));    		
 
 		// Fetch with a bad email id
 		fetchByEmail("bad.email.id")
 		.then()
-			.statusCode(400)
-    		.body("exception", equalTo("ConstraintViolationException"))
+			.statusCode(422)
+    		.body("exception", equalTo(ConstraintViolationException.class.getName()))
     		.body("errors", hasErrors("email", "{org.hibernate.validator.constraints.Email.message}"));		
 	}
 	
@@ -187,8 +190,8 @@ public class FetchUserTests extends AbstractTests {
 		// Fetch with an unknown email id
     	fetchByEmail("wrong.email@example.com")
 		.then()
-			.statusCode(400)
-    		.body("exception", equalTo("MultiErrorException"))
+			.statusCode(422)
+    		.body("exception", equalTo(MultiErrorException.class.getName()))
     		.body("errors", hasErrors("email", "com.naturalprogrammer.spring.userNotFound"));    		
 	}
 	
@@ -216,8 +219,8 @@ public class FetchUserTests extends AbstractTests {
     	// Fetch with an unknown id
     	fetchById(admin.getId() + 99999)
 		.then()
-			.statusCode(400)
-    		.body("exception", equalTo("MultiErrorException"))
+			.statusCode(422)
+    		.body("exception", equalTo(MultiErrorException.class.getName()))
     		.body("errors", hasErrors("id", "com.naturalprogrammer.spring.userNotFound"));
     	
     	// Fetch Admin while not logged in

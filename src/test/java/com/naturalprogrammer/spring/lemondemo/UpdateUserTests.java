@@ -6,16 +6,21 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.not;
 
+import javax.validation.ConstraintViolationException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
 
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser.Role;
+import com.naturalprogrammer.spring.lemon.exceptions.MultiErrorException;
+import com.naturalprogrammer.spring.lemon.exceptions.VersionException;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 import com.naturalprogrammer.spring.lemondemo.services.MyService;
@@ -170,8 +175,8 @@ public class UpdateUserTests extends AbstractTests {
 		// Update the User
     	update(user1Id + 1, getUpdateData())
 		.then()
-			.statusCode(400)
-			.body("exception", equalTo("MultiErrorException"))
+			.statusCode(422)
+			.body("exception", equalTo(MultiErrorException.class.getName()))
 			.body("errors", hasErrors("id",	"com.naturalprogrammer.spring.userNotFound"));
     }
 	
@@ -185,7 +190,7 @@ public class UpdateUserTests extends AbstractTests {
     	update(adminId, getUpdateData())
 		.then()
 			.statusCode(403)
-			.body("exception", equalTo("AccessDeniedException"))
+			.body("exception", equalTo(AccessDeniedException.class.getName()))
 			.body("message", equalTo("Access is denied"));
     }
 	
@@ -279,16 +284,16 @@ public class UpdateUserTests extends AbstractTests {
 		User updatedName = new User();
     	update(user1Id, updatedName)
 		.then()
-			.statusCode(400)
-			.body("exception", equalTo("ConstraintViolationException"))
+			.statusCode(422)
+			.body("exception", equalTo(ConstraintViolationException.class.getName()))
 			.body("errors", hasErrors("updatedUser.name", "{blank.name}"));
     	
     	// Update the User with a long name   	
 		updatedName.setName(StringUtils.repeat('x', 51));
     	update(user1Id, updatedName)
 		.then()
-			.statusCode(400)
-			.body("exception", equalTo("ConstraintViolationException"))
+			.statusCode(422)
+			.body("exception", equalTo(ConstraintViolationException.class.getName()))
 			.body("errors", hasErrors(
 				"updatedUser.name", "{javax.validation.constraints.Size.message}"));    	
     }
@@ -313,7 +318,7 @@ public class UpdateUserTests extends AbstractTests {
     	update(user1Id, updateData)
 		.then()
 			.statusCode(409)
-			.body("exception", equalTo("VersionException"));
+			.body("exception", equalTo(VersionException.class.getName()));
 	}
 	
 	/**

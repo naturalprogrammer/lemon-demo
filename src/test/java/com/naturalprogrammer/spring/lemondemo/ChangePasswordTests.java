@@ -9,10 +9,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
 
 import com.jayway.restassured.response.Response;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser;
 import com.naturalprogrammer.spring.lemon.domain.ChangePasswordForm;
+import com.naturalprogrammer.spring.lemon.exceptions.MultiErrorException;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 
@@ -121,8 +123,8 @@ public class ChangePasswordTests extends AbstractTests {
 			.body(new ChangePasswordForm(user1.getPassword(), NEW_PASSWORD, NEW_PASSWORD))
 		.post("/api/core/users/{id}/change-password")	
 		.then()
-			.statusCode(400)
-			.body("exception", equalTo("MultiErrorException"))
+			.statusCode(422)
+			.body("exception", equalTo(MultiErrorException.class.getName()))
 			.body("errors", hasErrors("id", "com.naturalprogrammer.spring.userNotFound"));
     }
 	
@@ -141,7 +143,7 @@ public class ChangePasswordTests extends AbstractTests {
 		.post("/api/core/users/{id}/change-password")	
 		.then()
 			.statusCode(403)
-			.body("exception", equalTo("AccessDeniedException"))
+			.body("exception", equalTo(AccessDeniedException.class.getName()))
 			.body("message", equalTo("Access is denied"));
     }
 	
@@ -170,7 +172,7 @@ public class ChangePasswordTests extends AbstractTests {
 		// Null passwords
 		changeUser1Password(new ChangePasswordForm(null, null, null))
 		.then()
-		.statusCode(400)
+		.statusCode(422)
 		.body("errors", hasErrors(
 			"changePasswordForm.oldPassword", "{com.naturalprogrammer.spring.blank.password}",
 			"changePasswordForm.password", "{com.naturalprogrammer.spring.blank.password}",
@@ -180,7 +182,7 @@ public class ChangePasswordTests extends AbstractTests {
 		// Blank passwords
 		changeUser1Password(new ChangePasswordForm("", "", ""))
 		.then()
-		.statusCode(400)
+		.statusCode(422)
 		.body("errors", hasErrors(
 			"changePasswordForm.oldPassword", "{com.naturalprogrammer.spring.blank.password}",
 			"changePasswordForm.password", "{com.naturalprogrammer.spring.blank.password}",
@@ -190,7 +192,7 @@ public class ChangePasswordTests extends AbstractTests {
 		// Short passwords
 		changeUser1Password(new ChangePasswordForm("short", "short", "short"))
 		.then()
-		.statusCode(400)
+		.statusCode(422)
 		.body("errors", hasErrors(
 			"changePasswordForm.oldPassword", "{com.naturalprogrammer.spring.invalid.password.size}",
 			"changePasswordForm.password", "{com.naturalprogrammer.spring.invalid.password.size}",
@@ -202,7 +204,7 @@ public class ChangePasswordTests extends AbstractTests {
 		// Long passwords
 		changeUser1Password(new ChangePasswordForm(longPassword, longPassword, longPassword))
 		.then()
-		.statusCode(400)
+		.statusCode(422)
 		.body("errors", hasErrors(
 			"changePasswordForm.oldPassword", "{com.naturalprogrammer.spring.invalid.password.size}",
 			"changePasswordForm.password", "{com.naturalprogrammer.spring.invalid.password.size}",
@@ -220,7 +222,7 @@ public class ChangePasswordTests extends AbstractTests {
 		// Wrong old password
 		changeUser1Password(new ChangePasswordForm("a-wrong-password", NEW_PASSWORD, NEW_PASSWORD))
 		.then()
-		.statusCode(400)
+		.statusCode(422)
 		.body("errors", hasErrors(
 			"changePasswordForm.oldPassword", "com.naturalprogrammer.spring.wrong.password"
 		));
@@ -236,7 +238,7 @@ public class ChangePasswordTests extends AbstractTests {
 		// Password and retypePassword not same
 		changeUser1Password(new ChangePasswordForm(user1.getPassword(), NEW_PASSWORD, NEW_PASSWORD + "1"))
 		.then()
-		.statusCode(400)
+		.statusCode(422)
 		.body("errors", hasErrors(
 			"changePasswordForm.retypePassword", "{com.naturalprogrammer.spring.different.passwords}"
 		));

@@ -7,8 +7,10 @@ import static org.hamcrest.Matchers.equalTo;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 
 import com.jayway.restassured.response.Response;
+import com.naturalprogrammer.spring.lemon.exceptions.MultiErrorException;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 
@@ -67,8 +69,8 @@ public class ResendVerificationMailTests extends AbstractTests {
 		
 		resendVerificationMail(9780)
 		.then()
-			.statusCode(400)
-			.body("exception", equalTo("MultiErrorException"))
+			.statusCode(422)
+			.body("exception", equalTo(MultiErrorException.class.getName()))
 			.body("errors", hasErrors(
 				"id", "com.naturalprogrammer.spring.userNotFound"
 			));
@@ -98,7 +100,7 @@ public class ResendVerificationMailTests extends AbstractTests {
 		// Update Admin
 		resendVerificationMail(userId)
 		.then().statusCode(403)
-			.body("exception", equalTo("AccessDeniedException"));
+			.body("exception", equalTo(AccessDeniedException.class.getName()));
 	}
 
 	/**
@@ -157,8 +159,8 @@ public class ResendVerificationMailTests extends AbstractTests {
 				
 		resendVerificationMail(adminId)
 		.then()
-			.statusCode(400)
-			.body("exception", equalTo("MultiErrorException"))
+			.statusCode(422)
+			.body("exception", equalTo(MultiErrorException.class.getName()))
 			.body("errors", hasErrors(
 				null, "com.naturalprogrammer.spring.alreadyVerified"
 			));

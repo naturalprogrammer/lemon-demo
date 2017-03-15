@@ -4,14 +4,18 @@ import static com.jayway.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static org.hamcrest.Matchers.equalTo;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
 
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser.Role;
+import com.naturalprogrammer.spring.lemon.exceptions.MultiErrorException;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 
@@ -97,8 +101,8 @@ public class RequestEmailChangeTests extends AbstractTests {
     	BasicTests.ping(filters);
 		requestEmailChange(7867L, updatedUser)
         .then()
-        	.statusCode(400)
-			.body("exception", equalTo("MultiErrorException"))
+        	.statusCode(422)
+			.body("exception", equalTo(MultiErrorException.class.getName()))
 			.body("errors", hasErrors("id",	"com.naturalprogrammer.spring.userNotFound"));
 	}
 	
@@ -155,8 +159,8 @@ public class RequestEmailChangeTests extends AbstractTests {
     	// try with null newEmail and password
     	requestEmailChange(adminId, buildUpdatedUser(null, null))
         .then()
-        	.statusCode(400)
-			.body("exception", equalTo("ConstraintViolationException"))
+        	.statusCode(422)
+			.body("exception", equalTo(ConstraintViolationException.class.getName()))
 			.body("errors", hasErrors(
 					"updatedUser.newEmail",	"{com.naturalprogrammer.spring.blank.email}",
 					"updatedUser.password", "{com.naturalprogrammer.spring.blank.password}"
@@ -165,8 +169,8 @@ public class RequestEmailChangeTests extends AbstractTests {
     	// try with blank newEmail and password
     	requestEmailChange(adminId, buildUpdatedUser("", ""))
         .then()
-        	.statusCode(400)
-			.body("exception", equalTo("ConstraintViolationException"))
+        	.statusCode(422)
+			.body("exception", equalTo(ConstraintViolationException.class.getName()))
 			.body("errors", hasErrors(
 					"updatedUser.newEmail",	"{com.naturalprogrammer.spring.blank.email}",
 					"updatedUser.password", "{com.naturalprogrammer.spring.blank.password}"
@@ -175,8 +179,8 @@ public class RequestEmailChangeTests extends AbstractTests {
     	// try with blank newEmail and password
     	requestEmailChange(adminId, buildUpdatedUser("an-invalid.email", "password"))
         .then()
-        	.statusCode(400)
-			.body("exception", equalTo("ConstraintViolationException"))
+        	.statusCode(422)
+			.body("exception", equalTo(ConstraintViolationException.class.getName()))
 			.body("errors", hasErrors(
 					"updatedUser.newEmail",	"{com.naturalprogrammer.spring.invalid.email}"
 			));
@@ -184,8 +188,8 @@ public class RequestEmailChangeTests extends AbstractTests {
     	// try with wrong password
     	requestEmailChange(adminId, buildUpdatedUser("new@example.com", "wrong-password"))
         .then()
-        	.statusCode(400)
-			.body("exception", equalTo("MultiErrorException"))
+        	.statusCode(422)
+			.body("exception", equalTo(MultiErrorException.class.getName()))
 			.body("errors", hasErrors(
 					"updatedUser.password",	"com.naturalprogrammer.spring.wrong.password"
 			));
@@ -195,8 +199,8 @@ public class RequestEmailChangeTests extends AbstractTests {
     		lemonProperties.getAdmin().getUsername(),
     		lemonProperties.getAdmin().getPassword()))
         .then()
-        	.statusCode(400)
-			.body("exception", equalTo("ConstraintViolationException"))
+        	.statusCode(422)
+			.body("exception", equalTo(ConstraintViolationException.class.getName()))
 			.body("errors", hasErrors(
 					"updatedUser.newEmail",	"{com.naturalprogrammer.spring.duplicate.email}"
 			));
@@ -221,7 +225,7 @@ public class RequestEmailChangeTests extends AbstractTests {
     	requestEmailChange(adminId, updatedUser)
         .then()
 			.statusCode(403)
-			.body("exception", equalTo("AccessDeniedException"));
+			.body("exception", equalTo(AccessDeniedException.class.getName()));
     	
     	// check that newEmail and changeEmailCode fields aren't set
     	assertEmailChangeNotRequested(adminId);

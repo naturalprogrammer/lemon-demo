@@ -9,9 +9,11 @@ import static org.hamcrest.Matchers.not;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 
 import com.jayway.restassured.response.Response;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser.Role;
+import com.naturalprogrammer.spring.lemon.exceptions.MultiErrorException;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 
@@ -57,8 +59,8 @@ public class VerifyTests extends AbstractTests {
 		// Re-verifying should throw error
     	verify(signedUp.getVerificationCode())
 		.then()
-			.statusCode(400)
-			.body("exception", equalTo("MultiErrorException"))
+			.statusCode(422)
+			.body("exception", equalTo(MultiErrorException.class.getName()))
 			.body("errors", hasErrors(null, "com.naturalprogrammer.spring.alreadyVerified"));
     	
     	// Fetch the verified User from database
@@ -85,8 +87,8 @@ public class VerifyTests extends AbstractTests {
 		// Try verifying with wrong verification code
     	verify("a-wrong-verification-code")
 		.then()
-			.statusCode(400)
-			.body("exception", equalTo("MultiErrorException"))
+			.statusCode(422)
+			.body("exception", equalTo(MultiErrorException.class.getName()))
 			.body("errors", hasErrors(null, "com.naturalprogrammer.spring.wrong.verificationCode"));
     }
     
@@ -106,7 +108,7 @@ public class VerifyTests extends AbstractTests {
     	verify(signedUp.getVerificationCode())
 		.then()
 			.statusCode(403)
-			.body("exception", equalTo("AccessDeniedException"));
+			.body("exception", equalTo(AccessDeniedException.class.getName()));
     }
 
     /**
