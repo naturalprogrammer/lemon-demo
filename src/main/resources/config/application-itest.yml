@@ -4,4 +4,4 @@ spring:
 
 logging:
   level.root: ERROR
-  # file: D:\\tmp\\itest-log.txt
+  #file: D:\\tmp\\itest-log.txt

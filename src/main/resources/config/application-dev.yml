@@ -12,7 +12,7 @@ logging:
     root: INFO
     # org.springframework: DEBUG
     com.naturalprogrammer: DEBUG
-  # file: D:\\tmp\\dev-log.txt
+  file: D:\\tmp\\dev-log.txt
 
 lemon:
 

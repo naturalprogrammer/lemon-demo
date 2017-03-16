@@ -8,7 +8,6 @@ import com.jayway.restassured.specification.FilterableRequestSpecification;
 import com.jayway.restassured.specification.FilterableResponseSpecification;
 import com.naturalprogrammer.spring.lemon.LemonConfig;
 
-//@Component
 public class JsonPrefixFilter implements Filter {
 
 	@Override
