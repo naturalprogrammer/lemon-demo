@@ -1,6 +1,8 @@
 package com.naturalprogrammer.spring.lemondemo.testutil;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,9 +12,11 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.io.IOUtils;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
+import org.springframework.core.io.Resource;
 
 import com.jayway.restassured.builder.RequestSpecBuilder;
 import com.jayway.restassured.filter.session.SessionFilter;
@@ -91,5 +95,7 @@ public class MyTestUtil {
 	}
 	
 
-
+	public static String toString(Resource resource) throws IOException {
+		return IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8.name());
+	}
 }

@@ -1,0 +1,7 @@
+[
+  {"op": "replace", "path": "/name", "value": "Edited name"},
+  {"op": "replace", "path": "/email", "value": "should.not@get.replaced"},
+  {"op": "replace", "path": "/unverified", "value": false},
+  {"op": "replace", "path": "/admin", "value": true},
+  {"op": "replace", "path": "/version", "value": 0}  
+]

@@ -101,13 +101,13 @@ public class FetchUserTests extends AbstractTests {
 	public void badAdminFetchOther() {
 		
 		// Sign up User 1
-		User user1 = signupUser1AndForgetPassword();
+		User user1 = signupUser1();
 		
 		// Fetch its Id from database
 		long user1Id = userRepository.findByEmail(user1.getEmail()).get().getId();
 		
 		// Make User1 a bad Admin
-		UpdateUserTests.makeUser1BadAdmin(filters, user1Id, 1);
+		UpdateUserTests.makeUser1BadAdmin(filters, user1Id, 0);
 		
 		// Log User1 in
 		BasicTests.login(filters, user1.getEmail(), user1.getPassword());
@@ -277,11 +277,7 @@ public class FetchUserTests extends AbstractTests {
 	 */
 	private User signupUser1AndForgetPassword() {
 		
-		User user1 = SignupTests.newUser1(); 
-				
-    	// Sign up as User 1 - it will set a verificationCode
-		BasicTests.ping(filters);
-		SignupTests.signup(filters, user1);
+		User user1 = signupUser1();
 
     	// Set a forgotPasswordCode
 		BasicTests.logout(filters);
@@ -289,4 +285,20 @@ public class FetchUserTests extends AbstractTests {
 
     	return user1;
 	}
+	
+	
+	/**
+	 * Helper method for creating a new user with
+	 * verificationCode and forgotPasswordCode set
+	 */
+	private User signupUser1() {
+		
+		User user1 = SignupTests.newUser1(); 
+				
+    	// Sign up as User 1 - it will set a verificationCode
+		BasicTests.ping(filters);
+		SignupTests.signup(filters, user1);
+
+    	return user1;
+	}	
 }

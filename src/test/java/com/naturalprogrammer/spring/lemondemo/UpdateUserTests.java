@@ -6,13 +6,19 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.not;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 import javax.validation.ConstraintViolationException;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 
@@ -24,6 +30,7 @@ import com.naturalprogrammer.spring.lemon.exceptions.VersionException;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 import com.naturalprogrammer.spring.lemondemo.services.MyService;
+import com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil;
 
 /**
  * Test cases for updating user
@@ -31,27 +38,51 @@ import com.naturalprogrammer.spring.lemondemo.services.MyService;
  * @author Sanjay Patel
  */
 public class UpdateUserTests extends AbstractTests {
+
+	private static final String UPDATED_NAME = "Edited name";
+			
+    private String userPatch1;
+    private String userPatch2;
+    private static String userPatchBadAdmin;
+    private String userPatchRevokeAdmin;
+    private String userPatchNullName;
+    private String userPatchLongName;
 	
+	@Value("classpath:/update-user/patch-1.json")
+	public void setUserPatch1(Resource patch) throws IOException {
+		this.userPatch1 = MyTestUtil.toString(patch);
+	}
+	
+	@Value("classpath:/update-user/patch-2.json")
+	public void setUserPatch2(Resource patch) throws IOException {
+		this.userPatch2 = MyTestUtil.toString(patch);;
+	}
+
+	@Value("classpath:/update-user/patch-bad-admin.json")
+	public void setUserPatchBadAdmin(Resource patch) throws IOException {
+		UpdateUserTests.userPatchBadAdmin = MyTestUtil.toString(patch);;
+	}	
+
+	@Value("classpath:/update-user/patch-revoke-admin.json")
+	public void setUserPatchRevokeAdmin(Resource patch) throws IOException {
+		this.userPatchRevokeAdmin = MyTestUtil.toString(patch);;
+	}
+
+	@Value("classpath:/update-user/patch-null-name.json")
+	public void setUserPatchNullName(Resource patch) throws IOException {
+		this.userPatchNullName = MyTestUtil.toString(patch);;
+	}
+
+	@Value("classpath:/update-user/patch-long-name.json")
+	public void setUserPatchLongName(Resource patch) throws IOException {
+		this.userPatchLongName = MyTestUtil.toString(patch);;
+	}
+
 	@Autowired
 	private UserRepository userRepository;
 	
 	private long user1Id;
 	private long adminId;
-	
-	/**
-	 * Helper for creating update data
-	 * 
-	 * @return
-	 */
-	private User getUpdateData() {
-		
-		User data = new User();
-		data.setName("Edited name");
-		data.setUnverified(false);
-		data.setAdmin(true);
-		
-		return data;
-	}
 	
 	
 	/**
@@ -84,26 +115,25 @@ public class UpdateUserTests extends AbstractTests {
 	@Test
     public void canUpdateSelf() {
 		
-		User updateData = getUpdateData();
-    	
 		// Update the User
-    	update(user1Id, updateData)
+    	update(user1Id, userPatch1)
 		.then()
 			.statusCode(200)
-			.body("name", equalTo(updateData.getName())); // name of the principal has changed
+			.body("name", equalTo(UPDATED_NAME)); // name of the principal has changed
     	
     	// Fetch the user and check
     	FetchUserTests.fetchById(filters, user1Id)
 		.then()
-    		.body("name", equalTo(updateData.getName()))
+    		.body("name", equalTo(UPDATED_NAME))
     		.body("roles", hasItem(Role.UNVERIFIED)) // roles haven't changed
     		.body("roles", not(hasItem(Role.ADMIN)))
+    		.body("email", equalTo(SignupTests.USER1_EMAIL)) // email hasn't changed
     		.body("version", equalTo(1)); // version has incremented
 
     	// Ensure again that the name of logged in user has changed
     	BasicTests.getContext(filters)
     	.then()
-    		.body("user.name", equalTo(updateData.getName())) // name of the principal has changed
+    		.body("user.name", equalTo(UPDATED_NAME)) // name of the principal has changed
     		.body("user.roles", hasItem(Role.UNVERIFIED)) // roles haven't changed
     		.body("user.roles", not(hasItem(Role.ADMIN)));    	
     }
@@ -125,10 +155,8 @@ public class UpdateUserTests extends AbstractTests {
     			
 		BasicTests.adminLogin(filters);
     	
-    	User updateData = getUpdateData();
-
 		// Update the User
-    	update(user1Id, updateData)
+    	update(user1Id, userPatch1)
 		.then()
 			.statusCode(200)
 			.body("name", equalTo(MyService.ADMIN_NAME)); // name of the principal shouldn't change
@@ -136,7 +164,7 @@ public class UpdateUserTests extends AbstractTests {
     	// Fetch the user and check
     	FetchUserTests.fetchById(filters, user1Id)
 		.then()
-    		.body("name", equalTo(updateData.getName()))
+    		.body("name", equalTo(UPDATED_NAME))
     		.body("roles", not(hasItem(Role.UNVERIFIED))) // roles have changed
     		.body("roles", hasItem(Role.ADMIN));
     	
@@ -145,12 +173,12 @@ public class UpdateUserTests extends AbstractTests {
 		user1 = userRepository.findOne(user1Id);
 		Assert.assertNull(user1.getVerificationCode());
 		
-		// Re-update the user, making him unverified again
-		updateData.setUnverified(true);
-		updateData.setVersion(1); // version got incremented on last update
+//		// Re-update the user, making him unverified again
+//		updateData.setUnverified(true);
+//		updateData.setVersion(1); // version got incremented on last update
 
 		// Update the User
-    	update(user1Id, updateData)
+    	update(user1Id, userPatch2)
 		.then()
 			.statusCode(200);
 
@@ -173,7 +201,7 @@ public class UpdateUserTests extends AbstractTests {
     public void unknownId() {
     	
 		// Update the User
-    	update(user1Id + 1, getUpdateData())
+    	update(user1Id + 1, userPatch1)
 		.then()
 			.statusCode(422)
 			.body("exception", equalTo(MultiErrorException.class.getName()))
@@ -187,7 +215,7 @@ public class UpdateUserTests extends AbstractTests {
     public void tryToUpdateAnother() {
     	
 		// Update Admin
-    	update(adminId, getUpdateData())
+    	update(adminId, userPatch1)
 		.then()
 			.statusCode(403)
 			.body("exception", equalTo(AccessDeniedException.class.getName()))
@@ -221,17 +249,17 @@ public class UpdateUserTests extends AbstractTests {
 	 */
 	public static void makeUser1BadAdmin(RequestSpecification filters, long user1Id, long version) {
 				
-		// Let's make User 1 a bad ADMIN
-		User badAdmin = new User();
-		badAdmin.setName("A bad ADMIN");
-		badAdmin.setAdmin(true);
-		badAdmin.setUnverified(true); // hence bad
-		badAdmin.setVersion(version);
+//		// Let's make User 1 a bad ADMIN
+//		User badAdmin = new User();
+//		badAdmin.setName("A bad ADMIN");
+//		badAdmin.setAdmin(true);
+//		badAdmin.setUnverified(true); // hence bad
+//		badAdmin.setVersion(version);
 		
     	BasicTests.adminLogin(filters);
 		
 		// Update User 1
-    	update(filters, user1Id, badAdmin)
+    	update(filters, user1Id, userPatchBadAdmin)
 		.then()
 			.statusCode(200);
     	
@@ -253,14 +281,14 @@ public class UpdateUserTests extends AbstractTests {
     	
 		final String NEW_NAME = "An old ADMIN";
 		
-    	// Let's make User 1 a bad ADMIN
-		User revokeAdmin = new User();
-		revokeAdmin.setName(NEW_NAME);
-		revokeAdmin.setAdmin(false);
-		revokeAdmin.setUnverified(true);
+//    	// Let's make User 1 a bad ADMIN
+//		User revokeAdmin = new User();
+//		revokeAdmin.setName(NEW_NAME);
+//		revokeAdmin.setAdmin(false);
+//		revokeAdmin.setUnverified(true);
 
     	// Update the User
-    	update(adminId, revokeAdmin)
+    	update(adminId, userPatchRevokeAdmin)
 		.then()
 			.statusCode(200)
 			.body("name", equalTo(NEW_NAME))
@@ -280,17 +308,17 @@ public class UpdateUserTests extends AbstractTests {
 	@Test
     public void invalidNewName() {
     	
-    	// Update the User with a null name
-		User updatedName = new User();
-    	update(user1Id, updatedName)
+//    	// Update the User with a null name
+//		User updatedName = new User();
+    	update(user1Id, userPatchNullName)
 		.then()
 			.statusCode(422)
 			.body("exception", equalTo(ConstraintViolationException.class.getName()))
 			.body("errors", hasErrors("updatedUser.name", "{blank.name}"));
     	
     	// Update the User with a long name   	
-		updatedName.setName(StringUtils.repeat('x', 51));
-    	update(user1Id, updatedName)
+		//updatedName.setName(StringUtils.repeat('x', 51));
+    	update(user1Id, userPatchLongName)
 		.then()
 			.statusCode(422)
 			.body("exception", equalTo(ConstraintViolationException.class.getName()))
@@ -306,16 +334,14 @@ public class UpdateUserTests extends AbstractTests {
 	@Test
     public void versionMismatch() {
     	
-		User updateData = getUpdateData();
-		
 		// Update the User
-    	update(user1Id, updateData)
+    	update(user1Id, userPatch1)
 		.then()
 			.statusCode(200)
-			.body("name", equalTo(updateData.getName())); // name of the principal has changed
+			.body("name", equalTo(UPDATED_NAME)); // name of the principal has changed
     	
 		// Try update again, with the same version 0
-    	update(user1Id, updateData)
+    	update(user1Id, userPatch1)
 		.then()
 			.statusCode(409)
 			.body("exception", equalTo(VersionException.class.getName()));
@@ -325,12 +351,12 @@ public class UpdateUserTests extends AbstractTests {
 	 * Helper method to update a user
 	 * 
 	 * @param userId		the id of the user to update
-	 * @param updateData	the data to be updated
+	 * @param userPatch		the data to be updated
 	 * @return
 	 */
-	private Response update(long userId, User updateData) {
+	private Response update(long userId, String userPatch) {
 		
-		return update(filters, userId, updateData);
+		return update(filters, userId, userPatch);
 	}
 	
 	/**
@@ -338,16 +364,15 @@ public class UpdateUserTests extends AbstractTests {
 	 * 
 	 * @param filters
 	 * @param userId
-	 * @param updateData
+	 * @param userPatch
 	 * @return
 	 */
-	public static Response update(RequestSpecification filters, long userId, User updateData) {
+	public static Response update(RequestSpecification filters, long userId, String userPatch) {
 		
 		return given().spec(filters)
 	    		.pathParam("id", userId)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
-				.body(updateData)
-			.put("/api/core/users/{id}");	
+				.body(userPatch)
+			.patch("/api/core/users/{id}");	
 	}
-
 }

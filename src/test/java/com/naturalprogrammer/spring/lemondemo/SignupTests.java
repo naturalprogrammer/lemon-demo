@@ -27,6 +27,8 @@ import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
  *
  */
 public class SignupTests extends AbstractTests {
+	
+	public static final String USER1_EMAIL = "user1@example.com";
 
 	/**
 	 * Utility class for creating a new User
@@ -35,7 +37,7 @@ public class SignupTests extends AbstractTests {
 	 */
 	public static final User newUser1() {
 		
-		return new User("user1@example.com", "user1!", "User 1");
+		return new User(USER1_EMAIL, "user1!", "User 1");
 	}
 
 	/**

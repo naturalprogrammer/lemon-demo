@@ -1,0 +1,6 @@
+[
+  {"op": "replace", "path": "/name", "value": "An old ADMIN"},
+  {"op": "replace", "path": "/unverified", "value": true},
+  {"op": "replace", "path": "/admin", "value": false},
+  {"op": "replace", "path": "/version", "value": 0}  
+]
