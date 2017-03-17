@@ -15,13 +15,12 @@ public class DefaultPrincipalExtractor extends AbstractPrincipalExtractor<User> 
     private static final Log log = LogFactory.getLog(DefaultPrincipalExtractor.class);
 	
 	public DefaultPrincipalExtractor() {
-		
-		this.provider = "default";
 		log.info("Created");
 	}
 
+	
 	@Override
-	protected User newUser(Map<String, Object> principalMap) {
+	protected User newUserWithAdditionalProperties(Map<String, Object> principalMap) {
 		
 		User user = new User();
 		user.setName((String) principalMap.get("name"));

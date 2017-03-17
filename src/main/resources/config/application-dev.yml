@@ -10,9 +10,9 @@ spring:
 logging:
   level:
     root: INFO
-    # org.springframework: DEBUG
+    org.springframework: INFO
     com.naturalprogrammer: DEBUG
-  file: D:\\tmp\\dev-log.txt
+  #file: D:\\tmp\\dev-log.txt
 
 lemon:
 

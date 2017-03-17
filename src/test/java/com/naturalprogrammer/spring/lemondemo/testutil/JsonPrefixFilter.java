@@ -6,7 +6,7 @@ import com.jayway.restassured.filter.FilterContext;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.FilterableRequestSpecification;
 import com.jayway.restassured.specification.FilterableResponseSpecification;
-import com.naturalprogrammer.spring.lemon.LemonConfig;
+import com.naturalprogrammer.spring.lemon.LemonAutoConfiguration;
 
 public class JsonPrefixFilter implements Filter {
 
@@ -16,8 +16,8 @@ public class JsonPrefixFilter implements Filter {
 
 		final Response response = ctx.next(requestSpec, responseSpec); // Invoke the request by delegating to the next filter in the filter chain.
 		String responseBody = response.asString();
-		if (responseBody.startsWith(LemonConfig.JSON_PREFIX)) {
-			String updatedResponseBody = responseBody.substring(LemonConfig.JSON_PREFIX.length());
+		if (responseBody.startsWith(LemonAutoConfiguration.JSON_PREFIX)) {
+			String updatedResponseBody = responseBody.substring(LemonAutoConfiguration.JSON_PREFIX.length());
 			return new ResponseBuilder().clone(response).setBody(updatedResponseBody).build();	    	 
 		}
 		return response;

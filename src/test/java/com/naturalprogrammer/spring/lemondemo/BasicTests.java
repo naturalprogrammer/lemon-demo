@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
+import com.naturalprogrammer.spring.lemon.LemonAutoConfiguration;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser;
 import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
 import com.naturalprogrammer.spring.lemondemo.services.MyService;
@@ -207,12 +208,12 @@ public class BasicTests extends AbstractTests {
     	given().spec(filters)
     	   	.param("username", "admin@example.com")
     	   	.param("password", "admin!")
-    	   	.param(LemonSecurityConfig.REMEMBER_ME_PARAMETER, true)
+    	   	.param(LemonAutoConfiguration.REMEMBER_ME_PARAMETER, true)
     	.post("/login")
     	.then()
-    		.cookie(LemonSecurityConfig.REMEMBER_ME_COOKIE)
+    		.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE)
     	// obtain the remember-me cookie
-    	.extract().cookie(LemonSecurityConfig.REMEMBER_ME_COOKIE);
+    	.extract().cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE);
     	
     	// Now have a new session
     	filters = MyTestUtil.configureFilters();
@@ -225,7 +226,7 @@ public class BasicTests extends AbstractTests {
     	// With the cookie. the user is automatically logged in
     	given()
     		.spec(filters)
-    		.cookie(LemonSecurityConfig.REMEMBER_ME_COOKIE, rememberMeCookie)
+    		.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, rememberMeCookie)
 		.get("/api/core/context")
 		.then()
 			.body("user.name", equalTo(MyService.ADMIN_NAME));
@@ -234,17 +235,17 @@ public class BasicTests extends AbstractTests {
     	// took place in the previous call.
     	// So, let's ping
     	given().spec(filters)
-    		.cookie(LemonSecurityConfig.REMEMBER_ME_COOKIE, rememberMeCookie)
+    		.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, rememberMeCookie)
     		.get("/api/core/ping");
     	
     	// Then, log the user out
     	// and see that the cookie is reset
     	given().spec(filters)
-    	.cookie(LemonSecurityConfig.REMEMBER_ME_COOKIE, rememberMeCookie)
+    	.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, rememberMeCookie)
 		.post("/logout")
 		.then()
 			.statusCode(200)
-			.cookie(LemonSecurityConfig.REMEMBER_ME_COOKIE, equalTo(""));
+			.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, equalTo(""));
 	}
     
     
@@ -259,7 +260,7 @@ public class BasicTests extends AbstractTests {
     	
     	given()
     		.spec(filters)
-    		.cookie(LemonSecurityConfig.REMEMBER_ME_COOKIE, "A wrong remember-me token")
+    		.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, "A wrong remember-me token")
 		.get("/api/core/context")
 		.then()
 			.body("user", equalTo(null));
