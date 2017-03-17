@@ -285,9 +285,7 @@ public class FetchUserTests extends AbstractTests {
 
     	// Set a forgotPasswordCode
 		BasicTests.logout(filters);
-    	ForgotPasswordTests.forgotPassword(filters, user1.getEmail())
-    	.then()
-			.statusCode(200);   	
+    	ForgotPasswordTests.forgotPassword(filters, user1.getEmail());
 
     	return user1;
 	}

@@ -40,7 +40,7 @@ public class ChangeEmailTests extends AbstractTests {
     	// change email
 		changeEmail(signedUp.getChangeEmailCode())
 	    .then()
-	    	.statusCode(200);
+	    	.statusCode(204);
 		
 		// ensure that user is logged out
     	BasicTests.getContext(filters)

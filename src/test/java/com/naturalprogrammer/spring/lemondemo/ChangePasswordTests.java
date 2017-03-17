@@ -64,7 +64,7 @@ public class ChangePasswordTests extends AbstractTests {
 		// change password
 		changeUser1Password(new ChangePasswordForm(user1.getPassword(), NEW_PASSWORD, NEW_PASSWORD))
 		.then()
-			.statusCode(200);
+			.statusCode(204);
     	
 		// ensure he is logged out
     	BasicTests.getContext(filters)
@@ -89,7 +89,7 @@ public class ChangePasswordTests extends AbstractTests {
 		// Change password of others
 		changeUser1Password(new ChangePasswordForm(user1.getPassword(), NEW_PASSWORD, NEW_PASSWORD))
 		.then()
-			.statusCode(200);
+			.statusCode(204);
     	
     	BasicTests.login(filters, user1.getEmail(), NEW_PASSWORD)
     	.then()

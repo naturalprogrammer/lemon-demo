@@ -53,7 +53,7 @@ public class RequestEmailChangeTests extends AbstractTests {
     	User updatedUser = buildUpdatedUser("new@example.com", user1.getPassword());    	    	
     	requestEmailChange(signedUp.getId(), updatedUser)
         .then()
-        	.statusCode(200);
+        	.statusCode(204);
     	
     	// ensure that newEmail and changeEmailCode are now properly set 
     	assertEmailChangeRequested(signedUp.getId(), updatedUser.getNewEmail());
@@ -80,7 +80,7 @@ public class RequestEmailChangeTests extends AbstractTests {
     	// request email change
     	requestEmailChange(signedUp.getId(), updatedUser)
         .then()
-        	.statusCode(200);
+        	.statusCode(204);
     	
     	// ensure that newEmail and changeEmailCode are now properly set
     	assertEmailChangeRequested(signedUp.getId(), updatedUser.getNewEmail());

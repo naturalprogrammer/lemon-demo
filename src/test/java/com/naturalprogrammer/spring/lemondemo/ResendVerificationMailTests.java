@@ -37,7 +37,7 @@ public class ResendVerificationMailTests extends AbstractTests {
 
 		resendVerificationMail(signedUp.getId())
 		.then()
-			.statusCode(200);
+			.statusCode(204);
 
 		signedUp = userRepository.findOne(signedUp.getId());
 
@@ -55,7 +55,7 @@ public class ResendVerificationMailTests extends AbstractTests {
 		User signedUp = SignupTests.signupUser1(filters);
 
 		BasicTests.adminLogin(filters);
-		resendVerificationMail(signedUp.getId()).then().statusCode(200);
+		resendVerificationMail(signedUp.getId()).then().statusCode(204);
 	}
 
 	/**

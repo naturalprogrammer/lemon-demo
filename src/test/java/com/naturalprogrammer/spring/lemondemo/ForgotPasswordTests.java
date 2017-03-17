@@ -56,7 +56,7 @@ public class ForgotPasswordTests extends AbstractTests {
     	// Forgot password
     	forgotPassword(user1.getEmail())
     	.then()
-			.statusCode(200);   	
+			.statusCode(204);   	
     	
     	String forgotPasswordCode = userRepository
     		.findByEmail(user1.getEmail())
@@ -95,7 +95,7 @@ public class ForgotPasswordTests extends AbstractTests {
     	// Try resetting with a proper password
     	resetPassword(forgotPasswordCode, newPassword)
 		.then()
-			.statusCode(200);
+			.statusCode(204);
     	
     	// Try resetting again
     	resetPassword(forgotPasswordCode, newPassword)
