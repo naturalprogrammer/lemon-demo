@@ -83,7 +83,7 @@ public class SwitchUserTests extends AbstractTests {
     	User user1 = SignupTests.signupUser1(filters); 
     			
     	// Make user1 a bad-admin
-    	UpdateUserTests.makeUser1BadAdmin(filters, user1.getId(), 0);
+    	UpdateUserTests.makeUser1BadAdmin(filters, user1.getId());
     	
     	// Login as User1
     	BasicTests.login(filters, user1.getEmail(), user1.getPassword());

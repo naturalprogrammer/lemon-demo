@@ -167,11 +167,7 @@ public class UpdateUserTests extends AbstractTests {
 		user1 = userRepository.findOne(user1Id);
 		Assert.assertNull(user1.getVerificationCode());
 		
-//		// Re-update the user, making him unverified again
-//		updateData.setUnverified(true);
-//		updateData.setVersion(1); // version got incremented on last update
-
-		// Update the User
+		// Re-update the user, making him unverified again
     	update(user1Id, userPatch2)
 		.then()
 			.statusCode(200);
@@ -224,7 +220,7 @@ public class UpdateUserTests extends AbstractTests {
 		
 		User user1 = SignupTests.newUser1();
 				
-		makeUser1BadAdmin(filters, user1Id, 0);
+		makeUser1BadAdmin(filters, user1Id);
     	
     	// Login as User 1, which is now a bad ADMIN 
     	BasicTests.login(filters, user1.getEmail(), user1.getPassword());
@@ -241,15 +237,8 @@ public class UpdateUserTests extends AbstractTests {
 	 * @param user1Id
 	 * @param version
 	 */
-	public static void makeUser1BadAdmin(RequestSpecification filters, long user1Id, long version) {
+	public static void makeUser1BadAdmin(RequestSpecification filters, long user1Id) {
 				
-//		// Let's make User 1 a bad ADMIN
-//		User badAdmin = new User();
-//		badAdmin.setName("A bad ADMIN");
-//		badAdmin.setAdmin(true);
-//		badAdmin.setUnverified(true); // hence bad
-//		badAdmin.setVersion(version);
-		
     	BasicTests.adminLogin(filters);
 		
 		// Update User 1
@@ -275,12 +264,6 @@ public class UpdateUserTests extends AbstractTests {
     	
 		final String NEW_NAME = "An old ADMIN";
 		
-//    	// Let's make User 1 a bad ADMIN
-//		User revokeAdmin = new User();
-//		revokeAdmin.setName(NEW_NAME);
-//		revokeAdmin.setAdmin(false);
-//		revokeAdmin.setUnverified(true);
-
     	// Update the User
     	update(adminId, userPatchRevokeAdmin)
 		.then()
@@ -302,8 +285,7 @@ public class UpdateUserTests extends AbstractTests {
 	@Test
     public void invalidNewName() {
     	
-//    	// Update the User with a null name
-//		User updatedName = new User();
+    	// Update the User with a null name
     	update(user1Id, userPatchNullName)
 		.then()
 			.statusCode(422)
@@ -311,7 +293,6 @@ public class UpdateUserTests extends AbstractTests {
 			.body("errors", hasErrors("updatedUser.name", "{blank.name}"));
     	
     	// Update the User with a long name   	
-		//updatedName.setName(StringUtils.repeat('x', 51));
     	update(user1Id, userPatchLongName)
 		.then()
 			.statusCode(422)

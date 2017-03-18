@@ -107,7 +107,7 @@ public class FetchUserTests extends AbstractTests {
 		long user1Id = userRepository.findByEmail(user1.getEmail()).get().getId();
 		
 		// Make User1 a bad Admin
-		UpdateUserTests.makeUser1BadAdmin(filters, user1Id, 0);
+		UpdateUserTests.makeUser1BadAdmin(filters, user1Id);
 		
 		// Log User1 in
 		BasicTests.login(filters, user1.getEmail(), user1.getPassword());

@@ -135,7 +135,7 @@ public class RequestEmailChangeTests extends AbstractTests {
 		User signedUp = SignupTests.signupUser1(filters);
 		
 		// Make him a bad admin
-		UpdateUserTests.makeUser1BadAdmin(filters, signedUp.getId(), 0);
+		UpdateUserTests.makeUser1BadAdmin(filters, signedUp.getId());
 		BasicTests.login(filters, user1.getEmail(), user1.getPassword());
 
 		// try requesting the change for another user

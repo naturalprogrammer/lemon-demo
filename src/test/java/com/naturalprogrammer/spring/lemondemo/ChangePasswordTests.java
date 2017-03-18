@@ -153,7 +153,7 @@ public class ChangePasswordTests extends AbstractTests {
 	@Test
     public void badAdminTryingToUpdateAnother() {
 		
-		UpdateUserTests.makeUser1BadAdmin(filters, user1Id, 0);
+		UpdateUserTests.makeUser1BadAdmin(filters, user1Id);
     	
     	// Login as User 1, which is now a bad ADMIN 
     	BasicTests.login(filters, user1.getEmail(), user1.getPassword());

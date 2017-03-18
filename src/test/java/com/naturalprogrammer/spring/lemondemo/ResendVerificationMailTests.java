@@ -130,7 +130,7 @@ public class ResendVerificationMailTests extends AbstractTests {
 		User user1 = SignupTests.signupUser1(filters);
 		
     	// Make user1 a bad-admin
-    	UpdateUserTests.makeUser1BadAdmin(filters, user1.getId(), 0);
+    	UpdateUserTests.makeUser1BadAdmin(filters, user1.getId());
 		BasicTests.logout(filters);
 		
     	// Sign up another User
