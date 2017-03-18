@@ -12,7 +12,7 @@ public class MyService extends LemonService<User, Long> {
 	public static final String ADMIN_NAME = "Administrator";
 
 	@Override
-    protected User newUser() {
+    public User newUser() {
         return new User();
     }
 

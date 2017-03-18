@@ -23,7 +23,6 @@ import org.springframework.stereotype.Component;
 import com.jayway.restassured.builder.RequestSpecBuilder;
 import com.jayway.restassured.filter.session.SessionFilter;
 import com.jayway.restassured.specification.RequestSpecification;
-import com.naturalprogrammer.spring.lemondemo.UpdateUserTests;
 
 @Component
 public class MyTestUtil {
