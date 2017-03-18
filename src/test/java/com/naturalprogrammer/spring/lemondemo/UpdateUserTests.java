@@ -43,7 +43,6 @@ public class UpdateUserTests extends AbstractTests {
 			
     private String userPatch1;
     private String userPatch2;
-    private static String userPatchBadAdmin;
     private String userPatchRevokeAdmin;
     private String userPatchNullName;
     private String userPatchLongName;
@@ -57,11 +56,6 @@ public class UpdateUserTests extends AbstractTests {
 	public void setUserPatch2(Resource patch) throws IOException {
 		this.userPatch2 = MyTestUtil.toString(patch);;
 	}
-
-	@Value("classpath:/update-user/patch-bad-admin.json")
-	public void setUserPatchBadAdmin(Resource patch) throws IOException {
-		UpdateUserTests.userPatchBadAdmin = MyTestUtil.toString(patch);;
-	}	
 
 	@Value("classpath:/update-user/patch-revoke-admin.json")
 	public void setUserPatchRevokeAdmin(Resource patch) throws IOException {
@@ -259,7 +253,7 @@ public class UpdateUserTests extends AbstractTests {
     	BasicTests.adminLogin(filters);
 		
 		// Update User 1
-    	update(filters, user1Id, userPatchBadAdmin)
+    	update(filters, user1Id, MyTestUtil.getUserPatchBadAdmin())
 		.then()
 			.statusCode(200);
     	

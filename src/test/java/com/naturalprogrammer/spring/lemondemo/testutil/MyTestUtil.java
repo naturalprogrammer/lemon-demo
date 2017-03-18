@@ -16,13 +16,28 @@ import org.apache.commons.io.IOUtils;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
 import com.jayway.restassured.builder.RequestSpecBuilder;
 import com.jayway.restassured.filter.session.SessionFilter;
 import com.jayway.restassured.specification.RequestSpecification;
+import com.naturalprogrammer.spring.lemondemo.UpdateUserTests;
 
+@Component
 public class MyTestUtil {
+	
+    private static String userPatchBadAdmin;
+    
+	public static String getUserPatchBadAdmin() {
+		return userPatchBadAdmin;
+	}
+
+	@Value("classpath:/update-user/patch-bad-admin.json")
+	public void setUserPatchBadAdmin(Resource patch) throws IOException {
+		MyTestUtil.userPatchBadAdmin = MyTestUtil.toString(patch);;
+	}	
 	
 	public static RequestSpecification configureFilters() {
 		
