@@ -11,18 +11,23 @@ import javax.sql.DataSource;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.builder.RequestSpecBuilder;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemon.LemonProperties;
 import com.naturalprogrammer.spring.lemondemo.services.MyService;
 import com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil;
+
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
 
 /**
  * Inherit concrete test classes from this class.
@@ -48,7 +53,11 @@ public abstract class AbstractTests {
 	public void setPort(int port) {
     	RestAssured.port = port;   	
     }
-    
+	
+	@Rule
+	public JUnitRestDocumentation restDocumentation =
+			new JUnitRestDocumentation("target/generated-snippets");
+	
     @BeforeClass
     public static void init() {
     	RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();    	    	    	
@@ -78,7 +87,7 @@ public abstract class AbstractTests {
     	service.onStartup();
     	
     	// Set up filters for authentication, CORS, JSON prefixing etc.
-    	filters = MyTestUtil.configureFilters();
+    	filters = MyTestUtil.configureFilters(restDocumentation);
     }
 	
 	/**

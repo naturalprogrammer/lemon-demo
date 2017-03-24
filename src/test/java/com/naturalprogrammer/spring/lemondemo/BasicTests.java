@@ -4,9 +4,14 @@ import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
+
 import java.io.FileNotFoundException;
 
 import org.junit.Test;
+import org.springframework.http.MediaType;
+import org.springframework.restdocs.operation.preprocess.Preprocessors;
+import org.springframework.restdocs.restassured.operation.preprocess.RestAssuredPreprocessors;
 
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
@@ -34,6 +39,7 @@ public class BasicTests extends AbstractTests {
     	ping(filters)
     	.then()
     		// CSRF cookie should be returned
+    		.statusCode(204)
     		.cookie(LemonSecurityConfig.XSRF_TOKEN_COOKIE_NAME);    	
 	}
     
@@ -41,7 +47,11 @@ public class BasicTests extends AbstractTests {
      * Ping utility
      */
     public static Response ping(RequestSpecification filters) {
-    	return given().spec(filters)
+    	return given()
+    			.spec(filters)
+    			.filter(document("ping", Preprocessors.preprocessRequest(
+    					RestAssuredPreprocessors.modifyUris().scheme("https").host("www.example.com").removePort())))
+    			//.accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
     		.get("/api/core/ping");
     }
     
@@ -216,7 +226,7 @@ public class BasicTests extends AbstractTests {
     	.extract().cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE);
     	
     	// Now have a new session
-    	filters = MyTestUtil.configureFilters();
+    	filters = MyTestUtil.configureFilters(restDocumentation);
 
     	// Without the cookie, the user isn't logged in
     	getContext(filters)

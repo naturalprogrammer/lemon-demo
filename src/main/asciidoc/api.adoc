@@ -1,0 +1,31 @@
+= Spring Lemon Demo API Reference
+https://github.com/naturalprogrammer/spring-lemon[Spring Lemon] version 0.12
+:toc: right
+
+== Introduction
+
+This is the API documentation of https://github.com/naturalprogrammer/lemon-demo[Spring Lemon Demo application]. This API can be called from browser based front-ends (e.g. AngularJS single page applications), as well as non-browser clients.
+
+NOTE: Please note that here we won't cover the common things e.g. passing CSRF token or JSESSION id. Go through https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/api_documentation.html[this page] for those common details.
+
+== Ping
+
+Sends a get request to the server.
+
+*HTTP Request*
+
+include::{snippets}/ping/http-request.adoc[]
+
+*HTTP Response*
+
+include::{snippets}/ping/http-response.adoc[]
+
+Notice how we get the CSRF cookie in the response.
+
+*cURL*
+
+include::{snippets}/ping/curl-request.adoc[]
+
+*HTTPie*
+
+include::{snippets}/ping/httpie-request.adoc[]

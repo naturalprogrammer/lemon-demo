@@ -1,5 +1,7 @@
 package com.naturalprogrammer.spring.lemondemo.testutil;
 
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
+
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
@@ -18,6 +20,7 @@ import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.stereotype.Component;
 
 import com.jayway.restassured.builder.RequestSpecBuilder;
@@ -38,12 +41,13 @@ public class MyTestUtil {
 		MyTestUtil.userPatchBadAdmin = MyTestUtil.toString(patch);;
 	}	
 	
-	public static RequestSpecification configureFilters() {
+	public static RequestSpecification configureFilters(JUnitRestDocumentation restDocumentation) {
 		
 		return new RequestSpecBuilder()
 			.addFilter(new SessionFilter())
 			.addFilter(new XsrfFilter())
 			.addFilter(new JsonPrefixFilter())
+			.addFilter(documentationConfiguration(restDocumentation)) 
 			.build();			
 	}
 	
