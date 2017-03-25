@@ -104,7 +104,6 @@ public class ChangeEmailTests extends AbstractTests {
 	public void tryingWithoutRequested() {
 		
 		// Login as ADMIN
-		BasicTests.ping(filters);
 		BasicTests.adminLogin(filters);
 
     	// Try changing email without first requesting

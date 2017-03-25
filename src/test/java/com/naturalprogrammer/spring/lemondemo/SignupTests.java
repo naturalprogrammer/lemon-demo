@@ -211,9 +211,6 @@ public class SignupTests extends AbstractTests {
     @Test
     public void signupWhileLoggedIn() {
 
-    	// Obtain CSRF cookie
-    	BasicTests.getContext(filters);
-
     	// Login as admin
     	BasicTests.adminLogin(filters);
 

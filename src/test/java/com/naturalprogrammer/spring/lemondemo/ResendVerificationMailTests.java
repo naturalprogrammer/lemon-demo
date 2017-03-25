@@ -64,7 +64,6 @@ public class ResendVerificationMailTests extends AbstractTests {
 	@Test
 	public void unknownId() {
 
-		BasicTests.ping(filters);
 		BasicTests.adminLogin(filters);
 		
 		resendVerificationMail(9780)
@@ -150,7 +149,6 @@ public class ResendVerificationMailTests extends AbstractTests {
 	@Test
 	public void alreadyVerified() {
 
-		BasicTests.ping(filters);
 		BasicTests.adminLogin(filters);
 		
 		long adminId = userRepository

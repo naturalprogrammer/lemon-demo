@@ -150,7 +150,6 @@ public class RequestEmailChangeTests extends AbstractTests {
 	public void tryingWithInvalidData() {
 		
 		// Login as ADMIN
-		BasicTests.ping(filters);
 		BasicTests.adminLogin(filters);
 		
     	long adminId = userRepository.findByEmail(

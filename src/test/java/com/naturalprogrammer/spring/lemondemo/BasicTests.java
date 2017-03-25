@@ -87,9 +87,6 @@ public class BasicTests extends AbstractTests {
     @Test
 	public void canGetContextAfterLogin() {
     	
-    	// obtain the CSRF cookie
-    	ping(filters);
-    	
     	// login as the first admin
     	adminLogin(filters);
     	
@@ -146,11 +143,15 @@ public class BasicTests extends AbstractTests {
     @Test
 	public void canLogin() {
     	
-    	// obtain the CSRF cookie
-    	getContext(filters); 
-    	
     	// login as first admin
-    	adminLogin(filters);
+    	adminLogin(filters)
+    	.then()
+			// body should have name as "Administrator"
+			.body("name", equalTo(MyService.ADMIN_NAME))
+			// roles should include "ADMIN"
+			.body("roles", hasItem(AbstractUser.Role.ADMIN))
+			// should have been decorated
+			.body("goodAdmin", equalTo(true));
     }
     
     /**
@@ -183,21 +184,17 @@ public class BasicTests extends AbstractTests {
     /**
      * Utility for logging in the Admin user that was created
      * at application startup 
+     * @return 
      */
-    public static void adminLogin(RequestSpecification filters) {
+    public static Response adminLogin(RequestSpecification filters) {
+    	
+    	ping(filters);
     	
     	// Login
-    	given().spec(filters)
+    	return given().spec(filters)
     	    	.param("username", "admin@example.com")
     	    	.param("password", "admin!")
-    	    .post("/login")
-    	    .then()
-    		// body should have name as "Administrator"
-    		.body("name", equalTo(MyService.ADMIN_NAME))
-    		// roles should include "ADMIN"
-    		.body("roles", hasItem(AbstractUser.Role.ADMIN))
-    		// should have been decorated
-    		.body("goodAdmin", equalTo(true));
+    	    .post("/login");
     }    
     
     /**
@@ -289,9 +286,6 @@ public class BasicTests extends AbstractTests {
      */
     @Test
 	public void canLogout() {
-    	
-    	// Obtain the CSRF cookie
-    	getContext(filters);
     	
     	// Login first
     	adminLogin(filters);
