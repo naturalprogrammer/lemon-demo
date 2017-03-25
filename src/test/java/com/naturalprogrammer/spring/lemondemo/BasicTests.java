@@ -1,17 +1,16 @@
 package com.naturalprogrammer.spring.lemondemo;
 
 import static com.jayway.restassured.RestAssured.given;
+import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
-
-import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
-
-import java.io.FileNotFoundException;
+import static org.hamcrest.Matchers.hasKey;
+import static org.hamcrest.Matchers.not;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.operation.preprocess.Preprocessors;
-import org.springframework.restdocs.restassured.operation.preprocess.RestAssuredPreprocessors;
 
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
@@ -36,8 +35,11 @@ public class BasicTests extends AbstractTests {
 	public void canPing() {
     	
     	// ping
-    	ping(filters)
-    	.then()
+    	given()
+			.spec(filters)
+			.spec(restDocFilters(restDocs, "ping"))
+		.get("/api/core/ping")
+		.then()
     		// CSRF cookie should be returned
     		.statusCode(204)
     		.cookie(LemonSecurityConfig.XSRF_TOKEN_COOKIE_NAME);    	
@@ -49,10 +51,7 @@ public class BasicTests extends AbstractTests {
     public static Response ping(RequestSpecification filters) {
     	return given()
     			.spec(filters)
-    			.filter(document("ping", Preprocessors.preprocessRequest(
-    					RestAssuredPreprocessors.modifyUris().scheme("https").host("www.example.com").removePort())))
-    			//.accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
-    		.get("/api/core/ping");
+    			.get("/api/core/ping");
     }
     
     /**
@@ -71,8 +70,7 @@ public class BasicTests extends AbstractTests {
     		// and all the lemon.shared.* properties
 	    	.body("context.shared.fooBar", equalTo("123..."))
 	    	// logged in user should be null 
-	    	.body("user", equalTo(null));
-    	
+	    	.body(not(hasKey("user"))); 	
 	}
     
     /**
@@ -87,16 +85,23 @@ public class BasicTests extends AbstractTests {
      * Getting the context after logging in.
       */
     @Test
-	public void canGetContextAfterLogin() throws FileNotFoundException {
+	public void canGetContextAfterLogin() {
     	
     	// obtain the CSRF cookie
-    	getContext(filters);
+    	ping(filters);
     	
     	// login as the first admin
     	adminLogin(filters);
     	
-    	// get the context
-    	getContext(filters)
+    	// Get the context
+    	given()
+    		.spec(restDocFilters(restDocs, "context", relaxedResponseFields( 
+    				fieldWithPath("context").description("Context object containing attributes like _reCaptchaSiteKey_"),
+    				fieldWithPath("context.shared").description("All the _lemon.shared.\\*_ properties that are defined in _application\\*.yml_"),    				
+    				fieldWithPath("user").description("Logged-in user details"))))
+    		.spec(filters)
+    		.accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
+    	.get("/api/core/context")
     	.then()
     		.root("user")
     		
@@ -115,12 +120,13 @@ public class BasicTests extends AbstractTests {
 			.body("goodUser", equalTo(true))    		
 			.body("goodAdmin", equalTo(true))
 			
-			// shouldn't receive createdDate, lastModifiedDate, password, verificationCode and forgotPasswordCode
-			.body("createdDate", equalTo(null))    		
-			.body("lastModifiedDate", equalTo(null))    		
-			.body("password", equalTo(null))    		
-			.body("verificationCode", equalTo(null))    		
-			.body("forgotPasswordCode", equalTo(null));
+			// shouldn't receive createdDate, lastModifiedDate, password, verificationCode, forgotPasswordCode, apiKey
+			.body(not(hasKey("createdDate")))    		
+			.body(not(hasKey("lastModifiedDate")))    		
+			.body(not(hasKey("password")))    		
+			.body(not(hasKey("verificationCode")))    		
+			.body(not(hasKey("forgotPasswordCode")))
+			.body(not(hasKey("apiKey")));
 	}
     
     /**
@@ -226,13 +232,13 @@ public class BasicTests extends AbstractTests {
     	.extract().cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE);
     	
     	// Now have a new session
-    	filters = MyTestUtil.configureFilters(restDocumentation);
+    	filters = MyTestUtil.configureFilters();
 
     	// Without the cookie, the user isn't logged in
     	getContext(filters)
 		.then()
-			.body("user", equalTo(null));
-
+			.body(not(hasKey("user")));
+    	
     	// With the cookie. the user is automatically logged in
     	given()
     		.spec(filters)
@@ -273,7 +279,7 @@ public class BasicTests extends AbstractTests {
     		.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, "A wrong remember-me token")
 		.get("/api/core/context")
 		.then()
-			.body("user", equalTo(null));
+			.body(not(hasKey("user")));
 	}
 
     
@@ -314,7 +320,7 @@ public class BasicTests extends AbstractTests {
     	// Doubly ensure
     	getContext(filters)
 	    .then()
-	    	.body("user", equalTo(null));    	
+			.body(not(hasKey("user")));
     }
     
 }

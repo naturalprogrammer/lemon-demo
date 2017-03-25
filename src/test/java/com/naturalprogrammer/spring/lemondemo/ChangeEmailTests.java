@@ -3,6 +3,8 @@ package com.naturalprogrammer.spring.lemondemo;
 import static com.jayway.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasKey;
+import static org.hamcrest.Matchers.not;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -45,7 +47,7 @@ public class ChangeEmailTests extends AbstractTests {
 		// ensure that user is logged out
     	BasicTests.getContext(filters)
     	.then()
-    		.body("user", equalTo(null));
+			.body(not(hasKey("user")));
 		
     	// ensure that the email was indeed changed
 		assertEmailChanged(signedUp.getId(), signedUp.getNewEmail());

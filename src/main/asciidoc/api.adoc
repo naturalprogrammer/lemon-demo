@@ -1,31 +1,45 @@
 = Spring Lemon Demo API Reference
-https://github.com/naturalprogrammer/spring-lemon[Spring Lemon] version 0.12
+Spring Lemon version 0.12
 :toc: right
 
 == Introduction
 
 This is the API documentation of https://github.com/naturalprogrammer/lemon-demo[Spring Lemon Demo application]. This API can be called from browser based front-ends (e.g. AngularJS single page applications), as well as non-browser clients.
 
-NOTE: Please note that here we won't cover the common things e.g. passing CSRF token or JSESSION id. Go through https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/api_documentation.html[this page] for those common details.
+NOTE: Please note that here we won't cover the common things e.g. passing CSRF token or JSESSION id. Go through https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/api_documentation.html[this page] for those details.
 
 == Ping
 
-Sends a get request to the server.
+Sends a GET request to the server. This is useful for fetching the CSRF cookie after an event that would have changed the CSRF token, e.g. _logout_. See https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/api_documentation.html#csrf[here] for more details.
 
-*HTTP Request*
+In summary, you may need to call this before any request that results in _CSRF mismatch_ error.
+
+=== Request
 
 include::{snippets}/ping/http-request.adoc[]
 
-*HTTP Response*
+=== Response
 
 include::{snippets}/ping/http-response.adoc[]
 
-Notice how we get the CSRF cookie in the response.
+Notice how we get the CSRF cookie in the response, which is to be sent as a header in next requests. Read https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/api_documentation.html#csrf[this] for more details.
 
-*cURL*
+== Get context
 
-include::{snippets}/ping/curl-request.adoc[]
+Gets useful application properties and current user data.
 
-*HTTPie*
+TIP: Call this to fetch useful application properties and current-user data when an AngularJS application starts.
 
-include::{snippets}/ping/httpie-request.adoc[]
+=== Request
+
+include::{snippets}/context/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/context/http-response.adoc[]
+
+*Fields*
+
+include::{snippets}/context/response-fields.adoc[]
+
+_user_ would be omitted if nobody is logged in.

@@ -1,6 +1,16 @@
 package com.naturalprogrammer.spring.lemondemo.testutil;
 
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.hasKey;
+import static org.hamcrest.Matchers.not;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.restassured.operation.preprocess.RestAssuredPreprocessors.modifyUris;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -16,11 +26,11 @@ import javax.sql.DataSource;
 
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.restdocs.JUnitRestDocumentation;
+import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.stereotype.Component;
 
 import com.jayway.restassured.builder.RequestSpecBuilder;
@@ -41,15 +51,39 @@ public class MyTestUtil {
 		MyTestUtil.userPatchBadAdmin = MyTestUtil.toString(patch);;
 	}	
 	
-	public static RequestSpecification configureFilters(JUnitRestDocumentation restDocumentation) {
+	public static RequestSpecification configureFilters() {
 		
 		return new RequestSpecBuilder()
 			.addFilter(new SessionFilter())
 			.addFilter(new XsrfFilter())
 			.addFilter(new JsonPrefixFilter())
-			.addFilter(documentationConfiguration(restDocumentation)) 
 			.build();			
 	}
+	
+	
+	public static RequestSpecification restDocFilters(
+			JUnitRestDocumentation restDocumentation,
+			String identifier, Snippet... snippets) {
+		
+		return new RequestSpecBuilder()
+			.addFilter(documentationConfiguration(restDocumentation))
+			.addFilter(document(identifier,
+					preprocessRequest(
+						modifyUris()
+								.scheme("https")
+								.host("www.example.com")
+								.removePort(),
+						prettyPrint()),
+					preprocessResponse(
+							modifyUris()
+									.scheme("https")
+									.host("www.example.com")
+									.removePort(),
+							prettyPrint()),
+				snippets))
+			.build();			
+	}
+
 	
 	/**
 	 * It's not possible to rollback transactions in such integration tests.
@@ -80,6 +114,7 @@ public class MyTestUtil {
 	 * @param errorPairs	errors in pairs (field1, code2, field2, code2 ...) 
 	 * @return	The matcher
 	 */
+	@SuppressWarnings("unchecked")
 	public static Matcher<Iterable<Map<String, String>>> hasErrors(String... errorPairs) {
 		
 	    // Passed arguments must be in pairs of field and code
@@ -94,22 +129,25 @@ public class MyTestUtil {
 	    for (int i = 0; i < errorPairs.length; i += 2) {
 	    	
 	    	// make a matcher for each error
-	    	Matcher<Map<String, String>> matcher = Matchers
-	    		.allOf(Matchers.hasEntry("field", errorPairs[i]),
-	    		       Matchers.hasEntry("code", errorPairs[i + 1]));
+	    	String field = errorPairs[i];
+	    	String error = errorPairs[i + 1];
+	    	
+	    	Matcher<Map<String, String>> matcher = 
+	    		allOf(
+	    			field == null ? not(hasKey("field")) : hasEntry("field", field),
+	    		    hasEntry("code", error));
 	    	
 	    	// add it to the list
 	    	itemMatchers.add(matcher);
 	    }
 
 	    // return the assembled matcher
-		return Matchers.hasItems( // needs an Array
+		return hasItems( // needs an Array
 			itemMatchers.toArray( // So, do the conversion
 				(Matcher<Map<String, String>>[])
 				Array.newInstance(itemMatchers.get(0).getClass(), itemMatchers.size())
 			)
 		);
-		
 	}
 	
 

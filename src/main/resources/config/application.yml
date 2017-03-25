@@ -9,13 +9,20 @@ spring:
   # JSON serialization settings
   jackson:
     default-property-inclusion: NON_NULL
-    deserialization.accept-single-value-as-array: true
+    
+    serialization:
+      write-null-map-values: false 
+      
+    deserialization:
+      accept-single-value-as-array: true
   
   devtools:
     # Unomment this if you don't want the app to restart
     # when source code changes
     # restart.enabled: false
     livereload.enabled: false
+
+server.session.persistent: false
   
 # Spring Lemon related properties
 lemon:

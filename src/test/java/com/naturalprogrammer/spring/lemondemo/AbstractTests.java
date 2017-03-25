@@ -10,7 +10,6 @@ import javax.sql.DataSource;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +20,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.builder.RequestSpecBuilder;
+import com.jayway.restassured.config.ObjectMapperConfig;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemon.LemonProperties;
+import com.naturalprogrammer.spring.lemon.util.LemonUtil;
 import com.naturalprogrammer.spring.lemondemo.services.MyService;
 import com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil;
-
-import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
 
 /**
  * Inherit concrete test classes from this class.
@@ -39,6 +37,19 @@ import static org.springframework.restdocs.restassured.RestAssuredRestDocumentat
 @SpringBootTest(webEnvironment=RANDOM_PORT)
 @ActiveProfiles("itest")
 public abstract class AbstractTests {
+	
+    /**
+     * Let RestAssured use our object mapper
+     */
+    static {
+        RestAssured.config()
+            .objectMapperConfig(new ObjectMapperConfig()
+                .jackson2ObjectMapperFactory(
+                    (clazz, str) -> LemonUtil.getMapper()));
+        
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();    	
+    }
+
 
 	@Autowired
 	protected LemonProperties lemonProperties;
@@ -55,13 +66,13 @@ public abstract class AbstractTests {
     }
 	
 	@Rule
-	public JUnitRestDocumentation restDocumentation =
+	public JUnitRestDocumentation restDocs =
 			new JUnitRestDocumentation("target/generated-snippets");
 	
-    @BeforeClass
-    public static void init() {
-    	RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();    	    	    	
-    }
+//    @BeforeClass
+//    public static void init() {
+//    	RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();    	    	    	
+//    }
     
     /**
      * For isolating "filters", and for truncating the database, we need to force execute
@@ -87,7 +98,7 @@ public abstract class AbstractTests {
     	service.onStartup();
     	
     	// Set up filters for authentication, CORS, JSON prefixing etc.
-    	filters = MyTestUtil.configureFilters(restDocumentation);
+    	filters = MyTestUtil.configureFilters();
     }
 	
 	/**

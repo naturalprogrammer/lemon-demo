@@ -3,6 +3,8 @@ package com.naturalprogrammer.spring.lemondemo;
 import static com.jayway.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasKey;
+import static org.hamcrest.Matchers.not;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
@@ -69,7 +71,7 @@ public class ChangePasswordTests extends AbstractTests {
 		// ensure he is logged out
     	BasicTests.getContext(filters)
     	.then()
-    		.body("user", equalTo(null));
+			.body(not(hasKey("user")));
     	
 		// Try logging in with new password
     	BasicTests.login(filters, user1.getEmail(), NEW_PASSWORD)

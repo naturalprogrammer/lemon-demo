@@ -3,6 +3,8 @@ package com.naturalprogrammer.spring.lemondemo;
 import static com.jayway.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasKey;
+import static org.hamcrest.Matchers.not;
 
 import javax.validation.ConstraintViolationException;
 
@@ -51,12 +53,13 @@ public class FetchUserTests extends AbstractTests {
 			.body("email", equalTo(user1.getEmail()))
 			.body("username", equalTo(user1.getEmail()))
 			
-			// other confidential fields are null
-			.body("createdDate", equalTo(null))
-			.body("lastModifiedDate", equalTo(null))
-			.body("password", equalTo(null))
-			.body("verificationCode", equalTo(null))
-			.body("forgotPasswordCode", equalTo(null));
+			// shouldn't receive createdDate, lastModifiedDate, password, verificationCode, forgotPasswordCode, apiKey
+			.body(not(hasKey("createdDate")))    		
+			.body(not(hasKey("lastModifiedDate")))    		
+			.body(not(hasKey("password")))    		
+			.body(not(hasKey("verificationCode")))    		
+			.body(not(hasKey("forgotPasswordCode")))
+			.body(not(hasKey("apiKey")));
 	}
 
 	
@@ -84,12 +87,13 @@ public class FetchUserTests extends AbstractTests {
 			.body("email", equalTo(user1.getEmail()))
 			.body("username", equalTo(user1.getEmail()))
 			
-			// other confidential fields are null
-			.body("createdDate", equalTo(null))
-			.body("lastModifiedDate", equalTo(null))
-			.body("password", equalTo(null))
-			.body("verificationCode", equalTo(null))
-			.body("forgotPasswordCode", equalTo(null));
+			// shouldn't receive createdDate, lastModifiedDate, password, verificationCode, forgotPasswordCode, apiKey
+			.body(not(hasKey("createdDate")))    		
+			.body(not(hasKey("lastModifiedDate")))    		
+			.body(not(hasKey("password")))    		
+			.body(not(hasKey("verificationCode")))    		
+			.body(not(hasKey("forgotPasswordCode")))
+			.body(not(hasKey("apiKey")));
 	}
 
 	
@@ -148,14 +152,15 @@ public class FetchUserTests extends AbstractTests {
 			.statusCode(200)
 			.body("name", equalTo(MyService.ADMIN_NAME))
 			
-			// All confidential fields should be null
-			.body("email", equalTo(null))
-			.body("username", equalTo(null))
-			.body("createdDate", equalTo(null))
-			.body("lastModifiedDate", equalTo(null))
-			.body("password", equalTo(null))
-			.body("verificationCode", equalTo(null))
-			.body("forgotPasswordCode", equalTo(null));
+			// shouldn't receive email, username, createdDate, lastModifiedDate, password, verificationCode, forgotPasswordCode, apiKey
+			.body(not(hasKey("email")))    		
+			.body(not(hasKey("username")))    		
+			.body(not(hasKey("createdDate")))    		
+			.body(not(hasKey("lastModifiedDate")))    		
+			.body(not(hasKey("password")))    		
+			.body(not(hasKey("verificationCode")))    		
+			.body(not(hasKey("forgotPasswordCode")))
+			.body(not(hasKey("apiKey")));
 	}
 	
 	
@@ -228,7 +233,7 @@ public class FetchUserTests extends AbstractTests {
 		.then()
 			.statusCode(200)
     		.body("name", equalTo(MyService.ADMIN_NAME)) // name should be Administrator
-    		.body("email", equalTo(null)); // email should be null
+    		.body(not(hasKey("email"))); // email shouldn't be revealed
     	
     	// Fetch while logged in as ADMIN
     	BasicTests.adminLogin(filters);
@@ -249,7 +254,7 @@ public class FetchUserTests extends AbstractTests {
 		.then()
 			.statusCode(200)
 			.body("name", equalTo(MyService.ADMIN_NAME))
-			.body("email", equalTo(null));    	
+    		.body(not(hasKey("email"))); // email shouldn't be revealed
     }
     
 	/**
