@@ -161,7 +161,7 @@ public class BasicTests extends AbstractTests {
 	public void loginWithWrongCredentials() {
     	
     	// obtain the CSRF cookie
-    	getContext(filters); 
+    	ping(filters); 
     	
     	// login with wrong password
     	login(filters, "admin@example.com", "wrong-password")
@@ -214,7 +214,7 @@ public class BasicTests extends AbstractTests {
 	public void canRememberMe() {
     	
     	// obtain the CSRF cookie
-    	getContext(filters); 
+    	ping(filters); 
     	
     	// login with remember-me
     	String rememberMeCookie =
@@ -269,7 +269,7 @@ public class BasicTests extends AbstractTests {
 	public void wrongRememberMeToken() {
     	
     	// obtain the CSRF cookie
-    	getContext(filters); 
+    	ping(filters); 
     	
     	given()
     		.spec(filters)

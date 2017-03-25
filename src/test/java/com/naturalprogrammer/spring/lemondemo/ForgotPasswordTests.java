@@ -38,7 +38,7 @@ public class ForgotPasswordTests extends AbstractTests {
     	User user1 = SignupTests.newUser1();
     			
     	// Obtain CSRF cookie
-    	BasicTests.getContext(filters);
+    	BasicTests.ping(filters);
     	
     	// Sign up User 1
     	SignupTests.signup(filters, user1);
