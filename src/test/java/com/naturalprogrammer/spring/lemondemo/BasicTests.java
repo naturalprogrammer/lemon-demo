@@ -6,8 +6,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.not;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
@@ -218,7 +218,13 @@ public class BasicTests extends AbstractTests {
     	
     	// login with remember-me
     	String rememberMeCookie =
-    	given().spec(filters)
+    	given()
+			.spec(restDocFilters(restDocs, "login", requestParameters( 
+					parameterWithName("username").description("The login id"), 
+					parameterWithName("password").description("Password"), 
+					parameterWithName(LemonAutoConfiguration.REMEMBER_ME_PARAMETER)
+						.description("Whether to remember the login even after session expires"))))
+			.spec(filters)
     	   	.param("username", "admin@example.com")
     	   	.param("password", "admin!")
     	   	.param(LemonAutoConfiguration.REMEMBER_ME_PARAMETER, true)
@@ -296,7 +302,17 @@ public class BasicTests extends AbstractTests {
 	    	.body("user.name", equalTo(MyService.ADMIN_NAME));
 
     	// Now logout
-    	logout(filters);
+    	given()
+    		.spec(restDocFilters(restDocs, "logout"))
+    		.spec(filters)    		
+		.post("/logout")
+		.then()
+			.statusCode(200);
+    	
+    	// Doubly ensure
+    	getContext(filters)
+	    .then()
+			.body(not(hasKey("user")));
 	}
     
     /**
@@ -310,11 +326,6 @@ public class BasicTests extends AbstractTests {
 		.post("/logout")
 		.then()
 			.statusCode(200);
-    	
-    	// Doubly ensure
-    	getContext(filters)
-	    .then()
-			.body(not(hasKey("user")));
     }
     
 }

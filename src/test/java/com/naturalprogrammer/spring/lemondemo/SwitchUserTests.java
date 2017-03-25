@@ -1,12 +1,16 @@
 package com.naturalprogrammer.spring.lemondemo;
 
 import static com.jayway.restassured.RestAssured.given;
+import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 
 import org.junit.Test;
 
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
+import com.naturalprogrammer.spring.lemon.LemonAutoConfiguration;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.services.MyService;
 
@@ -24,7 +28,12 @@ public class SwitchUserTests extends AbstractTests {
     	BasicTests.adminLogin(filters);
     	
     	// Switch to the new user
-    	switchUser(filters, user1.getEmail())
+    	given()
+    		.spec(restDocFilters(restDocs, "switch-user", requestParameters( 
+				parameterWithName("username").description("The login id of the user to switch to"))))
+    		.spec(filters)
+    		.param("username", user1.getEmail())
+    	.post("/login/impersonate")
 		.then()
 			// name of the logged in user should now be "User 1"
 	    	.body("name", equalTo(user1.getName()));
@@ -36,7 +45,9 @@ public class SwitchUserTests extends AbstractTests {
     		.body("user.name", equalTo(user1.getName()));
     	
     	// switch back
-    	given().spec(filters)
+    	given()
+			.spec(restDocFilters(restDocs, "switch-back"))
+    		.spec(filters)
 		.post("/logout/impersonate")
 		.then()
 			// name of the logged in user should now be "Administrator"

@@ -18,7 +18,8 @@ public class XsrfFilter implements Filter {
 	public Response filter(FilterableRequestSpecification requestSpec,
 			FilterableResponseSpecification responseSpec, FilterContext ctx) {
 		
-		if (xsrfToken != null && !requestSpec.getMethod().equals(Method.GET)) {
+		if (!requestSpec.getMethod().name().equals(Method.GET.name()) && // method not GET
+		     xsrfToken != null ) {
 			requestSpec.cookie("XSRF-TOKEN", xsrfToken);
 			requestSpec.header("X-XSRF-TOKEN", xsrfToken);
 		}

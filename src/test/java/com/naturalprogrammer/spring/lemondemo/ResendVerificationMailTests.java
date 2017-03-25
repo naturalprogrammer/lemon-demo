@@ -2,6 +2,7 @@ package com.naturalprogrammer.spring.lemondemo;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
+import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.Assert;
@@ -35,14 +36,17 @@ public class ResendVerificationMailTests extends AbstractTests {
 		User signedUp = SignupTests.signupUser1(filters);
 		String oldVerificationCode = signedUp.getVerificationCode();
 
-		resendVerificationMail(signedUp.getId())
+		given()
+			.spec(restDocFilters(restDocs, "resend-verification-mail"))
+			.spec(filters)
+				.pathParam("id", signedUp.getId())
+		.get("/api/core/users/{id}/resend-verification-mail")
 		.then()
 			.statusCode(204);
 
 		signedUp = userRepository.findOne(signedUp.getId());
 
 		Assert.assertEquals(oldVerificationCode, signedUp.getVerificationCode());
-
 	}
 
 	/**

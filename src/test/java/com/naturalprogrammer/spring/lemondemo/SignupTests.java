@@ -2,6 +2,7 @@ package com.naturalprogrammer.spring.lemondemo;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
+import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasItem;
@@ -13,6 +14,7 @@ import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser;
@@ -45,7 +47,7 @@ public class SignupTests extends AbstractTests {
 	 */
     public static Response signup(RequestSpecification filters, User user) {
 		return given().spec(filters)
-			.contentType(MediaType.APPLICATION_JSON_VALUE)
+			.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
 			.body(user)
 		.post("/api/core/users");
 	}
@@ -68,17 +70,26 @@ public class SignupTests extends AbstractTests {
     
     /**
      * Signing up
+     * @throws JsonProcessingException 
      */
     @Test
-	public void canSignup() {
+	public void canSignup() throws JsonProcessingException {
     	
     	// Obtain CSRF cookie
     	BasicTests.ping(filters);
     	
     	User user1 = newUser1();
+    	String user1SignupJson = LemonUtil.getMapper()
+    			.writerWithView(AbstractUser.SignupInput.class)
+    			.writeValueAsString(user1);
     	
     	// Sign up User 1
-    	signup(filters, user1)
+    	given()
+    		.spec(restDocFilters(restDocs, "signup"))
+	    	.spec(filters)
+			.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+			.body(user1SignupJson)
+		.post("/api/core/users")
      	.then()
     		// name of the logged in user should now be "User 1"
     		.body("name", equalTo(user1.getName()))
