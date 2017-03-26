@@ -2,6 +2,7 @@ package com.naturalprogrammer.spring.lemondemo;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
+import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.not;
@@ -44,7 +45,11 @@ public class FetchUserTests extends AbstractTests {
     	BasicTests.login(filters, user1.getEmail(), user1.getPassword());
     	
     	// Fetch and test
-    	fetchByEmail(user1.getEmail())
+    	given()
+    		.spec(restDocFilters(restDocs, "fetch-user-by-email"))
+    		.spec(filters)
+    		.param("email", user1.getEmail())
+    	.get("/api/core/users/fetch-by-email")
 		.then()
 			.statusCode(200)
 			.body("name", equalTo(user1.getName()))
@@ -237,7 +242,12 @@ public class FetchUserTests extends AbstractTests {
     	
     	// Fetch while logged in as ADMIN
     	BasicTests.adminLogin(filters);
-    	fetchById(admin.getId())
+    	
+    	given()
+			.spec(restDocFilters(restDocs, "fetch-user-by-id"))
+    		.spec(filters)
+    		.pathParam("id", admin.getId())
+	    .get("/api/core/users/{id}")
 		.then()
 			.statusCode(200)
 			.body("name", equalTo(MyService.ADMIN_NAME)) // name should be Administrator

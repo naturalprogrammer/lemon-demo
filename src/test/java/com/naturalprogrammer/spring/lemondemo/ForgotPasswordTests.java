@@ -2,6 +2,7 @@ package com.naturalprogrammer.spring.lemondemo;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
+import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
 
 import javax.validation.ConstraintViolationException;
@@ -54,7 +55,11 @@ public class ForgotPasswordTests extends AbstractTests {
     		.body("errors", hasErrors(null, "com.naturalprogrammer.spring.userNotFound"));
 
     	// Forgot password
-    	forgotPassword(user1.getEmail())
+    	given()
+    		.spec(restDocFilters(restDocs, "forgot-password"))
+    		.spec(filters)
+    		.param("email", user1.getEmail())
+		.post("/api/core/forgot-password")
     	.then()
 			.statusCode(204);   	
     	
@@ -93,7 +98,12 @@ public class ForgotPasswordTests extends AbstractTests {
 			.body("errors", hasErrors("newPassword", "{com.naturalprogrammer.spring.invalid.password.size}"));
 		
     	// Try resetting with a proper password
-    	resetPassword(forgotPasswordCode, newPassword)
+    	given()
+		.spec(restDocFilters(restDocs, "reset-password"))
+    		.spec(filters)
+    		.pathParam("forgotPasswordCode", forgotPasswordCode)
+    		.param("newPassword", newPassword)
+    	.post("/api/core/users/{forgotPasswordCode}/reset-password")
 		.then()
 			.statusCode(204);
     	

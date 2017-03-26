@@ -2,6 +2,7 @@ package com.naturalprogrammer.spring.lemondemo;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
+import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
 
 import javax.validation.ConstraintViolationException;
@@ -50,8 +51,15 @@ public class RequestEmailChangeTests extends AbstractTests {
     	Assert.assertNull(signedUp.getChangeEmailCode());
 
     	// request email change
-    	User updatedUser = buildUpdatedUser("new@example.com", user1.getPassword());    	    	
-    	requestEmailChange(signedUp.getId(), updatedUser)
+    	User updatedUser = buildUpdatedUser("new@example.com", user1.getPassword());
+    	
+    	given()
+			.spec(restDocFilters(restDocs, "request-email-change"))
+    		.spec(filters)
+    		.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+    		.body(updatedUser)
+    		.pathParam("id", signedUp.getId())
+    	.post("/api/core/users/{id}/request-email-change")
         .then()
         	.statusCode(204);
     	
@@ -267,7 +275,7 @@ public class RequestEmailChangeTests extends AbstractTests {
 	 */
 	public static Response requestEmailChange(RequestSpecification filters, Long userId, User updatedUser) {
 		return given().spec(filters)
-				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
 				.body(updatedUser)
 	        	.pathParam("id", userId)
 	          .post("/api/core/users/{id}/request-email-change");

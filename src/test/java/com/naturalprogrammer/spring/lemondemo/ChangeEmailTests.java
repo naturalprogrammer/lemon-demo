@@ -2,9 +2,12 @@ package com.naturalprogrammer.spring.lemondemo;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
+import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.not;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -40,7 +43,12 @@ public class ChangeEmailTests extends AbstractTests {
 		User signedUp = requestEmailChangeUser1(); 
     			
     	// change email
-		changeEmail(signedUp.getChangeEmailCode())
+		given()
+			.spec(restDocFilters(restDocs, "change-email", pathParameters( 
+    			parameterWithName("changeEmailCode").description("The code that was mailed to the user"))))
+			.spec(filters)
+			.pathParam("changeEmailCode", signedUp.getChangeEmailCode())
+			.post("/api/core/users/{changeEmailCode}/change-email")
 	    .then()
 	    	.statusCode(204);
 		

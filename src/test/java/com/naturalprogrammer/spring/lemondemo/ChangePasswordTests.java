@@ -2,6 +2,7 @@ package com.naturalprogrammer.spring.lemondemo;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
+import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.not;
@@ -64,7 +65,13 @@ public class ChangePasswordTests extends AbstractTests {
     public void canChangeSelfPassword() {
     	
 		// change password
-		changeUser1Password(new ChangePasswordForm(user1.getPassword(), NEW_PASSWORD, NEW_PASSWORD))
+    	given()
+			.spec(restDocFilters(restDocs, "change-password"))
+    		.spec(filters)
+        	.pathParam("id", user1Id)
+    		.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+    		.body(new ChangePasswordForm(user1.getPassword(), NEW_PASSWORD, NEW_PASSWORD))
+    	.post("/api/core/users/{id}/change-password")
 		.then()
 			.statusCode(204);
     	
@@ -108,7 +115,7 @@ public class ChangePasswordTests extends AbstractTests {
 		// Change password of self
     	return given().spec(filters)
     		.pathParam("id", user1Id)
-			.contentType(MediaType.APPLICATION_JSON_VALUE)
+			.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
 			.body(form)
 		.post("/api/core/users/{id}/change-password");	
 	}

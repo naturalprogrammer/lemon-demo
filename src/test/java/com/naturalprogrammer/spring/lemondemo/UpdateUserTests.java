@@ -2,6 +2,7 @@ package com.naturalprogrammer.spring.lemondemo;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
+import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.not;
@@ -147,8 +148,14 @@ public class UpdateUserTests extends AbstractTests {
 		BasicTests.adminLogin(filters);
     	
 		// Update the User
-    	update(user1Id, userPatch1)
-		.then()
+		given()
+			.spec(restDocFilters(restDocs, "update-user"))
+			.spec(filters)
+			.pathParam("id", user1Id)
+			.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+		.body(userPatch1)
+		.patch("/api/core/users/{id}")
+ 		.then()
 			.statusCode(200)
 			.body("name", equalTo(MyService.ADMIN_NAME)); // name of the principal shouldn't change
 
@@ -343,7 +350,7 @@ public class UpdateUserTests extends AbstractTests {
 		
 		return given().spec(filters)
 	    		.pathParam("id", userId)
-				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
 				.body(userPatch)
 			.patch("/api/core/users/{id}");	
 	}

@@ -2,6 +2,8 @@ package com.naturalprogrammer.spring.lemondemo;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
+import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.not;
@@ -41,7 +43,12 @@ public class VerifyTests extends AbstractTests {
     	Assert.assertNotNull("Verification code should not be null, but it is.", signedUp.getVerificationCode());
     	
 		// Verify
-    	verify(signedUp.getVerificationCode())
+    	given()
+    		.spec(restDocFilters(restDocs, "verify-user", pathParameters( 
+    				parameterWithName("verificationCode").description("The verification code"))))
+    		.spec(filters)
+    		.pathParam("verificationCode", signedUp.getVerificationCode())
+		.post("/api/core/users/{verificationCode}/verify")
 		.then()
 			.statusCode(200)
 			.body("id", equalTo(signedUp.getId().intValue())) // same user is returned

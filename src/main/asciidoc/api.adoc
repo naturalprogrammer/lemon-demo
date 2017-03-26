@@ -239,3 +239,337 @@ include::{snippets}/resend-verification-mail/http-response.adoc[]
 .. logging in as a different user
 .. logging in as a bad ADMIN
 .. while already verified
+
+
+
+[[VerificationMail, verification mail]]
+== Verify user
+
+After a user signs up, he receives a verification mail. The mail contains a link with an embedded `verificationCode`. Clicking on it takes the user to the front-end application, where he is first asked to login if he is not already, and then click a _verify_ button. On clicking verify, a POST request is sent as below.
+
+=== Request
+
+include::{snippets}/verify-user/http-request.adoc[]
+
+*Path parameter*
+
+include::{snippets}/verify-user/path-parameter.adoc[]
+
+=== Response
+
+include::{snippets}/verify-user/http-response.adoc[]
+
+=== Business rules
+
+. The user must have logged in.
+. The user must not have already verified.
+. Verification code shouldn't be blank.
+. Verification code should match the code that was mailed to the user while signing up.
+. Upon successful verification, the UNVERIFIED role of the user is removed, and the verification code that was stored in the user record is wiped out.
+. Upon successful commit, security principal's UNVERIFIED role is removed, and it's flags such as goodUser are computed again.
+. Updated current-user data is returned.
+
+=== Positive test cases
+
+. A new user should be able to sign in, get a verification mail, and verify himself. Check that after verification,
+.. The same user is returned in the response.
+.. His UNVERIFIED role is removed.
+.. His verificationCode is set as null.
+.. Current-user, which is the user himself, has the following changes:
+.. UNVERIFIED role is removed
+.. He is now a good user
+
+=== Negative test cases
+
+. Re-verifying after successful verification.
+. Trying with wrong verification code.
+. Trying without logging the user in.
+
+[[ForgotPassword]]
+== Forgot Password
+
+When a user forgets his password, he can post a form as below.
+
+=== Request
+
+include::{snippets}/forgot-password/http-request.adoc[]
+
+It would create a secret `forgotPasswordCode`, and mail the user a link including that code, looking like https://your-front-end.com/users/{forgotPasswordCode}/reset-password.
+
+Clicking on the link should allow the user to <<reset_his_password>>.
+
+=== Response
+
+include::{snippets}/forgot-password/http-response.adoc[]
+
+=== Business rules
+
+. A user with the given email should exist.
+. The email should be well-formed, and not null or blank.
+
+=== Positive test cases
+
+. Upon posting,
+.. A secret code should be generated and stored in the User entity.
+.. A mail containing the code should be sent to the user.
+
+=== Negative test cases
+
+. Providing a null, blank or not well formed email.
+. Not having a user with the given email address.
+
+[[reset_his_password, reset his password]]
+== Reset password
+
+In the <<ForgotPassword>> section, we saw how a user gets a link with a `forgotPasswordCode`. Clicking on the link should take him to a front-end form, where he should enter a new password. Upon submitting that form, a request as below should be sent.
+
+=== Request
+
+include::{snippets}/reset-password/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/reset-password/http-response.adoc[]
+
+=== Business rules
+
+. The user should have initiated the forgot password process.
+. The user shouldn't already have reset the password.
+. The new password should be valid.
+
+=== Positive test cases
+
+. The password of the user should be updated, i.e., the user should then be able to login using the new password.
+
+=== Negative test cases
+
+The following tries should respond with errors:
+
+. Trying with wrong forgotPasswordCode.
+. Repeating resetting password.
+. Invalid new password.
+
+== Fetch user by email
+
+Example use case - a good ADMIN fetching a user, maybe for changing its roles.
+
+=== Request
+
+include::{snippets}/fetch-user-by-email/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/fetch-user-by-email/http-response.adoc[]
+
+=== Business rules
+
+. Email should be well formed, and not be blank.
+. A user with the given email should exist.
+. The confidential fields would be null in case the current user does not have rights to see those.
+
+=== Positive test cases
+
+. A user should be able to fetch his data, including the confidential email and username. But other https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/common/accessing_users.html[confidential fields] would be omitted.
+. A good ADMIN should be able to fetch another user's data, including the confidential email and username. But other https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/common/accessing_users.html[confidential fields] would be omitted.
+. A i) bad ADMIN, ii) non-admin or iii) anonymous user should be able to fetch another user's data. But all the https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/common/accessing_users.html[confidential fields] would be omitted.
+
+=== Negative test cases
+
+. Providing blank or non-well-formed email.
+. Providing an unknown email id.
+
+== Fetch user by ID
+
+Example use case - viewing the profile of a user.
+
+=== Request
+
+include::{snippets}/fetch-user-by-id/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/fetch-user-by-id/http-response.adoc[]
+
+=== Business rules
+
+. A user with the given id should exist.
+. The https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/common/accessing_users.html[confidential fields] would be null in case the current-user does not have rights to see them.
+
+=== Positive test cases
+
+. A user should be able to fetch his data, including the confidential `email` and `username`. But other https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/common/accessing_users.html[confidential fields] would be null.
+. A good ADMIN should be able to fetch another user's data, including the confidential `email` and `username`. But other https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/common/accessing_users.html[confidential fields] would be null.
+. A bad ADMIN, non-admin or an anonymous user should be able to fetch another user's data. But all the https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/common/accessing_users.html[confidential fields] would be null.
+
+=== Negative test cases
+
+. Providing an unknown id.
+
+== Update user
+
+Updates the name and roles of a user.
+
+=== Request
+
+include::{snippets}/update-user/http-request.adoc[]
+
+If you have added more updatable fields to User, they can also be updated using this request.
+
+*What is version*
+
+User, like all https://github.com/naturalprogrammer/spring-lemon/blob/master/src/main/java/com/naturalprogrammer/spring/lemon/domain/VersionedEntity.java[VersionedEntity], has a `version` column, which is incremented on each update.
+
+While updating, it is first checked that the given version is equal to the version in the database record. Otherwise, it is assumed that someone else has updated the record concurrently, and the update fails. To use it, you will typically
+
+. Along with the data to be updated, fetch the version column as well.
+. When the user submits the updated data, send the version back along with the updated data.
+
+Precisely, we are talking about optimistic locking. The book https://gum.co/exuo/associate[Spring Framework REST API Development - A Complete Blueprint] covers it in more details.
+
+=== Response
+
+Please note that the response is the data of the logged-in user, who isn't necessarily the updated one.
+
+include::{snippets}/update-user/http-response.adoc[]
+
+=== Business rules
+
+. A user with the given `id` should exist.
+. Current-user should have https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/common/accessing_users.html[permission to edit] the given user.
+. `roles` will be updated only if the current-user has `permission to edit` the roles.
+.. If UNVERIFIED role is removed from a user, his `verificationCode` should be set to null.
+.. If UNVERIFIED role is added to a user, a `verificationCode` should also be generated, and a verification mail should be sent to the user.
+. The new name https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/common/user_constraints.html[should be valid].
+. The version column should be incremented on successful update.
+. The user shouldn't have been already updated concurrently, i.e. the input `version` should match the version in the database. Otherwise, expect a `409` response.
+. If a user is updating himself, upon successful commit, the Security principal object is updated with the new name.
+
+== Positive test cases
+
+. A non-admin user should be able to update his own name, but changes in roles should be skipped. The name of security principal object should also change in the process. The version column should be updated.
+. A good ADMIN should be able to update another user's name and roles. Check that the name of security principal object should NOT change in the process by mistake.
+.. When making a user UNVERIFIED, a verificationCode should be generated.
+.. When making a user verified, the verificationCode should be set to null.
+
+=== Negative test cases
+
+. Providing an unknown id in the path.
+. A non-admin trying to update the name and roles of another user.
+. A bad ADMIN trying to update the name and roles of another user.
+. A good ADMIN trying to change his own roles.
+. Providing an invalid name.
+. A change in version occuring.
+
+== Change password
+
+Changes the password of a user
+
+=== Request
+
+include::{snippets}/change-password/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/change-password/http-response.adoc[]
+
+=== Business rules
+
+. A user with the given `id` should exist.
+. Current user should have https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/common/accessing_users.html[permission to edit] the given user.
+. `oldPassword`, `password` and `retypePassword` should not be null or blank, and should be between 6 and 30 characters long.
+`oldPassword` should match the user's existing password.
+. `password` and `retypePassword` should be same. (Ideally, this validation could have been left to the front-end. But, we thought to make this a server feature, for exibihiting how to code form-level custom validation.)
+. If a user is changing his own password, after successful commit, he should be logged out.
+
+=== Positive test cases
+
+. A non-admin user should be able to change his password. After changing password, he should have been logged out.
+. A good ADMIN should be able to update another user's password.
+
+=== Negative test cases
+
+. Providing an unknown id in the path.
+. A non-admin trying to update the password of another user.
+. A bad ADMIN trying to update the password of another user.
+. Providing invalid passwords.
+. Providing wrong old password.
+. `password` and `retypePassword` not being same.
+
+[[request-for-changing-email, requests for changing his email]]
+[[requested-for-changing-email, requested]]
+== Requesting for changing email
+
+A user (or a good ADMIN) can request for changing email id, by using the following request.
+
+=== Request
+
+include::{snippets}/request-email-change/http-request.adoc[]
+
+On receiving such a request, an email containing a link is sent to the new email id. A secret `changeEmailCode` is embedded in the link. Clicking on the link brings the user back to the front-end, where first he should log in if he is not already. Then, he would click a button for sending the <<final-change-email-request>> for doing the final change.
+
+=== Response
+
+include::{snippets}/request-email-change/http-response.adoc[]
+
+=== Business Rules
+
+. A user with the given `id` should exist.
+. Current user should have https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/common/accessing_users.html[permission to edit] the given user.
+. `password` should match the password of current-user.
+. `newEmail` should not be blank, should be of a valid email format.
+. `newEmail` should not already be used by any user.
+. The user should be logged out after the email has changed.
+
+=== Positive test cases
+
+. A UNVERIFIED non-admin user should be able to request changing his email.
+. A good ADMIN should be able to request changing the email of another user.
+
+=== Negative test cases
+
+. Providing an unknown id in the path.
+. A non-admin trying to request changing email of another user.
+. A bad ADMIN trying to request changing email of another user.
+. Providing null password and email.
+. Providing blank password and email.
+. Providing invalid email.
+. Providing wrong password.
+. Providing non-unique email.
+
+== Change email
+
+When a user <<request-for-changing-email>>, a mail is sent to him, which contains a link with a `changeEmailCode` embedded. Clicking on the link brings him back to the client, where first he should login if he is not already. He then would click a button for proceeding with the change, which will send the following request to the server.
+
+=== Request
+
+include::{snippets}/change-email/http-request.adoc[]
+
+*Path Parameters*
+
+include::{snippets}/change-email/path-parameters.adoc[]
+
+=== Response
+
+include::{snippets}/change-email/http-response.adoc[]
+
+The server will verify the `changeEmailCode`, and then do the change and log the user out.
+
+=== Business rules
+
+. The given `changeEmailCode` should not be blank.
+. The given `changeEmailCode` should match that of the current user in the database.
+. Before replacing `email` with `newEmail`, uniqueness should again be checked.
+. On success
+.. The user should be made verified if he is not already.
+.. The user should be logged out.
+
+=== Positive test cases
+
+. An unverified user, who had requested to change his email and had received the email with the link, should be able to change his email. The `newEmail` and `changeEmailCode` should be made null after the change, and he should have got verified. Also, he should have been logged out.
+
+=== Negative test cases
+
+. A good ADMIN trying to post the `changeEmailCode` of another user.
+. Providing wrong `changeEmailCode`.
+. Trying the operation without having <<requested-for-changing-email>> first.
+. Trying after some user registers the `newEmail` meanwhile, leaving it non unique.
