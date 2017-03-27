@@ -3,10 +3,11 @@ package com.naturalprogrammer.spring.lemondemo;
 import static com.jayway.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.not;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 
 import org.junit.Assert;
 import org.junit.Test;

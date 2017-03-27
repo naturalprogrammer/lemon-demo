@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
-import com.naturalprogrammer.spring.lemon.LemonAutoConfiguration;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.services.MyService;
 

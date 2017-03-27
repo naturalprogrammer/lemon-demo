@@ -251,9 +251,9 @@ After a user signs up, he receives a verification mail. The mail contains a link
 
 include::{snippets}/verify-user/http-request.adoc[]
 
-*Path parameter*
+*Path parameters*
 
-include::{snippets}/verify-user/path-parameter.adoc[]
+include::{snippets}/verify-user/path-parameters.adoc[]
 
 === Response
 
@@ -573,3 +573,54 @@ The server will verify the `changeEmailCode`, and then do the change and log the
 . Providing wrong `changeEmailCode`.
 . Trying the operation without having <<requested-for-changing-email>> first.
 . Trying after some user registers the `newEmail` meanwhile, leaving it non unique.
+
+== Create API Key
+
+Creates an API key for a user, which can be used later for authorizing requests.
+
+=== Request
+
+include::{snippets}/create-api-key/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/create-api-key/http-response.adoc[]
+
+=== Business Rules
+
+. A user with the given `id` should exist.
+. Current user should have https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/common/accessing_users.html[permission to edit] the given user.
+
+== Use API Key
+
+The API key of a user can be used for custom token authentication, as below.
+
+=== Request
+
+include::{snippets}/use-api-key/http-request.adoc[]
+
+*Headers*
+
+include::{snippets}/use-api-key/request-headers.adoc[]
+
+=== Response
+
+include::{snippets}/use-api-key/http-response.adoc[]
+
+== Remove API Key
+
+The API key of a user can be removed as below.
+
+=== Request
+
+include::{snippets}/remove-api-key/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/remove-api-key/http-response.adoc[]
+
+=== Business Rules
+
+. A user with the given `id` should exist.
+. Current user should have https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/common/accessing_users.html[permission to edit] the given user.
+

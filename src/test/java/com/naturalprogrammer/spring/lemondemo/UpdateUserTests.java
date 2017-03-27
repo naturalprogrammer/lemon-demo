@@ -40,7 +40,6 @@ public class UpdateUserTests extends AbstractTests {
 	private static final String UPDATED_NAME = "Edited name";
 			
     private String userPatch1;
-    private String userPatch2;
     private String userPatchRevokeAdmin;
     private String userPatchNullName;
     private String userPatchLongName;
@@ -50,11 +49,6 @@ public class UpdateUserTests extends AbstractTests {
 		this.userPatch1 = MyTestUtil.toString(patch);
 	}
 	
-	@Value("classpath:/update-user/patch-2.json")
-	public void setUserPatch2(Resource patch) throws IOException {
-		this.userPatch2 = MyTestUtil.toString(patch);;
-	}
-
 	@Value("classpath:/update-user/patch-revoke-admin.json")
 	public void setUserPatchRevokeAdmin(Resource patch) throws IOException {
 		this.userPatchRevokeAdmin = MyTestUtil.toString(patch);;
@@ -172,7 +166,7 @@ public class UpdateUserTests extends AbstractTests {
 		Assert.assertNull(user1.getVerificationCode());
 		
 		// Re-update the user, making him unverified again
-    	update(user1Id, userPatch2)
+    	update(user1Id, MyTestUtil.getUserPatch2())
 		.then()
 			.statusCode(200);
 

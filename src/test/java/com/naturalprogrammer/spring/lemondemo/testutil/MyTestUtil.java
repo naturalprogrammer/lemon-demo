@@ -41,9 +41,14 @@ import com.jayway.restassured.specification.RequestSpecification;
 public class MyTestUtil {
 	
     private static String userPatchBadAdmin;
+    private static String userPatch2;
     
 	public static String getUserPatchBadAdmin() {
 		return userPatchBadAdmin;
+	}
+	
+	public static String getUserPatch2() {
+		return userPatch2;
 	}
 
 	@Value("classpath:/update-user/patch-bad-admin.json")
@@ -51,6 +56,11 @@ public class MyTestUtil {
 		MyTestUtil.userPatchBadAdmin = MyTestUtil.toString(patch);;
 	}	
 	
+	@Value("classpath:/update-user/patch-2.json")
+	public void setUserPatch2(Resource patch) throws IOException {
+		this.userPatch2 = MyTestUtil.toString(patch);;
+	}
+
 	public static RequestSpecification configureFilters() {
 		
 		return new RequestSpecBuilder()
