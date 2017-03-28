@@ -41,7 +41,7 @@ public class ApiKeyTests extends AbstractTests {
     	assertTrue(admin.getApiKey() == null);
     	
     	// Obtain CSRF token
-    	BasicTests.ping(filters);
+    	BasicTests.pingSession(filters);
     	
     	// try to create API key without logging in
     	given()
@@ -77,7 +77,7 @@ public class ApiKeyTests extends AbstractTests {
     	
     	// Logout
     	BasicTests.logout(filters);
-    	BasicTests.ping(filters);
+    	BasicTests.pingSession(filters);
     	
     	// Trying a restricted operation should throw 403
     	UpdateUserTests
@@ -128,7 +128,7 @@ public class ApiKeyTests extends AbstractTests {
     	
     	// Logout
     	BasicTests.logout(filters);
-    	BasicTests.ping(filters);
+    	BasicTests.pingSession(filters);
 
     	// Try removing API key without logging in
     	given()

@@ -59,7 +59,7 @@ public class SignupTests extends AbstractTests {
 		
 		User user1 = newUser1();
 		
-    	BasicTests.ping(filters);
+    	BasicTests.pingSession(filters);
     	signup(filters, user1);
     	
     	return LemonUtil
@@ -76,7 +76,7 @@ public class SignupTests extends AbstractTests {
 	public void canSignup() throws JsonProcessingException {
     	
     	// Obtain CSRF cookie
-    	BasicTests.ping(filters);
+    	BasicTests.pingSession(filters);
     	
     	User user1 = newUser1();
     	String user1SignupJson = LemonUtil.getMapper()
@@ -129,7 +129,7 @@ public class SignupTests extends AbstractTests {
 	public void signupDuplicateEmail() {
     	
     	// Obtain CSRF cookie
-    	BasicTests.ping(filters);
+    	BasicTests.pingSession(filters);
     	
     	User user1 = newUser1();
 
@@ -155,7 +155,7 @@ public class SignupTests extends AbstractTests {
 	public void signupBlank() {
     	
     	// Obtain CSRF cookie
-    	BasicTests.ping(filters);
+    	BasicTests.pingSession(filters);
     	
     	// Try signing up with null data
     	signup(filters, new User())
@@ -176,7 +176,7 @@ public class SignupTests extends AbstractTests {
 	public void signupShort() {
     	
     	// Obtain CSRF cookie
-    	BasicTests.ping(filters);
+    	BasicTests.pingSession(filters);
     	
     	User user = new User("x", "x", "");
     	
@@ -199,7 +199,7 @@ public class SignupTests extends AbstractTests {
 	public void signupLong() {
     	
     	// Obtain CSRF cookie
-    	BasicTests.ping(filters);
+    	BasicTests.pingSession(filters);
     	
     	String longString = StringUtils.repeat("x", 250);
     	

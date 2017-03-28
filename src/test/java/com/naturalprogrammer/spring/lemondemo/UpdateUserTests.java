@@ -79,7 +79,7 @@ public class UpdateUserTests extends AbstractTests {
 		
     	User user1 = SignupTests.newUser1();
 		
-    	BasicTests.ping(filters);
+    	BasicTests.pingSession(filters);
     	SignupTests.signup(filters, user1);
     	
     	user1Id = userRepository

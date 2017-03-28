@@ -106,7 +106,7 @@ public class RequestEmailChangeTests extends AbstractTests {
 		User updatedUser = buildUpdatedUser("new@example.com", user1.getPassword());    	
 		
 		// try requesting with an unknown user id
-    	BasicTests.ping(filters);
+    	BasicTests.pingSession(filters);
 		requestEmailChange(7867L, updatedUser)
         .then()
         	.statusCode(422)

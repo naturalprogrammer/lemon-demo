@@ -48,12 +48,12 @@ public class BasicTests extends AbstractTests {
 	}
     
     /**
-     * Ping utility
+     * Ping and create session if not there
      */
-    public static Response ping(RequestSpecification filters) {
+    public static Response pingSession(RequestSpecification filters) {
     	return given()
     			.spec(filters)
-    			.get("/api/core/ping");
+    			.get("/api/core/ping-session");
     }
     
     /**
@@ -163,7 +163,7 @@ public class BasicTests extends AbstractTests {
 	public void loginWithWrongCredentials() {
     	
     	// obtain the CSRF cookie
-    	ping(filters); 
+    	pingSession(filters); 
     	
     	// login with wrong password
     	login(filters, "admin@example.com", "wrong-password")
@@ -190,7 +190,7 @@ public class BasicTests extends AbstractTests {
      */
     public static Response adminLogin(RequestSpecification filters) {
     	
-    	ping(filters);
+    	pingSession(filters);
     	
     	// Login
     	return given().spec(filters)
@@ -216,7 +216,7 @@ public class BasicTests extends AbstractTests {
 	public void canRememberMe() {
     	
     	// obtain the CSRF cookie
-    	ping(filters); 
+    	pingSession(filters); 
     	
     	// login with remember-me
     	String rememberMeCookie =
@@ -277,7 +277,7 @@ public class BasicTests extends AbstractTests {
 	public void wrongRememberMeToken() {
     	
     	// obtain the CSRF cookie
-    	ping(filters); 
+    	pingSession(filters); 
     	
     	given()
     		.spec(filters)

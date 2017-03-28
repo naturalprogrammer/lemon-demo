@@ -41,6 +41,9 @@ public class FetchUserTests extends AbstractTests {
     	// Sign up user 1
 		User user1 = signupUser1AndForgetPassword();
     	
+		// create session
+		BasicTests.pingSession(filters);
+		
     	// Login
     	BasicTests.login(filters, user1.getEmail(), user1.getPassword());
     	
@@ -311,7 +314,7 @@ public class FetchUserTests extends AbstractTests {
 		User user1 = SignupTests.newUser1(); 
 				
     	// Sign up as User 1 - it will set a verificationCode
-		BasicTests.ping(filters);
+		BasicTests.pingSession(filters);
 		SignupTests.signup(filters, user1);
 
     	return user1;

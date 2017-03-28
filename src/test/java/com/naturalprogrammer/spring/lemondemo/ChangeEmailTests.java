@@ -136,6 +136,10 @@ public class ChangeEmailTests extends AbstractTests {
     	
     	// Some new user registers the newEmail
     	BasicTests.logout(filters);
+    	
+    	// create session
+    	BasicTests.pingSession(filters);
+
     	SignupTests.signup(filters, new User(NEW_EMAIL, "password", "A new user"))
     	.then()
     		.statusCode(201);
