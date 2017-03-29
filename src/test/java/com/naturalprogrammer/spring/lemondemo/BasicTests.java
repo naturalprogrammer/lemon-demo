@@ -5,6 +5,7 @@ import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDoc
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasKey;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
@@ -44,8 +45,28 @@ public class BasicTests extends AbstractTests {
 		.then()
     		// CSRF cookie should be returned
     		.statusCode(204)
-    		.cookie(LemonSecurityConfig.XSRF_TOKEN_COOKIE_NAME);    	
+    		.cookie(LemonSecurityConfig.XSRF_TOKEN_COOKIE_NAME, not(isEmptyOrNullString()));    	
 	}
+   
+    
+    /**
+     * Pinging the session should give you the JSESSIONID
+     */
+    @Test
+	public void canPingSession() {
+    	
+    	// ping
+    	given()
+			.spec(filters)
+			.spec(restDocFilters(restDocs, "ping"))
+		.get("/api/core/ping-session")
+		.then()
+    		// CSRF cookie should be returned
+    		.statusCode(204)
+    		.cookies("JSESSIONID", not(isEmptyOrNullString()),
+    			LemonSecurityConfig.XSRF_TOKEN_COOKIE_NAME, not(isEmptyOrNullString()));    	
+	}
+   
     
     /**
      * Ping and create session if not there
@@ -55,6 +76,17 @@ public class BasicTests extends AbstractTests {
     			.spec(filters)
     			.get("/api/core/ping-session");
     }
+    
+    
+    /**
+     * Ping to get the CSRF cookie
+     */
+    public static Response ping(RequestSpecification filters) {
+    	return given()
+    			.spec(filters)
+    			.get("/api/core/ping");
+    }
+
     
     /**
      * Getting the context returns properties meant for
@@ -72,7 +104,7 @@ public class BasicTests extends AbstractTests {
     		// and all the lemon.shared.* properties
 	    	.body("context.shared.fooBar", equalTo("123..."))
 	    	// logged in user should be null 
-	    	.body(not(hasKey("user"))); 	
+	    	.body("$", not(hasKey("user"))); 	
 	}
     
     /**
@@ -120,12 +152,12 @@ public class BasicTests extends AbstractTests {
 			.body("goodAdmin", equalTo(true))
 			
 			// shouldn't receive createdDate, lastModifiedDate, password, verificationCode, forgotPasswordCode, apiKey
-			.body(not(hasKey("createdDate")))    		
-			.body(not(hasKey("lastModifiedDate")))    		
-			.body(not(hasKey("password")))    		
-			.body(not(hasKey("verificationCode")))    		
-			.body(not(hasKey("forgotPasswordCode")))
-			.body(not(hasKey("apiKey")));
+			.body("$", not(hasKey("createdDate")))    		
+			.body("$", not(hasKey("lastModifiedDate")))    		
+			.body("$", not(hasKey("password")))    		
+			.body("$", not(hasKey("verificationCode")))    		
+			.body("$", not(hasKey("forgotPasswordCode")))
+			.body("$", not(hasKey("apiKey")));
 	}
     
     /**
@@ -138,6 +170,7 @@ public class BasicTests extends AbstractTests {
     		.statusCode(403)
     		.body("message", equalTo("Could not verify the provided CSRF token because your session was not found."));
     }
+    
     
     /**
      * Logging in
@@ -154,7 +187,10 @@ public class BasicTests extends AbstractTests {
 			.body("roles", hasItem(AbstractUser.Role.ADMIN))
 			// should have been decorated
 			.body("goodAdmin", equalTo(true));
+    	
+    	
     }
+
     
     /**
      * Logging in with wrong credentials
@@ -181,7 +217,34 @@ public class BasicTests extends AbstractTests {
 	    	.body("error", equalTo("Unauthorized"))
     		.body("message", equalTo("Authentication Failed: Bad credentials"));
 	}
+
     
+    /**
+     * Logging in without creating session
+     */
+    @Test
+	public void loginWithoutCreatingSession() {
+    	
+    	// obtain the CSRF cookie
+    	ping(filters); 
+    	
+    	// login should succeed
+    	login(filters, "admin@example.com", "admin!")
+    	.then()
+			// body should have name as "Administrator"
+			.body("name", equalTo(MyService.ADMIN_NAME))
+			// roles should include "ADMIN"
+			.body("roles", hasItem(AbstractUser.Role.ADMIN))
+			// should have been decorated
+			.body("goodAdmin", equalTo(true));
+    	
+    	// But getting the context shouldn't identify the user
+    	getContext(filters)
+	    .then()
+	    	// logged in user should be null 
+	    	.body("$", not(hasKey("user"))); 	    	
+	}
+
     
     /**
      * Utility for logging in the Admin user that was created
@@ -242,7 +305,7 @@ public class BasicTests extends AbstractTests {
     	// Without the cookie, the user isn't logged in
     	getContext(filters)
 		.then()
-			.body(not(hasKey("user")));
+			.body("$", not(hasKey("user")));
     	
     	// With the cookie. the user is automatically logged in
     	given()
@@ -284,7 +347,7 @@ public class BasicTests extends AbstractTests {
     		.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, "A wrong remember-me token")
 		.get("/api/core/context")
 		.then()
-			.body(not(hasKey("user")));
+			.body("$", not(hasKey("user")));
 	}
 
     
@@ -314,7 +377,7 @@ public class BasicTests extends AbstractTests {
     	// Doubly ensure
     	getContext(filters)
 	    .then()
-			.body(not(hasKey("user")));
+			.body("$", not(hasKey("user")));
 	}
     
     /**

@@ -78,7 +78,7 @@ public class ChangePasswordTests extends AbstractTests {
 		// ensure he is logged out
     	BasicTests.getContext(filters)
     	.then()
-			.body(not(hasKey("user")));
+			.body("$", not(hasKey("user")));
     	
 		// Try logging in with new password
     	BasicTests.login(filters, user1.getEmail(), NEW_PASSWORD)

@@ -16,8 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 
+import com.jayway.restassured.filter.Filter;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
+import com.naturalprogrammer.spring.lemondemo.testutil.JsonPrefixFilter;
 import com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil;
 
 /**
@@ -51,7 +53,7 @@ public class ApiKeyTests extends AbstractTests {
 		.then()
 			.statusCode(403)
 			.body("exception", equalTo(AccessDeniedException.class.getName()))
-			.body(not(hasKey("apiKey"))); // token should not be present
+			.body("$", not(hasKey("apiKey"))); // token should not be present
 
     	// Login
     	BasicTests.adminLogin(filters);
@@ -75,8 +77,8 @@ public class ApiKeyTests extends AbstractTests {
     	admin = userRepository.findOne(admin.getId());
     	assertTrue(admin.getApiKey() != null && admin.getApiKey().length() != UUID_LENGTH);
     	
-    	// Logout
-    	BasicTests.logout(filters);
+    	// Abandon old session
+    	filters = MyTestUtil.configureFilters();
     	BasicTests.pingSession(filters);
     	
     	// Trying a restricted operation should throw 403
@@ -86,9 +88,14 @@ public class ApiKeyTests extends AbstractTests {
 				.statusCode(403)
 				.body("exception", equalTo(AccessDeniedException.class.getName()));
     	
+    	// Won't need session and XSRF for API key authenticated calls
+    	// So, just create a JsonPrefixFilter
+    	Filter jsonPrefixFilter = new JsonPrefixFilter();
+    	filters = null; // in case it's used below by mistake
+    	
     	// Trying with a wrong API key should throw 401
     	given()
-    		.spec(filters)
+    		.filter(jsonPrefixFilter)
 			.pathParam("id", admin.getId())
 			.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
 			.header("Authorization", "Bearer " + admin.getId() + ":" + "a-wrong-API-key")
@@ -100,7 +107,7 @@ public class ApiKeyTests extends AbstractTests {
     	
     	// Trying with a wrong user id should throw 401
     	given()
-			.spec(filters)
+			.filter(jsonPrefixFilter)
 			.pathParam("id", admin.getId())
 			.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
 			.header("Authorization", "Bearer " + "9811:" + apiKey)
@@ -115,7 +122,7 @@ public class ApiKeyTests extends AbstractTests {
 			.spec(restDocFilters(restDocs, "use-api-key", requestHeaders( 
 					headerWithName("Authorization").description(
 						"Custom token authentication - of the format _userId:api-key_"))))
-    		.spec(filters)
+    		.filter(jsonPrefixFilter)
 			.pathParam("id", admin.getId())
 			.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
 			.header("Authorization", "Bearer " + admin.getId() + ":" + apiKey)
@@ -124,10 +131,10 @@ public class ApiKeyTests extends AbstractTests {
 		.then()
 			.statusCode(200)
 			.body("name", equalTo("Edited name"))
-			.body("unverified", equalTo(false)); // an Admin shouldn't be able to change his own roles
-    	
-    	// Logout
-    	BasicTests.logout(filters);
+			.body("unverified", equalTo(false)); // an Admin shouldn't be able to change his own roles    	
+
+    	// Create a new session
+    	filters = MyTestUtil.configureFilters();
     	BasicTests.pingSession(filters);
 
     	// Try removing API key without logging in

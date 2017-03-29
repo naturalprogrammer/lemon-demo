@@ -55,7 +55,7 @@ public class ChangeEmailTests extends AbstractTests {
 		// ensure that user is logged out
     	BasicTests.getContext(filters)
     	.then()
-			.body(not(hasKey("user")));
+			.body("$", not(hasKey("user")));
 		
     	// ensure that the email was indeed changed
 		assertEmailChanged(signedUp.getId(), signedUp.getNewEmail());

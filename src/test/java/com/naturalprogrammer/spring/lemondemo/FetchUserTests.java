@@ -62,12 +62,12 @@ public class FetchUserTests extends AbstractTests {
 			.body("username", equalTo(user1.getEmail()))
 			
 			// shouldn't receive createdDate, lastModifiedDate, password, verificationCode, forgotPasswordCode, apiKey
-			.body(not(hasKey("createdDate")))    		
-			.body(not(hasKey("lastModifiedDate")))    		
-			.body(not(hasKey("password")))    		
-			.body(not(hasKey("verificationCode")))    		
-			.body(not(hasKey("forgotPasswordCode")))
-			.body(not(hasKey("apiKey")));
+			.body("$", not(hasKey("createdDate")))    		
+			.body("$", not(hasKey("lastModifiedDate")))    		
+			.body("$", not(hasKey("password")))    		
+			.body("$", not(hasKey("verificationCode")))    		
+			.body("$", not(hasKey("forgotPasswordCode")))
+			.body("$", not(hasKey("apiKey")));
 	}
 
 	
@@ -96,12 +96,12 @@ public class FetchUserTests extends AbstractTests {
 			.body("username", equalTo(user1.getEmail()))
 			
 			// shouldn't receive createdDate, lastModifiedDate, password, verificationCode, forgotPasswordCode, apiKey
-			.body(not(hasKey("createdDate")))    		
-			.body(not(hasKey("lastModifiedDate")))    		
-			.body(not(hasKey("password")))    		
-			.body(not(hasKey("verificationCode")))    		
-			.body(not(hasKey("forgotPasswordCode")))
-			.body(not(hasKey("apiKey")));
+			.body("$", not(hasKey("createdDate")))    		
+			.body("$", not(hasKey("lastModifiedDate")))    		
+			.body("$", not(hasKey("password")))    		
+			.body("$", not(hasKey("verificationCode")))    		
+			.body("$", not(hasKey("forgotPasswordCode")))
+			.body("$", not(hasKey("apiKey")));
 	}
 
 	
@@ -161,14 +161,14 @@ public class FetchUserTests extends AbstractTests {
 			.body("name", equalTo(MyService.ADMIN_NAME))
 			
 			// shouldn't receive email, username, createdDate, lastModifiedDate, password, verificationCode, forgotPasswordCode, apiKey
-			.body(not(hasKey("email")))    		
-			.body(not(hasKey("username")))    		
-			.body(not(hasKey("createdDate")))    		
-			.body(not(hasKey("lastModifiedDate")))    		
-			.body(not(hasKey("password")))    		
-			.body(not(hasKey("verificationCode")))    		
-			.body(not(hasKey("forgotPasswordCode")))
-			.body(not(hasKey("apiKey")));
+			.body("$", not(hasKey("email")))    		
+			.body("$", not(hasKey("username")))    		
+			.body("$", not(hasKey("createdDate")))    		
+			.body("$", not(hasKey("lastModifiedDate")))    		
+			.body("$", not(hasKey("password")))    		
+			.body("$", not(hasKey("verificationCode")))    		
+			.body("$", not(hasKey("forgotPasswordCode")))
+			.body("$", not(hasKey("apiKey")));
 	}
 	
 	
@@ -241,7 +241,7 @@ public class FetchUserTests extends AbstractTests {
 		.then()
 			.statusCode(200)
     		.body("name", equalTo(MyService.ADMIN_NAME)) // name should be Administrator
-    		.body(not(hasKey("email"))); // email shouldn't be revealed
+    		.body("$", not(hasKey("email"))); // email shouldn't be revealed
     	
     	// Fetch while logged in as ADMIN
     	BasicTests.adminLogin(filters);
@@ -267,7 +267,7 @@ public class FetchUserTests extends AbstractTests {
 		.then()
 			.statusCode(200)
 			.body("name", equalTo(MyService.ADMIN_NAME))
-    		.body(not(hasKey("email"))); // email shouldn't be revealed
+    		.body("$", not(hasKey("email"))); // email shouldn't be revealed
     }
     
 	/**
