@@ -26,10 +26,10 @@ lemon:
     secretkey: 6LdwxRcUAAAAADaG0Eo1qkYCco15cnngiBoBt2IO
     
   # Oauth2 client related properties
-  client-resources:
+  remote-resources:
   -
-    name: facebook
-    client:
+    id: facebook
+    details:
       clientId: 1234020186718741
       clientSecret: 0c0abaf685a83e879e8e48b1167c96ab
       accessTokenUri: https://graph.facebook.com/oauth/access_token
@@ -38,18 +38,14 @@ lemon:
       authenticationScheme: query
       clientAuthenticationScheme: form
       scope: email
-    resource:
-      userInfoUri: https://graph.facebook.com/me?fields=name,email
+    userInfoUri: https://graph.facebook.com/me?fields=name,email
   -
-    name: google
-    client:
+    id: google
+    details:
       clientId: 1011974249454-6gq0hr01gqh3cndoqnss5r69tkk2nd84.apps.googleusercontent.com
       clientSecret: saDA6Cj60wipncFM-hzBD-C6
       accessTokenUri: https://www.googleapis.com/oauth2/v4/token
       userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
       clientAuthenticationScheme: form
       scope: email
-    resource:
-      userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
-      
-    
+    userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
