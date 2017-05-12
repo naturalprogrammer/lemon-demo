@@ -6,6 +6,224 @@ Spring Lemon version 0.12
 
 This is the API documentation of https://github.com/naturalprogrammer/lemon-demo[Spring Lemon Demo application]. This API can be called from browser based front-ends (e.g. AngularJS single page applications), as well as non-browser clients.
 
+== Basics
+
+Before we dive in, let's first look at a few key thing to keep in mind while using the API.
+
+=== CORS
+
+Your API could be accessed from multiple clients. One of those could be a JavaScript web front-end, such as an AngularJS single page application.
+
+When developing a JavaScript web front-end, you will have two choices:
+
+. Put it in the same project, say inside _src/main/resources/static_, and deploy both the server and the client as a single unit.
+. Keep it separate, say as a _Grunt_ project, and deploy it in a different domain. For example, your API could be hosted at `example.cfapps.io`, whereas your AngularJS application could be hosted at `www.example.com`.
+
+If you go for the second option, your JavaScript can't call your API unless you deal with the https://en.wikipedia.org/wiki/Same-origin_policy[same origin policy].
+
+Spring Lemon uses CORS at the server side to deal with this. You just have to add a line like this in _application.properties_:
+
+----
+lemon.cors.allowed-origins: http://localhost:9000,http://www.example.com
+----
+
+You may also need a little configuration in the client side. For example, in AngularJS, you will need to set the `withCredentials` flag of https://docs.angularjs.org/api/ng/service/$http#cross-site-request-forgery-xsrf-protection[$http] service, like this:
+
+```javascript
+angular.module('myApp', ['ngCookies', ... ])
+.config(['$httpProvider', function ($httpProvider) {
+
+$httpProvider.defaults.withCredentials = true;
+...
+}]);
+```
+
+Refer the book [Spring Framework REST API Development - A Complete Blueprint](https://gum.co/exuo/associate) for details.
+
+==== CSRF
+
+_CSRF_ is a well known security vulnerability. If you do not know about it, http://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#csrf[Spring Security reference material] explains it beautifully.
+
+To handle CSRF, Spring Lemon sends a token to the client in each response. The token is sent as a cookie, named `XSRF-TOKEN`. Then, in each `PATCH`, `POST`, `PUT` or `DELETE` request, it expects the same token as a header named `X-XSRF-TOKEN`. An exception is thrown if the tokens do not match.
+
+So, your client application should first send a GET request for getting the token, and then use that in POST kind of requests. Also, be aware that Spring Security removes or changes the cookie after certain events, like _logout_. Hence, after these events, your client application will again need to send some GET request and get the new token. Ping (see below) can be used for this.
+
+When wrong CSRF token is sent, the response looks like this:
+
+```json
+HTTP/1.1 403 Forbidden
+
+{
+"status": 403,
+"error": "Forbidden",
+"message": "Expected CSRF token not found. Has your session expired?",
+"path": "/accessed_url"
+}
+```
+
+The book [Spring Framework REST API Development - A Complete Blueprint](https://gum.co/exuo/associate) covers it in details.
+
+===== CSRF and AngularJS
+
+If your AngularJS client resides in the same project, say inside _src/main/resources/static_, you don't have to do anything special for CSRF. When sending a request, the https://docs.angularjs.org/api/ng/service/$http#cross-site-request-forgery-xsrf-protection[$http] service of AngularJS automatically puts the value of the `XSRF-TOKEN` cookie in a header named `X-XSRF-TOKEN`.
+
+If you have the client as a separate project that is to be hosted separately though, you will have to add the header on your own. The easiest way to do it is to write an AngularJS _$http interceptor_, like this:
+
+[source,javascript]
+----
+angular.module('myApp')
+  .factory('XSRFInterceptor', function ($cookies, $log) {
+
+    var xsrfToken;
+
+    var XSRFInterceptor = {
+
+      request: function(config) {
+
+        if (xsrfToken) {
+          config.headers['X-XSRF-TOKEN'] = xsrfToken;
+          $log.info("X-XSRF-TOKEN being sent to server: " + xsrfToken);
+        }
+
+        return config;
+      },
+
+      response: function(response) {
+
+        var newToken = $cookies.get('XSRF-TOKEN');
+
+        if (newToken) {
+          xsrfToken = newToken;
+          $log.info("XSRF-TOKEN received from server: " + xsrfToken);
+        }
+
+        return response;
+      }
+    };
+
+    return XSRFInterceptor;
+  });
+----
+
+You then need to configure the interceptor as below.
+
+[source,javascript]
+----
+angular.module('myApp', [...])
+   .config(['$httpProvider', function ($httpProvider) {
+
+   $httpProvider.defaults.withCredentials = true;
+   $httpProvider.interceptors.push('XSRFInterceptor');
+   ...
+   
+}]);
+----
+
+=== Handling Errors
+
+If some request data would not comply to the business rules, the API would respond with _400 bad request_, with a JSON body holding field-wise error details. For example, trying to [sign up](api/sign_up.html) with some invalid data could produce the following JSON data:
+
+[source,json]
+----
+{
+    "exception": "ConstraintViolationException",
+"errors": [
+{
+"field": "user.email",
+"code": "{com.naturalprogrammer.spring.invalid.email.size}",
+"message": "Email must be between 4 and 250 characters"
+},
+{
+"field": "user.name",
+"code": "{javax.validation.constraints.Size.message}",
+"message": "size must be between 1 and 50"
+},
+{
+"field": "user.password",
+"code": "{com.naturalprogrammer.spring.invalid.password.size}",
+"message": "Password must be between 6 and 30 characters"
+},
+{
+"field": "user.email",
+"code": "{com.naturalprogrammer.spring.invalid.email}",
+"message": "Not a well formed email address"
+},
+{
+"field": "user.name",
+"code": "{blank.name}",
+"message": "Name required"
+}
+]
+}
+----
+
+Each error in `errors` above will have three fields:
+
+1. **field**: Name of the field, or _null_ in case of a form level error.
+2. **code**: The error code.
+3. **message**: An internationalized message, which could vary depending on the locale of the user.
+
+### Format of the error data
+
+Obviously, the format of the error JSON, its field names and codes would vary among requests. Maintaining a documentation of each error for each request would be cumbersome. We may take that up sometime in future, but for now, the best way to know the format for any request would be to look at the actual response body by using a tool, such as the _google chrome developer tools_.
+
+## JSON vulnerability
+
+By default, Spring Lemon prefixes JSON responses with `)]}',\n`. This is done as a protection against the [JSON vulnerability](http://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx). Your client application would need to strip this `)]}',\n`. It's done automatically if you are using the [$http](https://docs.angularjs.org/api/ng/service/$http#json-vulnerability-protection) service of AngularJS.
+
+If you want to disable this protection, maybe because your API is not meant to be called from browsers, add the following line in application.properties:
+
+```
+lemon.enabled.json-prefix: false
+```
+
+## Common response headers
+
+Below is a sample of the common response headers that are received from the API by default.
+
+```bash
+C:\Users\skpat_000>curl -v http://localhost:8080/api/core/ping
+* Hostname was NOT found in DNS cache
+* Adding handle: conn: 0xfae710
+* Adding handle: send: 0
+* Adding handle: recv: 0
+* Curl_addHandleToPipeline: length: 1
+* - Conn 0 (0xfae710) send_pipe: 1, recv_pipe: 0
+* Trying ::1...
+* Connected to localhost (::1) port 8080 (#0)
+> GET /api/core/ping HTTP/1.1
+> User-Agent: curl/7.34.0
+> Host: localhost:8080
+> Accept: */*
+>
+< HTTP/1.1 200 OK
+* Server Apache-Coyote/1.1 is not blacklisted
+< Server: Apache-Coyote/1.1
+< Access-Control-Allow-Origin: http://localhost:9000
+< Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS
+< Access-Control-Max-Age: 3600
+< Access-Control-Allow-Headers: x-requested-with,origin,content-type,accept,X-XSRF-TOKEN
+< Access-Control-Allow-Credentials: true
+< X-Content-Type-Options: nosniff
+< X-XSS-Protection: 1; mode=block
+< Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+< Pragma: no-cache
+< Expires: 0
+< X-Frame-Options: DENY
+< Set-Cookie: JSESSIONID=74F4A272BA49F9B0CFAF07EBEA534628; Path=/; HttpOnly
+< Set-Cookie: XSRF-TOKEN=e06b98f4-d3b2-4f80-8435-b3c2f72d3182; Path=/
+< X-Application-Context: application:dev
+< Content-Length: 0
+< Date: Fri, 24 Jul 2015 00:28:13 GMT
+```
+
+
+
+
+
+
+
+
 NOTE: Please note that here we won't cover the common things e.g. passing CSRF token or JSESSION id. Go through https://naturalprogrammer.gitbooks.io/spring-lemon-getting-started/content/api_documentation.html[this page] for those details.
 
 == Ping
