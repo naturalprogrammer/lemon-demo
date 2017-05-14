@@ -58,7 +58,7 @@ public class BasicTests extends AbstractTests {
     	// ping
     	given()
 			.spec(filters)
-			.spec(restDocFilters(restDocs, "ping"))
+			.spec(restDocFilters(restDocs, "ping-session"))
 		.get("/api/core/ping-session")
 		.then()
     		// CSRF cookie should be returned
