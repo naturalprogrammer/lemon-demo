@@ -18,7 +18,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser;
-import com.naturalprogrammer.spring.lemon.util.LemonUtil;
+import com.naturalprogrammer.spring.lemon.util.LemonUtils;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 
@@ -62,7 +62,7 @@ public class SignupTests extends AbstractTests {
     	BasicTests.pingSession(filters);
     	signup(filters, user1);
     	
-    	return LemonUtil
+    	return LemonUtils
     			.getBean(UserRepository.class)
     			.findByEmail(user1.getEmail()).get();
     }
@@ -79,7 +79,7 @@ public class SignupTests extends AbstractTests {
     	BasicTests.pingSession(filters);
     	
     	User user1 = newUser1();
-    	String user1SignupJson = LemonUtil.getMapper()
+    	String user1SignupJson = LemonUtils.getMapper()
     			.writerWithView(AbstractUser.SignupInput.class)
     			.writeValueAsString(user1);
     	

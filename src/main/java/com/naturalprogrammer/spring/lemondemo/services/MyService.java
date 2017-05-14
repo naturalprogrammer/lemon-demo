@@ -3,7 +3,7 @@ package com.naturalprogrammer.spring.lemondemo.services;
 import org.springframework.stereotype.Service;
 
 import com.naturalprogrammer.spring.lemon.LemonService;
-import com.naturalprogrammer.spring.lemon.util.LemonUtil;
+import com.naturalprogrammer.spring.lemon.util.LemonUtils;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 
 @Service
@@ -28,7 +28,7 @@ public class MyService extends LemonService<User, Long> {
 
         user.setName(updatedUser.getName());
 
-        LemonUtil.afterCommit(() -> {
+        LemonUtils.afterCommit(() -> {
             if (currentUser.equals(user))
                 currentUser.setName(user.getName());
         });

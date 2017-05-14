@@ -23,7 +23,7 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.config.ObjectMapperConfig;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemon.LemonProperties;
-import com.naturalprogrammer.spring.lemon.util.LemonUtil;
+import com.naturalprogrammer.spring.lemon.util.LemonUtils;
 import com.naturalprogrammer.spring.lemondemo.services.MyService;
 import com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil;
 
@@ -45,7 +45,7 @@ public abstract class AbstractTests {
         RestAssured.config()
             .objectMapperConfig(new ObjectMapperConfig()
                 .jackson2ObjectMapperFactory(
-                    (clazz, str) -> LemonUtil.getMapper()));
+                    (clazz, str) -> LemonUtils.getMapper()));
         
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();    	
     }
