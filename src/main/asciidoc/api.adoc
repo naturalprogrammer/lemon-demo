@@ -163,6 +163,31 @@ If you want to disable this protection, maybe because your API is not meant to b
 lemon.enabled.json-prefix: false
 ```
 
+== Glossary
+
+Some terms that we would be using often in the documentation are given below.
+
+ADMIN::
+	A user having "ADMIN" in his roles collection.
+	
+Unverified user::
+	A user having "UNVERIFIED" in his roles collection.
+	
+Blocked user::
+	A user having "BLOCKED" in his roles collection.
+	
+Bad user::
+	An unverified or blocked user.
+	
+Good user::
+	A user who is not bad.
+	
+Bad ADMIN::
+	An ADMIN who is a bad user.
+	
+Good ADMIN::
+	An ADMIN who is a good user.
+
 == Ping
 
 Sends a GET request to the server. This is useful for fetching the CSRF cookie after an event that would have changed the CSRF token, e.g. _logout_. See the discussion on CSRF above for more details.
