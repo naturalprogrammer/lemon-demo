@@ -6,6 +6,18 @@ spring:
     url: jdbc:postgresql://localhost:5432/lemon
     username: lemon
     password: lemon
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 1011974249454-6gq0hr01gqh3cndoqnss5r69tkk2nd84.apps.googleusercontent.com
+            client-secret: saDA6Cj60wipncFM-hzBD-C6
+          facebook:
+            client-id: 1234020186718741
+            client-secret: 0c0abaf685a83e879e8e48b1167c96ab
+          
+          
 
 logging:
   level:
@@ -49,3 +61,4 @@ lemon:
       clientAuthenticationScheme: form
       scope: email
     userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+    
