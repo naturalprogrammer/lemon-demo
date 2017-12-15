@@ -1,6 +1,6 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static com.jayway.restassured.RestAssured.given;
+import static io.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
@@ -20,8 +20,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 
-import com.jayway.restassured.response.Response;
-import com.jayway.restassured.specification.RequestSpecification;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser.Role;
 import com.naturalprogrammer.spring.lemon.exceptions.MultiErrorException;
 import com.naturalprogrammer.spring.lemon.exceptions.VersionException;
@@ -136,7 +136,7 @@ public class UpdateUserTests extends AbstractTests {
     	
     	// Fetch user1 from database and ensure that
 		// his verificationCode isn't null
-		User user1 = userRepository.findOne(user1Id);
+		User user1 = userRepository.getOne(user1Id);
 		Assert.assertNotNull(user1.getVerificationCode());
     			
 		BasicTests.adminLogin(filters);
@@ -162,7 +162,7 @@ public class UpdateUserTests extends AbstractTests {
     	
     	// Fetch user1 from database and ensure that
 		// his verificationCode is now null
-		user1 = userRepository.findOne(user1Id);
+		user1 = userRepository.getOne(user1Id);
 		Assert.assertNull(user1.getVerificationCode());
 		
 		// Re-update the user, making him unverified again
@@ -177,7 +177,7 @@ public class UpdateUserTests extends AbstractTests {
     	
        	// Fetch user1 from database and ensure that
     	// his verificationCode is not null
-    	user1 = userRepository.findOne(user1Id);
+    	user1 = userRepository.getOne(user1Id);
     	Assert.assertNotNull(user1.getVerificationCode());    	
     }	
 

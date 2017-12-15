@@ -3,7 +3,7 @@
 spring:
   jpa.hibernate.ddl-auto: update
   datasource:
-    url: jdbc:postgresql://localhost:5432/lemon
+    url: jdbc:mysql://localhost:3306/lemon
     username: lemon
     password: lemon
   security:

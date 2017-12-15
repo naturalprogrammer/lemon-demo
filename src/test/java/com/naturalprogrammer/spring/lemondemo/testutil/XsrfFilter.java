@@ -2,12 +2,12 @@ package com.naturalprogrammer.spring.lemondemo.testutil;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.jayway.restassured.filter.Filter;
-import com.jayway.restassured.filter.FilterContext;
-import com.jayway.restassured.internal.http.Method;
-import com.jayway.restassured.response.Response;
-import com.jayway.restassured.specification.FilterableRequestSpecification;
-import com.jayway.restassured.specification.FilterableResponseSpecification;
+import io.restassured.filter.Filter;
+import io.restassured.filter.FilterContext;
+import io.restassured.http.Method;
+import io.restassured.response.Response;
+import io.restassured.specification.FilterableRequestSpecification;
+import io.restassured.specification.FilterableResponseSpecification;
 import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
 
 public class XsrfFilter implements Filter {
@@ -18,7 +18,7 @@ public class XsrfFilter implements Filter {
 	public Response filter(FilterableRequestSpecification requestSpec,
 			FilterableResponseSpecification responseSpec, FilterContext ctx) {
 		
-		if (!requestSpec.getMethod().name().equals(Method.GET.name()) && // method not GET
+		if (!requestSpec.getMethod().equals(Method.GET.name()) && // method not GET
 		     xsrfToken != null ) {
 			requestSpec.cookie("XSRF-TOKEN", xsrfToken);
 			requestSpec.header("X-XSRF-TOKEN", xsrfToken);

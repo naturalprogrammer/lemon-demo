@@ -8,9 +8,6 @@ import static org.hamcrest.Matchers.not;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
-import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.restassured.operation.preprocess.RestAssuredPreprocessors.modifyUris;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -30,12 +27,15 @@ import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.restdocs.JUnitRestDocumentation;
+import org.springframework.restdocs.restassured3.RestAssuredRestDocumentation;
+import org.springframework.restdocs.restassured3.operation.preprocess.RestAssuredPreprocessors;
 import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.stereotype.Component;
 
-import com.jayway.restassured.builder.RequestSpecBuilder;
-import com.jayway.restassured.filter.session.SessionFilter;
-import com.jayway.restassured.specification.RequestSpecification;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.filter.session.SessionFilter;
+import io.restassured.specification.RequestSpecification;
+
 
 @Component
 public class MyTestUtil {
@@ -76,16 +76,16 @@ public class MyTestUtil {
 			String identifier, Snippet... snippets) {
 		
 		return new RequestSpecBuilder()
-			.addFilter(documentationConfiguration(restDocumentation))
-			.addFilter(document(identifier,
+			.addFilter(RestAssuredRestDocumentation.documentationConfiguration(restDocumentation))
+			.addFilter(RestAssuredRestDocumentation.document(identifier,
 					preprocessRequest(
-						modifyUris()
+							RestAssuredPreprocessors.modifyUris()
 								.scheme("https")
 								.host("www.example.com")
 								.removePort(),
 						prettyPrint()),
 					preprocessResponse(
-							modifyUris()
+							RestAssuredPreprocessors.modifyUris()
 									.scheme("https")
 									.host("www.example.com")
 									.removePort(),

@@ -1,6 +1,6 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static com.jayway.restassured.RestAssured.given;
+import static io.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -8,8 +8,8 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 
 import org.junit.Test;
 
-import com.jayway.restassured.response.Response;
-import com.jayway.restassured.specification.RequestSpecification;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.services.MyService;
 

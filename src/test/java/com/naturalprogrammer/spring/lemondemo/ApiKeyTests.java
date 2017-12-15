@@ -1,6 +1,6 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static com.jayway.restassured.RestAssured.given;
+import static io.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemon.domain.AbstractUser.UUID_LENGTH;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 
-import com.jayway.restassured.filter.Filter;
+import io.restassured.filter.Filter;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 import com.naturalprogrammer.spring.lemondemo.testutil.JsonPrefixFilter;
@@ -74,7 +74,7 @@ public class ApiKeyTests extends AbstractTests {
     	assertTrue(apiKey.length() == UUID_LENGTH);
     	
     	// API key should have been saved, encoded
-    	admin = userRepository.findOne(admin.getId());
+    	admin = userRepository.getOne(admin.getId());
     	assertTrue(admin.getApiKey() != null && admin.getApiKey().length() != UUID_LENGTH);
     	
     	// Abandon old session
@@ -147,7 +147,7 @@ public class ApiKeyTests extends AbstractTests {
 			.body("exception", equalTo(AccessDeniedException.class.getName()));
     	
     	// API key should not have been removed
-    	admin = userRepository.findOne(admin.getId());
+    	admin = userRepository.getOne(admin.getId());
     	assertTrue(admin.getApiKey() != null);
 
     	// Login
@@ -163,7 +163,7 @@ public class ApiKeyTests extends AbstractTests {
 			.statusCode(204);
 
     	// API key should have been removed
-    	admin = userRepository.findOne(admin.getId());
+    	admin = userRepository.getOne(admin.getId());
     	assertTrue(admin.getApiKey() == null);
 	}
 }

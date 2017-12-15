@@ -1,6 +1,6 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static com.jayway.restassured.RestAssured.given;
+import static io.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
@@ -13,7 +13,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.jayway.restassured.response.Response;
+import io.restassured.response.Response;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser.Role;
 import com.naturalprogrammer.spring.lemon.exceptions.MultiErrorException;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
@@ -191,7 +191,7 @@ public class ChangeEmailTests extends AbstractTests {
     	.requestEmailChange(filters, signedUp.getId(), updatedUser);
     	
     	// return the user from database
-		return userRepository.findOne(signedUp.getId()); 
+		return userRepository.getOne(signedUp.getId()); 
 	}
 	
 	
@@ -203,7 +203,7 @@ public class ChangeEmailTests extends AbstractTests {
 	 */
 	private void assertEmailChanged(Long id, String newEmail) {
     	
-		User user = userRepository.findOne(id);
+		User user = userRepository.getOne(id);
     	
 		// email has changed
 		Assert.assertEquals(newEmail, user.getEmail());

@@ -1,6 +1,6 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static com.jayway.restassured.RestAssured.given;
+import static io.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 
-import com.jayway.restassured.response.Response;
-import com.jayway.restassured.specification.RequestSpecification;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser.Role;
 import com.naturalprogrammer.spring.lemon.exceptions.MultiErrorException;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
@@ -288,7 +288,7 @@ public class RequestEmailChangeTests extends AbstractTests {
 	 * @param id
 	 */
 	private void assertEmailChangeRequested(Long id, String newEmail) {
-    	User user = userRepository.findOne(id);
+    	User user = userRepository.getOne(id);
     	Assert.assertEquals(newEmail, user.getNewEmail());
     	Assert.assertNotNull(user.getChangeEmailCode());
 	}
@@ -300,7 +300,7 @@ public class RequestEmailChangeTests extends AbstractTests {
 	 * @param id
 	 */	
 	private void assertEmailChangeNotRequested(long id) {
-    	User user = userRepository.findOne(id);
+    	User user = userRepository.getOne(id);
     	Assert.assertNull(user.getNewEmail());
     	Assert.assertNull(user.getChangeEmailCode());
 	}

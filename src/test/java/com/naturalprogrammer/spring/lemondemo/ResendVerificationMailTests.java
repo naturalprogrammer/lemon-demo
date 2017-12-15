@@ -1,6 +1,6 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static com.jayway.restassured.RestAssured.given;
+import static io.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 
-import com.jayway.restassured.response.Response;
+import io.restassured.response.Response;
 import com.naturalprogrammer.spring.lemon.exceptions.MultiErrorException;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
@@ -44,7 +44,7 @@ public class ResendVerificationMailTests extends AbstractTests {
 		.then()
 			.statusCode(204);
 
-		signedUp = userRepository.findOne(signedUp.getId());
+		signedUp = userRepository.getOne(signedUp.getId());
 
 		Assert.assertEquals(oldVerificationCode, signedUp.getVerificationCode());
 	}

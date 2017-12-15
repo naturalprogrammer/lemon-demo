@@ -1,6 +1,6 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static com.jayway.restassured.RestAssured.given;
+import static io.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
 import static org.hamcrest.Matchers.equalTo;
@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 
-import com.jayway.restassured.response.Response;
+import io.restassured.response.Response;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser.Role;
 import com.naturalprogrammer.spring.lemon.exceptions.MultiErrorException;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
@@ -72,7 +72,7 @@ public class VerifyTests extends AbstractTests {
 			.body("errors", hasErrors(null, "com.naturalprogrammer.spring.alreadyVerified"));
     	
     	// Fetch the verified User from database
-    	User verifiedUser = userRepository.findOne(signedUp.getId());
+    	User verifiedUser = userRepository.getOne(signedUp.getId());
     	
     	// It's verificationCode should now be null
     	Assert.assertNull("After verifiaction, the verification code must set to null, but it is "
