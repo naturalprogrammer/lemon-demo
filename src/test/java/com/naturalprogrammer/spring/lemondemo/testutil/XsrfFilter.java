@@ -2,13 +2,14 @@ package com.naturalprogrammer.spring.lemondemo.testutil;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
+
 import io.restassured.filter.Filter;
 import io.restassured.filter.FilterContext;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.FilterableResponseSpecification;
-import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
 
 public class XsrfFilter implements Filter {
 

@@ -19,13 +19,14 @@ import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import io.restassured.RestAssured;
-import io.restassured.config.ObjectMapperConfig;
-import io.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemon.LemonProperties;
 import com.naturalprogrammer.spring.lemon.util.LemonUtils;
 import com.naturalprogrammer.spring.lemondemo.services.MyService;
 import com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil;
+
+import io.restassured.RestAssured;
+import io.restassured.config.ObjectMapperConfig;
+import io.restassured.specification.RequestSpecification;
 
 /**
  * Inherit concrete test classes from this class.

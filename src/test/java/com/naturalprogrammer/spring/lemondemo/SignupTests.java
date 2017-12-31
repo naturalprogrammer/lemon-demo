@@ -1,8 +1,8 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static io.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasItem;
@@ -15,12 +15,13 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser;
 import com.naturalprogrammer.spring.lemon.util.LemonUtils;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
+
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 
 /**
  * Test cases for Sign up

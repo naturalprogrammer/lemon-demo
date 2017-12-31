@@ -1,12 +1,13 @@
 package com.naturalprogrammer.spring.lemondemo.testutil;
 
+import com.naturalprogrammer.spring.lemon.LemonAutoConfiguration;
+
 import io.restassured.builder.ResponseBuilder;
 import io.restassured.filter.Filter;
 import io.restassured.filter.FilterContext;
 import io.restassured.response.Response;
 import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.FilterableResponseSpecification;
-import com.naturalprogrammer.spring.lemon.LemonAutoConfiguration;
 
 public class JsonPrefixFilter implements Filter {
 

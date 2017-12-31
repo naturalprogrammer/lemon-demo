@@ -3,7 +3,7 @@
 spring:
   jpa.hibernate.ddl-auto: update
   datasource:
-    url: jdbc:mysql://localhost:3306/lemon
+    url: jdbc:mysql://localhost:3306/lemon?useSSL=false
     username: lemon
     password: lemon
   security:
@@ -16,13 +16,12 @@ spring:
           facebook:
             client-id: 1234020186718741
             client-secret: 0c0abaf685a83e879e8e48b1167c96ab
-          
-          
 
 logging:
   level:
     root: INFO
     org.springframework: INFO
+    org.springframework.security.oauth2.client: DEBUG
     com.naturalprogrammer: DEBUG
   #file: D:\\tmp\\dev-log.txt
 

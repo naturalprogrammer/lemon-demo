@@ -1,8 +1,8 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static io.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemon.domain.AbstractUser.UUID_LENGTH;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
@@ -16,11 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 
-import io.restassured.filter.Filter;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 import com.naturalprogrammer.spring.lemondemo.testutil.JsonPrefixFilter;
 import com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil;
+
+import io.restassured.filter.Filter;
 
 /**
  * Tests token management

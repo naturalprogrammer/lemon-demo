@@ -1,8 +1,8 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static io.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.not;
@@ -12,12 +12,13 @@ import javax.validation.ConstraintViolationException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemon.exceptions.MultiErrorException;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 import com.naturalprogrammer.spring.lemondemo.services.MyService;
+
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 
 /**
  * Tests for fetchUsersByEmail and fetchUsersById 

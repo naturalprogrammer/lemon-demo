@@ -1,7 +1,7 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static io.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasKey;
@@ -15,13 +15,14 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import org.junit.Test;
 import org.springframework.http.MediaType;
 
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemon.LemonAutoConfiguration;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser;
 import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
 import com.naturalprogrammer.spring.lemondemo.services.MyService;
 import com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil;
+
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 
 /**
  * Tests Ping, Login, Logout etc.

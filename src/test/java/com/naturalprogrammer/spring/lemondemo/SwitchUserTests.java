@@ -1,17 +1,18 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static io.restassured.RestAssured.given;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 
 import org.junit.Test;
 
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 import com.naturalprogrammer.spring.lemondemo.services.MyService;
+
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 
 /**
  * Test cases for switching user
