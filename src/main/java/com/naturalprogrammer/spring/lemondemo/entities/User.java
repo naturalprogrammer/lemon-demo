@@ -3,9 +3,8 @@ package com.naturalprogrammer.spring.lemondemo.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser;

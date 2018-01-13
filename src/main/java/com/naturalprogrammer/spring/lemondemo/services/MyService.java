@@ -1,5 +1,8 @@
 package com.naturalprogrammer.spring.lemondemo.services;
 
+import java.util.Map;
+
+import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.stereotype.Service;
 
 import com.naturalprogrammer.spring.lemon.LemonService;
@@ -49,5 +52,10 @@ public class MyService extends LemonService<User, Long> {
         if (user != null)
             user.setName(currentUser.getName());
         return user;
+    }
+    
+    @Override
+    public void fillAdditionalFields(User user, Map<String, Object> attributes) {
+    	user.setName((String) attributes.get(StandardClaimNames.GIVEN_NAME));
     }
 }
