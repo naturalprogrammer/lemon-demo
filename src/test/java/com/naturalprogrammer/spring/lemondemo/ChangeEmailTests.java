@@ -146,7 +146,7 @@ public class ChangeEmailTests extends AbstractTests {
     		.statusCode(201);
     	
     	// User logs in again
-    	BasicTests.login(filters, signedUp.getUsername(), SignupTests.newUser1().getPassword())
+    	BasicTests.login(filters, signedUp.getEmail(), SignupTests.newUser1().getPassword())
     	.then()
     		.statusCode(200)
     		.body("id", equalTo(signedUp.getId().intValue()));
