@@ -48,7 +48,24 @@ public class MyService extends LemonService<User, Long> {
     
     
     @Override
-    public void fillAdditionalFields(User user, Map<String, Object> attributes) {
-    	user.setName((String) attributes.get(StandardClaimNames.GIVEN_NAME));
+    public void fillAdditionalFields(String registrationId, User user, Map<String, Object> attributes) {
+    	
+    	String nameKey;
+    	
+    	switch (registrationId) {
+    		
+    	case "facebook":
+    		nameKey = StandardClaimNames.NAME;
+    		break;
+    		
+    	case "google":
+			nameKey = StandardClaimNames.NAME;
+			break;
+			
+		default:
+			throw new UnsupportedOperationException("Fetching name from " + registrationId + " login not supprrted");
+    	}
+    	
+    	user.setName((String) attributes.get(nameKey));
     }
 }

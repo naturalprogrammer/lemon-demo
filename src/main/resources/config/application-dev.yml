@@ -9,6 +9,9 @@ spring:
   security:
     oauth2:
       client:
+        provider:
+          facebook:
+            user-info-uri: https://graph.facebook.com/me?fields=email,name,verified 
         registration:
           google:
             client-id: 1011974249454-6gq0hr01gqh3cndoqnss5r69tkk2nd84.apps.googleusercontent.com
