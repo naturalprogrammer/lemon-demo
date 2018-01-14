@@ -17,9 +17,9 @@ spring:
       accept-single-value-as-array: true
   
   devtools:
-    # Unomment this if you don't want the app to restart
+    # Comment this if you want the app to restart
     # when source code changes
-    # restart.enabled: false
+    restart.enabled: false
     livereload.enabled: false
 
 server.session.persistent: false
