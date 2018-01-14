@@ -6,6 +6,7 @@ import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.stereotype.Service;
 
 import com.naturalprogrammer.spring.lemon.LemonService;
+import com.naturalprogrammer.spring.lemon.security.SpringUser;
 import com.naturalprogrammer.spring.lemon.util.LemonUtils;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 
@@ -25,15 +26,15 @@ public class MyService extends LemonService<User, Long> {
 	}
 
 	@Override
-    protected void updateUserFields(User user, User updatedUser, User currentUser) {
+    protected void updateUserFields(User user, User updatedUser, SpringUser<Long> currentUser) {
 
         super.updateUserFields(user, updatedUser, currentUser);
 
         user.setName(updatedUser.getName());
 
         LemonUtils.afterCommit(() -> {
-            if (currentUser.equals(user))
-                currentUser.setName(user.getName());
+            if (currentUser.getId().equals(user.getId()))
+                currentUser.setTag(user.toTag());
         });
     }
     
@@ -45,14 +46,6 @@ public class MyService extends LemonService<User, Long> {
     	return user;
     }
     
-    @Override
-    protected User userForClient(User currentUser) {
-
-        User user = super.userForClient(currentUser);
-        if (user != null)
-            user.setName(currentUser.getName());
-        return user;
-    }
     
     @Override
     public void fillAdditionalFields(User user, Map<String, Object> attributes) {
