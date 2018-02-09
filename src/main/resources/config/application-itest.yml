@@ -5,3 +5,8 @@ spring:
 logging:
   level.root: ERROR
   file: D:\\tmp\\itest-log.txt
+
+lemon:
+   # A Base64 string (generated at https://www.freeformatter.com/base64-encoder.html)
+  jwt.secret: ZGVwZW5kZW5jeSBvbiB0aGUgY2xhc3NwYXRoLiBDaG9vc2luZyBKV1QgdG8gc2VjdX
+ 

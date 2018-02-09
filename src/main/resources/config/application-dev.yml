@@ -38,6 +38,9 @@ lemon:
   recaptcha:
     sitekey: 6LdwxRcUAAAAABkhOGWQXhl9FsR27D5YUJRuGzx0
     secretkey: 6LdwxRcUAAAAADaG0Eo1qkYCco15cnngiBoBt2IO
+  
+  # A Base64 string (generated at https://www.freeformatter.com/base64-encoder.html)
+  jwt.secret: KAnSBzZWN1cml0eSBmb3IgYW4gYXBwbGljYXRpb24gYnkgc2ltcGx5IGhhdmluZyBTc
     
   # Oauth2 client related properties
   remote-resources:
