@@ -41,29 +41,4 @@ lemon:
   
   # A Base64 string (generated at https://www.freeformatter.com/base64-encoder.html)
   jwt.secret: KAnSBzZWN1cml0eSBmb3IgYW4gYXBwbGljYXRpb24gYnkgc2ltcGx5IGhhdmluZyBTc
-    
-  # Oauth2 client related properties
-  remote-resources:
-  -
-    id: facebook
-    details:
-      clientId: 1234020186718741
-      clientSecret: 0c0abaf685a83e879e8e48b1167c96ab
-      accessTokenUri: https://graph.facebook.com/oauth/access_token
-      userAuthorizationUri: https://www.facebook.com/dialog/oauth
-      tokenName: oauth_token
-      authenticationScheme: query
-      clientAuthenticationScheme: form
-      scope: email
-    userInfoUri: https://graph.facebook.com/me?fields=name,email
-  -
-    id: google
-    details:
-      clientId: 1011974249454-6gq0hr01gqh3cndoqnss5r69tkk2nd84.apps.googleusercontent.com
-      clientSecret: saDA6Cj60wipncFM-hzBD-C6
-      accessTokenUri: https://www.googleapis.com/oauth2/v4/token
-      userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
-      clientAuthenticationScheme: form
-      scope: email
-    userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
-    
+ 

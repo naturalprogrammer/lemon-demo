@@ -32,9 +32,6 @@ lemon:
     username: admin@example.com
     password: admin!
     
-  # Remember-me secret key
-  remember-me-key: someSecret
-  
    # Spring Lemon flags
    # enabled:
       # json-prefix: false

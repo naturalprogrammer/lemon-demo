@@ -273,83 +273,83 @@ public class BasicTests extends AbstractTests {
     	    .post("/login");
     }
     
-    /**
-	 * The remember me feature
-     */
-    @Test
-	public void canRememberMe() {
-    	
-    	// obtain the CSRF cookie
-    	pingSession(filters); 
-    	
-    	// login with remember-me
-    	String rememberMeCookie =
-    	given()
-			.spec(restDocFilters(restDocs, "login", requestParameters( 
-					parameterWithName("username").description("The login id"), 
-					parameterWithName("password").description("Password"), 
-					parameterWithName(LemonAutoConfiguration.REMEMBER_ME_PARAMETER)
-						.description("Whether to remember the login even after session expires"))))
-			.spec(filters)
-    	   	.param("username", "admin@example.com")
-    	   	.param("password", "admin!")
-    	   	.param(LemonAutoConfiguration.REMEMBER_ME_PARAMETER, true)
-    	.post("/login")
-    	.then()
-    		.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE)
-    	// obtain the remember-me cookie
-    	.extract().cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE);
-    	
-    	// Now have a new session
-    	filters = MyTestUtil.configureFilters();
-
-    	// Without the cookie, the user isn't logged in
-    	getContext(filters)
-		.then()
-			.body("$", not(hasKey("user")));
-    	
-    	// With the cookie. the user is automatically logged in
-    	given()
-    		.spec(filters)
-    		.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, rememberMeCookie)
-		.get("/api/core/context")
-		.then()
-			.body("user.name", equalTo(MyService.ADMIN_NAME));
-    	
-    	// CSRF token would have changed because a login
-    	// took place in the previous call.
-    	// So, let's ping
-    	given().spec(filters)
-    		.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, rememberMeCookie)
-    		.get("/api/core/ping");
-    	
-    	// Then, log the user out
-    	// and see that the cookie is reset
-    	given().spec(filters)
-    	.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, rememberMeCookie)
-		.post("/logout")
-		.then()
-			.statusCode(200)
-			.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, equalTo(""));
-	}
+//    /**
+//	 * The remember me feature
+//     */
+//    @Test
+//	public void canRememberMe() {
+//    	
+//    	// obtain the CSRF cookie
+//    	pingSession(filters); 
+//    	
+//    	// login with remember-me
+//    	String rememberMeCookie =
+//    	given()
+//			.spec(restDocFilters(restDocs, "login", requestParameters( 
+//					parameterWithName("username").description("The login id"), 
+//					parameterWithName("password").description("Password"), 
+//					parameterWithName(LemonAutoConfiguration.REMEMBER_ME_PARAMETER)
+//						.description("Whether to remember the login even after session expires"))))
+//			.spec(filters)
+//    	   	.param("username", "admin@example.com")
+//    	   	.param("password", "admin!")
+//    	   	.param(LemonAutoConfiguration.REMEMBER_ME_PARAMETER, true)
+//    	.post("/login")
+//    	.then()
+//    		.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE)
+//    	// obtain the remember-me cookie
+//    	.extract().cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE);
+//    	
+//    	// Now have a new session
+//    	filters = MyTestUtil.configureFilters();
+//
+//    	// Without the cookie, the user isn't logged in
+//    	getContext(filters)
+//		.then()
+//			.body("$", not(hasKey("user")));
+//    	
+//    	// With the cookie. the user is automatically logged in
+//    	given()
+//    		.spec(filters)
+//    		.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, rememberMeCookie)
+//		.get("/api/core/context")
+//		.then()
+//			.body("user.name", equalTo(MyService.ADMIN_NAME));
+//    	
+//    	// CSRF token would have changed because a login
+//    	// took place in the previous call.
+//    	// So, let's ping
+//    	given().spec(filters)
+//    		.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, rememberMeCookie)
+//    		.get("/api/core/ping");
+//    	
+//    	// Then, log the user out
+//    	// and see that the cookie is reset
+//    	given().spec(filters)
+//    	.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, rememberMeCookie)
+//		.post("/logout")
+//		.then()
+//			.statusCode(200)
+//			.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, equalTo(""));
+//	}
     
     
-    /**
-     * Try remember me with wrong token
-     */
-    @Test
-	public void wrongRememberMeToken() {
-    	
-    	// obtain the CSRF cookie
-    	pingSession(filters); 
-    	
-    	given()
-    		.spec(filters)
-    		.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, "A wrong remember-me token")
-		.get("/api/core/context")
-		.then()
-			.body("$", not(hasKey("user")));
-	}
+//    /**
+//     * Try remember me with wrong token
+//     */
+//    @Test
+//	public void wrongRememberMeToken() {
+//    	
+//    	// obtain the CSRF cookie
+//    	pingSession(filters); 
+//    	
+//    	given()
+//    		.spec(filters)
+//    		.cookie(LemonAutoConfiguration.REMEMBER_ME_COOKIE, "A wrong remember-me token")
+//		.get("/api/core/context")
+//		.then()
+//			.body("$", not(hasKey("user")));
+//	}
 
     
     /**
