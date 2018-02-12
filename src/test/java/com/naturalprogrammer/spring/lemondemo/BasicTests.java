@@ -9,17 +9,13 @@ import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
 
-import com.naturalprogrammer.spring.lemon.LemonAutoConfiguration;
 import com.naturalprogrammer.spring.lemon.domain.AbstractUser;
 import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
 import com.naturalprogrammer.spring.lemondemo.services.MyService;
-import com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil;
 
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
