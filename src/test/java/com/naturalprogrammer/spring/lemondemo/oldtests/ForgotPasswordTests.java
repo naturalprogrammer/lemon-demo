@@ -53,7 +53,7 @@ public class ForgotPasswordTests extends AbstractTests {
 		.then()
 			.statusCode(422)
     		.body("exception", equalTo(MultiErrorException.class.getName()))
-    		.body("errors", hasErrors(null, "com.naturalprogrammer.spring.userNotFound"));
+    		.body("errors", hasErrors(null, "com.naturalprogrammer.spring.notFound"));
 
     	// Forgot password
     	given()

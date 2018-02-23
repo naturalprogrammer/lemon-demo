@@ -135,7 +135,7 @@ public class ChangePasswordTests extends AbstractTests {
 		.then()
 			.statusCode(422)
 			.body("exception", equalTo(MultiErrorException.class.getName()))
-			.body("errors", hasErrors("id", "com.naturalprogrammer.spring.userNotFound"));
+			.body("errors", hasErrors("id", "com.naturalprogrammer.spring.notFound"));
     }
 	
 	/**

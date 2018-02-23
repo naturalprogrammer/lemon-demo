@@ -76,7 +76,7 @@ public class ResendVerificationMailTests extends AbstractTests {
 			.statusCode(422)
 			.body("exception", equalTo(MultiErrorException.class.getName()))
 			.body("errors", hasErrors(
-				"id", "com.naturalprogrammer.spring.userNotFound"
+				"id", "com.naturalprogrammer.spring.notFound"
 			));
 	}
 

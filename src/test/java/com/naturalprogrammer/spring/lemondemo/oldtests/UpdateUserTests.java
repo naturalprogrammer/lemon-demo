@@ -11,7 +11,6 @@ import java.io.IOException;
 
 import javax.validation.ConstraintViolationException;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,7 +193,7 @@ public class UpdateUserTests extends AbstractTests {
 		.then()
 			.statusCode(422)
 			.body("exception", equalTo(MultiErrorException.class.getName()))
-			.body("errors", hasErrors("id",	"com.naturalprogrammer.spring.userNotFound"));
+			.body("errors", hasErrors("id",	"com.naturalprogrammer.spring.notFound"));
     }
 	
 	/**

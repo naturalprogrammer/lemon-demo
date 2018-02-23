@@ -206,7 +206,7 @@ public class FetchUserTests extends AbstractTests {
 		.then()
 			.statusCode(422)
     		.body("exception", equalTo(MultiErrorException.class.getName()))
-    		.body("errors", hasErrors("email", "com.naturalprogrammer.spring.userNotFound"));    		
+    		.body("errors", hasErrors("email", "com.naturalprogrammer.spring.notFound"));    		
 	}
 	
 	/**
@@ -235,7 +235,7 @@ public class FetchUserTests extends AbstractTests {
 		.then()
 			.statusCode(422)
     		.body("exception", equalTo(MultiErrorException.class.getName()))
-    		.body("errors", hasErrors("id", "com.naturalprogrammer.spring.userNotFound"));
+    		.body("errors", hasErrors("id", "com.naturalprogrammer.spring.notFound"));
     	
     	// Fetch Admin while not logged in
     	fetchById(admin.getId())
