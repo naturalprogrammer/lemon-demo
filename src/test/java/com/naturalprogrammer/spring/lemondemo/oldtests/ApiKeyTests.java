@@ -1,3 +1,4 @@
+package com.naturalprogrammer.spring.lemondemo.oldtests;
 //package com.naturalprogrammer.spring.lemondemo;
 //
 //import static com.naturalprogrammer.spring.lemon.domain.AbstractUser.UUID_LENGTH;

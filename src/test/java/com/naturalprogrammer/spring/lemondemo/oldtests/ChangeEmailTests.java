@@ -1,4 +1,4 @@
-package com.naturalprogrammer.spring.lemondemo;
+package com.naturalprogrammer.spring.lemondemo.oldtests;
 
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.hasErrors;
 import static com.naturalprogrammer.spring.lemondemo.testutil.MyTestUtil.restDocFilters;

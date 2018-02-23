@@ -1,4 +1,4 @@
-package com.naturalprogrammer.spring.lemondemo;
+package com.naturalprogrammer.spring.lemondemo.oldtests;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
