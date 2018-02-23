@@ -36,7 +36,6 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.session.SessionFilter;
 import io.restassured.specification.RequestSpecification;
 
-
 @Component
 public class MyTestUtil {
 	
