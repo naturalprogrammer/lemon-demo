@@ -18,7 +18,8 @@ import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest({
-	"logging.level.root=ERROR"
+	"logging.level.root=ERROR",
+	"lemon.recaptcha.sitekey="
 })
 @AutoConfigureMockMvc(secure=false)
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.HSQL)
