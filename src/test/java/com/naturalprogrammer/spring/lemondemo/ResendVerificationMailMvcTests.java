@@ -15,35 +15,12 @@ import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
 import com.naturalprogrammer.spring.lemon.util.LemonUtils;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 
-@Sql({"/test-data/initialize.sql", "/test-data/finalize.sql"})
-public class ResendVerificationMailMvcTests extends AbstractMvcTests {
-	
-	private String adminToken;
-	
-	private User userForm = new User("user1@example.com", "user123", "User 1");
-	private String user1Token;
-	private User user;
-		
-	@Before
-	public void signup() throws Exception {
-		
-		adminToken = login("admin@example.com", "admin!");
+public class ResendVerificationMailMvcTests extends AbstractUser1MvcTests {
 
-		MvcResult result = mvc.perform(post("/api/core/users")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(LemonUtils.toJson(userForm)))
-				.andExpect(status().is(201))
-				.andReturn();
-		
-		MockHttpServletResponse response = result.getResponse();
-		user1Token = response.getHeader(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME);
-		user = LemonUtils.fromJson(response.getContentAsString(), User.class);
-	}
-	
 	@Test
 	public void testResendVerificationMail() throws Exception {
 		
-		mvc.perform(get("/api/core/users/{id}/resend-verification-mail", user.getId())
+		mvc.perform(get("/api/core/users/{id}/resend-verification-mail", user1.getId())
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, user1Token))
 			.andExpect(status().is(204));
 	}
@@ -51,7 +28,7 @@ public class ResendVerificationMailMvcTests extends AbstractMvcTests {
 	@Test
 	public void testResendVerificationMailUnauthenticated() throws Exception {
 		
-		mvc.perform(get("/api/core/users/{id}/resend-verification-mail", user.getId()))
+		mvc.perform(get("/api/core/users/{id}/resend-verification-mail", user1.getId()))
 			.andExpect(status().is(403));
 	}
 	

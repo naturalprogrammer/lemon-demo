@@ -9,16 +9,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
 import com.naturalprogrammer.spring.lemon.util.LemonUtils;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
+import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 
 @Sql({"/test-data/initialize.sql", "/test-data/finalize.sql"})
 public class SignupMvcTests extends AbstractMvcTests {
+	
+	@Autowired
+	private UserRepository userRepository;
 		
 	@Test
 	public void testSignupWithInvalidData() throws Exception {
@@ -45,6 +51,7 @@ public class SignupMvcTests extends AbstractMvcTests {
 				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
 				.andExpect(jsonPath("$.id").exists())
 				.andExpect(jsonPath("$.username").value("user1@example.com"))
+				.andExpect(jsonPath("$.roles").value(hasSize(1)))
 				.andExpect(jsonPath("$.roles[0]").value("UNVERIFIED"))
 				.andExpect(jsonPath("$.tag.name").value("User 1"))
 				.andExpect(jsonPath("$.unverified").value(true))
@@ -52,6 +59,8 @@ public class SignupMvcTests extends AbstractMvcTests {
 				.andExpect(jsonPath("$.admin").value(false))
 				.andExpect(jsonPath("$.goodUser").value(false))
 				.andExpect(jsonPath("$.goodAdmin").value(false));
+		
+		Assert.assertNotEquals("user123", userRepository.findById(2L).get().getPassword());
 	}
 	
 	@Test

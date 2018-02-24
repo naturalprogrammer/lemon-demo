@@ -22,7 +22,7 @@ spring:
     restart.enabled: false
     livereload.enabled: false
 
-server.session.persistent: false
+server.servlet.session.persistent: false
 
 # Spring Lemon related properties
 lemon:
