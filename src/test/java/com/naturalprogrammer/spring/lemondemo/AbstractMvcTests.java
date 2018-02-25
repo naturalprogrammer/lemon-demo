@@ -39,6 +39,9 @@ public class AbstractMvcTests {
 	protected static final long UNVERIFIED_USER_ID = 105L;
 	protected static final long BLOCKED_USER_ID = 106L;
 	
+	protected static final String ADMIN_EMAIL = "admin@example.com";
+	protected static final String ADMIN_PASSWORD = "admin!";
+	
 	protected Map<Long, String> tokens = new HashMap<>(6);
 	
     @Autowired
@@ -62,7 +65,7 @@ public class AbstractMvcTests {
     @Before
     public void baseSetUp() throws Exception {
     	
-		tokens.put(ADMIN_ID, login("admin@example.com", "admin!"));
+		tokens.put(ADMIN_ID, login(ADMIN_EMAIL, ADMIN_PASSWORD));
 		tokens.put(UNVERIFIED_ADMIN_ID, login("unverifiedadmin@example.com", "admin!"));
 		tokens.put(BLOCKED_ADMIN_ID, login("blockedadmin@example.com", "admin!"));
 		tokens.put(USER_ID, login("user@example.com", "admin!"));

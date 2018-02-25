@@ -9,26 +9,23 @@ import org.springframework.http.MediaType;
 public class ForgotPasswordMvcTests extends AbstractMvcTests {
 	
 	@Test
-	public void testForgorPassword() throws Exception {
+	public void testForgotPassword() throws Exception {
 		
 		mvc.perform(post("/api/core/forgot-password")
-                .param("email", "admin@example.com")
+                .param("email", ADMIN_EMAIL)
                 .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(204));
 	}
 	
 	@Test
-	public void testForgorPasswordUnknownEmail() throws Exception {
+	public void testForgotPasswordInvalidEmail() throws Exception {
 		
+		// Unknown email
 		mvc.perform(post("/api/core/forgot-password")
                 .param("email", "unknown@example.com")
                 .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(404));
-	}
-	
-	@Test
-	public void testForgorPasswordInvalidEmail() throws Exception {
-		
+
 		// Null email
 		mvc.perform(post("/api/core/forgot-password")
                 .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))

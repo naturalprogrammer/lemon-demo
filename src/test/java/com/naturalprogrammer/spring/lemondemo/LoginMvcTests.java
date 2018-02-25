@@ -22,12 +22,12 @@ public class LoginMvcTests extends AbstractMvcTests {
 	public void testLogin() throws Exception {
 		
 		mvc.perform(post("/login")
-                .param("username", "admin@example.com")
-                .param("password", "admin!")
+                .param("username", ADMIN_EMAIL)
+                .param("password", ADMIN_PASSWORD)
                 .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(200))
 				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
-				.andExpect(jsonPath("$.id").exists())
+				.andExpect(jsonPath("$.id").value(ADMIN_ID))
 				.andExpect(jsonPath("$.password").doesNotExist())
 				.andExpect(jsonPath("$.nonce").doesNotExist())
 				.andExpect(jsonPath("$.username").value("admin@example.com"))
@@ -51,7 +51,7 @@ public class LoginMvcTests extends AbstractMvcTests {
 				.andExpect(status().is(204));
 		
 		// Test that a 500ms token does not expire before 500ms
-		String token = login("admin@example.com", "admin!", 500L);
+		String token = login(ADMIN_EMAIL, ADMIN_PASSWORD, 500L);
 		mvc.perform(get("/api/core/ping")
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, token))
 				.andExpect(status().is(204));
@@ -66,7 +66,7 @@ public class LoginMvcTests extends AbstractMvcTests {
 	public void testLoginWrongPassword() throws Exception {
 		
 		mvc.perform(post("/login")
-                .param("username", "admin@example.com")
+                .param("username", ADMIN_EMAIL)
                 .param("password", "wrong-password")
                 .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(401));
@@ -76,7 +76,7 @@ public class LoginMvcTests extends AbstractMvcTests {
 	public void testLoginBlankPassword() throws Exception {
 		
 		mvc.perform(post("/login")
-                .param("username", "admin@example.com")
+                .param("username", ADMIN_EMAIL)
                 .param("password", "")
                 .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(401));
@@ -109,8 +109,8 @@ public class LoginMvcTests extends AbstractMvcTests {
 	private String login(String username, String password, long expirationMilli) throws Exception {
 		
 		MvcResult result = mvc.perform(post("/login")
-                .param("username", "admin@example.com")
-                .param("password", "admin!")
+                .param("username", ADMIN_EMAIL)
+                .param("password", ADMIN_PASSWORD)
                 .param("expirationMilli", Long.toString(expirationMilli))
                 .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andReturn();
