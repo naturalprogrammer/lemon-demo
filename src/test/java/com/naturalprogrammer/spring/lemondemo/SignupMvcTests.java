@@ -23,9 +23,6 @@ import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 @Sql({"/test-data/initialize.sql", "/test-data/finalize.sql"})
 public class SignupMvcTests extends AbstractMvcTests {
 	
-	@Autowired
-	private UserRepository userRepository;
-		
 	@Test
 	public void testSignupWithInvalidData() throws Exception {
 		
@@ -42,7 +39,7 @@ public class SignupMvcTests extends AbstractMvcTests {
 	@Test
 	public void testSignup() throws Exception {
 		
-		User user = new User("user99@example.com", "user123", "User 99");
+		User user = new User("user.foo@example.com", "user123", "User Foo");
 
 		mvc.perform(post("/api/core/users")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -52,10 +49,10 @@ public class SignupMvcTests extends AbstractMvcTests {
 				.andExpect(jsonPath("$.id").exists())
 				.andExpect(jsonPath("$.password").doesNotExist())
 				.andExpect(jsonPath("$.nonce").doesNotExist())
-				.andExpect(jsonPath("$.username").value("user1@example.com"))
+				.andExpect(jsonPath("$.username").value("user.foo@example.com"))
 				.andExpect(jsonPath("$.roles").value(hasSize(1)))
 				.andExpect(jsonPath("$.roles[0]").value("UNVERIFIED"))
-				.andExpect(jsonPath("$.tag.name").value("User 1"))
+				.andExpect(jsonPath("$.tag.name").value("User Foo"))
 				.andExpect(jsonPath("$.unverified").value(true))
 				.andExpect(jsonPath("$.blocked").value(false))
 				.andExpect(jsonPath("$.admin").value(false))
@@ -63,7 +60,7 @@ public class SignupMvcTests extends AbstractMvcTests {
 				.andExpect(jsonPath("$.goodAdmin").value(false));
 		
 		// Ensure that password got encrypted
-		Assert.assertNotEquals("user123", userRepository.findById(NEXT_USER_ID).get().getPassword());
+		Assert.assertNotEquals("user123", userRepository.findByEmail("user.foo@example.com").get().getPassword());
 	}
 	
 //	@Test
@@ -83,7 +80,7 @@ public class SignupMvcTests extends AbstractMvcTests {
 	@Test
 	public void testSignupDuplicateEmail() throws Exception {
 		
-		User user = new User("user1@example.com", "user123", "User 1");
+		User user = new User("user@example.com", "user123", "User");
 
 		mvc.perform(post("/api/core/users")
 				.contentType(MediaType.APPLICATION_JSON)

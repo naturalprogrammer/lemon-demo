@@ -14,12 +14,16 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
+import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest({
@@ -30,20 +34,21 @@ import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
 @Sql({"/test-data/initialize.sql", "/test-data/finalize.sql"})
 public class AbstractMvcTests {
 	
-	protected static final long ADMIN_ID = 1L;
-	protected static final long UNVERIFIED_ADMIN_ID = 2L;
-	protected static final long BLOCKED_ADMIN_ID = 3L;
+	protected static final long ADMIN_ID = 101L;
+	protected static final long UNVERIFIED_ADMIN_ID = 102L;
+	protected static final long BLOCKED_ADMIN_ID = 103L;
 	
-	protected static final long USER1_ID = 4L;
-	protected static final long UNVERIFIED_USER1_ID = 5L;
-	protected static final long BLOCKED_USER1_ID = 6L;
+	protected static final long USER_ID = 104L;
+	protected static final long UNVERIFIED_USER_ID = 105L;
+	protected static final long BLOCKED_USER_ID = 106L;
 	
-	protected static final long NEXT_USER_ID = 7L;
-
 	protected Map<Long, String> tokens = new HashMap<>(6);
 	
     @Autowired
     protected MockMvc mvc;
+    
+    @Autowired
+    protected UserRepository userRepository;
     
     protected String login(String userName, String password) throws Exception {
 
@@ -58,13 +63,13 @@ public class AbstractMvcTests {
     }
     
     @Before
-    public void setUp() throws Exception {
+    public void baseSetUp() throws Exception {
     	
 		tokens.put(ADMIN_ID, login("admin@example.com", "admin!"));
 		tokens.put(UNVERIFIED_ADMIN_ID, login("unverifiedadmin@example.com", "admin!"));
 		tokens.put(BLOCKED_ADMIN_ID, login("blockedadmin@example.com", "admin!"));
-		tokens.put(USER1_ID, login("user1@example.com", "admin!"));
-		tokens.put(UNVERIFIED_USER1_ID, login("unverifieduser@example.com", "admin!"));
-		tokens.put(BLOCKED_USER1_ID, login("blockeduser@example.com", "admin!"));
+		tokens.put(USER_ID, login("user@example.com", "admin!"));
+		tokens.put(UNVERIFIED_USER_ID, login("unverifieduser@example.com", "admin!"));
+		tokens.put(BLOCKED_USER_ID, login("blockeduser@example.com", "admin!"));
     }
 }
