@@ -1,50 +1,66 @@
 package com.naturalprogrammer.spring.lemondemo;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.web.servlet.MvcResult;
 
 import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
-import com.naturalprogrammer.spring.lemon.util.LemonUtils;
-import com.naturalprogrammer.spring.lemondemo.entities.User;
 
-public class ResendVerificationMailMvcTests extends AbstractUser1MvcTests {
+public class ResendVerificationMailMvcTests extends AbstractMvcTests {
 
 	@Test
 	public void testResendVerificationMail() throws Exception {
 		
-		mvc.perform(get("/api/core/users/{id}/resend-verification-mail", user1.getId())
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, user1Token))
+		mvc.perform(get("/api/core/users/{id}/resend-verification-mail", UNVERIFIED_USER1_ID)
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER1_ID)))
 			.andExpect(status().is(204));
+	}
+
+	@Test
+	public void testAdminResendVerificationMailOtherUser() throws Exception {
+		
+		mvc.perform(get("/api/core/users/{id}/resend-verification-mail", UNVERIFIED_USER1_ID)
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID)))
+			.andExpect(status().is(204));
+	}
+
+	@Test
+	public void testUnverifiedAdminResendVerificationMailOtherUser() throws Exception {
+		
+		mvc.perform(get("/api/core/users/{id}/resend-verification-mail", UNVERIFIED_USER1_ID)
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_ADMIN_ID)))
+			.andExpect(status().is(403));
+	}
+
+	@Test
+	public void testBlockedAdminResendVerificationMailOtherUser() throws Exception {
+		
+		mvc.perform(get("/api/core/users/{id}/resend-verification-mail", UNVERIFIED_USER1_ID)
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(BLOCKED_ADMIN_ID)))
+			.andExpect(status().is(403));
 	}
 
 	@Test
 	public void testResendVerificationMailUnauthenticated() throws Exception {
 		
-		mvc.perform(get("/api/core/users/{id}/resend-verification-mail", user1.getId()))
+		mvc.perform(get("/api/core/users/{id}/resend-verification-mail", UNVERIFIED_USER1_ID))
 			.andExpect(status().is(403));
 	}
 	
 	@Test
 	public void testResendVerificationMailAlreadyVerified() throws Exception {
 		
-		mvc.perform(get("/api/core/users/1/resend-verification-mail")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, adminToken))
+		mvc.perform(get("/api/core/users/{id}/resend-verification-mail", USER1_ID)
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(USER1_ID)))
 			.andExpect(status().is(422));
 	}
 	
 	@Test
 	public void testResendVerificationMailOtherUser() throws Exception {
 		
-		mvc.perform(get("/api/core/users/1/resend-verification-mail")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, user1Token))
+		mvc.perform(get("/api/core/users/{id}/resend-verification-mail", UNVERIFIED_USER1_ID)
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(USER1_ID)))
 			.andExpect(status().is(403));
 	}
 	
@@ -52,7 +68,7 @@ public class ResendVerificationMailMvcTests extends AbstractUser1MvcTests {
 	public void testResendVerificationMailNonExistingUser() throws Exception {
 		
 		mvc.perform(get("/api/core/users/99/resend-verification-mail")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, user1Token))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID)))
 			.andExpect(status().is(404));
 	}
 }

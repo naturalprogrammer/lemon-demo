@@ -42,7 +42,7 @@ public class SignupMvcTests extends AbstractMvcTests {
 	@Test
 	public void testSignup() throws Exception {
 		
-		User user = new User("user1@example.com", "user123", "User 1");
+		User user = new User("user99@example.com", "user123", "User 99");
 
 		mvc.perform(post("/api/core/users")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -50,6 +50,8 @@ public class SignupMvcTests extends AbstractMvcTests {
 				.andExpect(status().is(201))
 				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
 				.andExpect(jsonPath("$.id").exists())
+				.andExpect(jsonPath("$.password").doesNotExist())
+				.andExpect(jsonPath("$.nonce").doesNotExist())
 				.andExpect(jsonPath("$.username").value("user1@example.com"))
 				.andExpect(jsonPath("$.roles").value(hasSize(1)))
 				.andExpect(jsonPath("$.roles[0]").value("UNVERIFIED"))
@@ -60,33 +62,29 @@ public class SignupMvcTests extends AbstractMvcTests {
 				.andExpect(jsonPath("$.goodUser").value(false))
 				.andExpect(jsonPath("$.goodAdmin").value(false));
 		
-		Assert.assertNotEquals("user123", userRepository.findById(2L).get().getPassword());
+		// Ensure that password got encrypted
+		Assert.assertNotEquals("user123", userRepository.findById(NEXT_USER_ID).get().getPassword());
 	}
 	
-	@Test
-	public void testSignupLoggedIn() throws Exception {
-		
-		String adminToken = login("admin@example.com", "admin!");
-
-		User user = new User("user1@example.com", "user123", "User 1");
-
-		mvc.perform(post("/api/core/users")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, adminToken)
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(LemonUtils.toJson(user)))
-				.andExpect(status().is(403));
-	}
-	
+//	@Test
+//	public void testSignupLoggedIn() throws Exception {
+//		
+//		String adminToken = login("admin@example.com", "admin!");
+//
+//		User user = new User("user1@example.com", "user123", "User 1");
+//
+//		mvc.perform(post("/api/core/users")
+//				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, adminToken)
+//				.contentType(MediaType.APPLICATION_JSON)
+//				.content(LemonUtils.toJson(user)))
+//				.andExpect(status().is(403));
+//	}
+//	
 	@Test
 	public void testSignupDuplicateEmail() throws Exception {
 		
 		User user = new User("user1@example.com", "user123", "User 1");
 
-		mvc.perform(post("/api/core/users")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(LemonUtils.toJson(user)))
-				.andExpect(status().is(201));
-		
 		mvc.perform(post("/api/core/users")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(LemonUtils.toJson(user)))

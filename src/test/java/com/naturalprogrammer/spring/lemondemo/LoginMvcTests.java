@@ -1,15 +1,17 @@
 package com.naturalprogrammer.spring.lemondemo;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.hamcrest.Matchers.hasSize;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.web.servlet.MvcResult;
 
 import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
 
@@ -24,6 +26,7 @@ public class LoginMvcTests extends AbstractMvcTests {
                 .param("password", "admin!")
                 .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(200))
+				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
 				.andExpect(jsonPath("$.id").exists())
 				.andExpect(jsonPath("$.password").doesNotExist())
 				.andExpect(jsonPath("$.nonce").doesNotExist())
@@ -36,6 +39,27 @@ public class LoginMvcTests extends AbstractMvcTests {
 				.andExpect(jsonPath("$.admin").value(true))
 				.andExpect(jsonPath("$.goodUser").value(true))
 				.andExpect(jsonPath("$.goodAdmin").value(true));
+	}
+
+	@Test
+	public void testLoginTokenExpiry() throws Exception {
+		
+		// Test that default token does not expire before 10 days		
+		Thread.sleep(501L);
+		mvc.perform(get("/api/core/ping")
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID)))
+				.andExpect(status().is(204));
+		
+		// Test that a 500ms token does not expire before 500ms
+		String token = login("admin@example.com", "admin!", 500L);
+		mvc.perform(get("/api/core/ping")
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, token))
+				.andExpect(status().is(204));
+		// but, does expire after 500ms
+		Thread.sleep(501L);
+		mvc.perform(get("/api/core/ping")
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, token))
+				.andExpect(status().is(401));
 	}
 
 	@Test
@@ -61,12 +85,10 @@ public class LoginMvcTests extends AbstractMvcTests {
 	@Test
 	public void testTokenLogin() throws Exception {
 		
-		String adminToken = login("admin@example.com", "admin!");
-		
 		mvc.perform(get("/api/core/context")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, adminToken))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID)))
 				.andExpect(status().is(200))
-				.andExpect(jsonPath("$.user.id").value(1));
+				.andExpect(jsonPath("$.user.id").value(ADMIN_ID));
 	}
 
 	@Test
@@ -82,5 +104,17 @@ public class LoginMvcTests extends AbstractMvcTests {
 		
 		mvc.perform(post("/logout"))
                 .andExpect(status().is(404));
+	}
+	
+	private String login(String username, String password, long expirationMilli) throws Exception {
+		
+		MvcResult result = mvc.perform(post("/login")
+                .param("username", "admin@example.com")
+                .param("password", "admin!")
+                .param("expirationMilli", Long.toString(expirationMilli))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
+                .andReturn();
+
+		return result.getResponse().getHeader(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME);     
 	}
 }
