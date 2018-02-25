@@ -11,14 +11,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
 import com.naturalprogrammer.spring.lemon.util.LemonUtils;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
-import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 
 @Sql({"/test-data/initialize.sql", "/test-data/finalize.sql"})
 public class SignupMvcTests extends AbstractMvcTests {
