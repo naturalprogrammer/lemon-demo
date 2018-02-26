@@ -53,7 +53,7 @@ public class FetchUserMvcTests extends AbstractMvcTests {
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID)))
                 .andExpect(status().is(200))
 				.andExpect(jsonPath("$.id").value(UNVERIFIED_USER_ID))
-				.andExpect(jsonPath("$.email").value("unverifieduser@example.com"));
+				.andExpect(jsonPath("$.email").value(UNVERIFIED_USER_EMAIL));
 	}
 	
 	@Test

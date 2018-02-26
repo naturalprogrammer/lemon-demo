@@ -21,8 +21,6 @@ import com.naturalprogrammer.spring.lemondemo.entities.User;
 
 public class VerificationMvcTests extends AbstractMvcTests {
 	
-	private static final String UNVERIFIED_EMAIL = "unverifieduser@example.com";
-	
 	private String verificationCode;
 	
 	@Autowired
@@ -33,7 +31,7 @@ public class VerificationMvcTests extends AbstractMvcTests {
 		
 		verificationCode = jwtService.createToken(JwtService.VERIFY_AUDIENCE,
 				Long.toString(UNVERIFIED_USER_ID), 60000L,
-				LemonUtils.mapOf("email", UNVERIFIED_EMAIL));
+				LemonUtils.mapOf("email", UNVERIFIED_USER_EMAIL));
 	}
 	
 	@Test
@@ -84,7 +82,7 @@ public class VerificationMvcTests extends AbstractMvcTests {
 		// Wrong audience
 		String token = jwtService.createToken("wrong-audience",
 				Long.toString(UNVERIFIED_USER_ID), 60000L,
-				LemonUtils.mapOf("email", UNVERIFIED_EMAIL));
+				LemonUtils.mapOf("email", UNVERIFIED_USER_EMAIL));
 		mvc.perform(post("/api/core/users/{userId}/verification", UNVERIFIED_USER_ID)
                 .param("code", token)
                 .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
@@ -102,7 +100,7 @@ public class VerificationMvcTests extends AbstractMvcTests {
 		// expired token
 		token = jwtService.createToken(JwtService.VERIFY_AUDIENCE,
 				Long.toString(UNVERIFIED_USER_ID), 1L,
-				LemonUtils.mapOf("email", UNVERIFIED_EMAIL));	
+				LemonUtils.mapOf("email", UNVERIFIED_USER_EMAIL));	
 		Thread.sleep(5L);
 		mvc.perform(post("/api/core/users/{userId}/verification", UNVERIFIED_USER_ID)
                 .param("code", token)
