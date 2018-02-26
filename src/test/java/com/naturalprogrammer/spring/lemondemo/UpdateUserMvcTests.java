@@ -1,11 +1,8 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -29,19 +26,19 @@ public class UpdateUserMvcTests extends AbstractMvcTests {
 	
 	private static final String UPDATED_NAME = "Edited name";
 	
-    private String userPatch1;
-    private String userPatchRevokeAdmin;
+    private String userPatch;
+    private String userPatchAdminRole;
     private String userPatchNullName;
     private String userPatchLongName;
 	
-	@Value("classpath:/update-user/patch-1.json")
-	public void setUserPatch1(Resource patch) throws IOException {
-		this.userPatch1 = LemonUtils.toString(patch);
+	@Value("classpath:/update-user/patch-update-user.json")
+	public void setUserPatch(Resource patch) throws IOException {
+		this.userPatch = LemonUtils.toString(patch);
 	}
 	
-	@Value("classpath:/update-user/patch-revoke-admin.json")
-	public void setUserPatchRevokeAdmin(Resource patch) throws IOException {
-		this.userPatchRevokeAdmin = LemonUtils.toString(patch);;
+	@Value("classpath:/update-user/patch-admin-role.json")
+	public void setUserPatchAdminRole(Resource patch) throws IOException {
+		this.userPatchAdminRole = LemonUtils.toString(patch);;
 	}
 
 	@Value("classpath:/update-user/patch-null-name.json")
@@ -67,7 +64,7 @@ public class UpdateUserMvcTests extends AbstractMvcTests {
 		mvc.perform(patch("/api/core/users/{id}", UNVERIFIED_USER_ID)
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
-				.content(userPatch1))
+				.content(userPatch))
 				.andExpect(status().is(200))
 				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
 				.andExpect(jsonPath("$.tag.name").value(UPDATED_NAME))
@@ -84,70 +81,131 @@ public class UpdateUserMvcTests extends AbstractMvcTests {
 		Assert.assertEquals(1, user.getRoles().size());
 		Assert.assertTrue(user.getRoles().contains(Role.UNVERIFIED));
 		Assert.assertEquals(2L, user.getVersion().longValue());
+		
+		// Version mismatch
+		mvc.perform(patch("/api/core/users/{id}", UNVERIFIED_USER_ID)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
+				.content(userPatch))
+				.andExpect(status().is(409));	
     }
 
+	/**
+	 * A good ADMIN should be able to update another user's name and roles.
+	 * The name of security principal object should NOT change in the process,
+	 * and the verification code should get set/unset on addition/deletion of
+	 * the UNVERIFIED role. 
+	 * @throws Exception 
+	 */
 	@Test
-	public void testSignupWithInvalidData() throws Exception {
+    public void testGoodAdminCanUpdateOther() throws Exception {
 		
-		User invalidUser = new User("abc", "user1", null);
-
-		mvc.perform(post("/api/core/users")
+		mvc.perform(patch("/api/core/users/{id}", UNVERIFIED_USER_ID)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(LemonUtils.toJson(invalidUser)))
-				.andExpect(status().is(422))
-				.andExpect(jsonPath("$.errors[*].field").value(allOf(hasSize(4),
-					hasItems("user.email", "user.password", "user.name"))));
-	}
-
-	@Test
-	public void testUpdateUser() throws Exception {
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID))
+				.content(userPatch))
+				.andExpect(status().is(200))
+				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
+				.andExpect(jsonPath("$.id").value(UNVERIFIED_USER_ID))
+				.andExpect(jsonPath("$.tag.name").value(UPDATED_NAME))
+				.andExpect(jsonPath("$.roles").value(hasSize(1)))
+				.andExpect(jsonPath("$.roles[0]").value("ADMIN"))
+				.andExpect(jsonPath("$.username").value(UNVERIFIED_USER_EMAIL))
+				.andExpect(jsonPath("$.unverified").value(false))
+				.andExpect(jsonPath("$.admin").value(true));
 		
-		User user = new User("user.foo@example.com", "user123", "User Foo");
+		User user = userRepository.findById(UNVERIFIED_USER_ID).get();
+    	
+		// Ensure that data changed properly
+		Assert.assertEquals(UNVERIFIED_USER_EMAIL, user.getEmail());
+		Assert.assertEquals(1, user.getRoles().size());
+		Assert.assertTrue(user.getRoles().contains(Role.ADMIN));
+    }
+	
+	/**
+	 * Providing an unknown id should throw exception.
+	 * @throws Exception 
+	 */
+	@Test
+    public void testUpdateUnknownId() throws Exception {
+    	
+		mvc.perform(patch("/api/core/users/{id}", 99)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID))
+				.content(userPatch))
+				.andExpect(status().is(404));
+    }
+	
+	/**
+	 * A non-admin trying to update the name and roles of another user should throw exception
+	 * @throws Exception 
+	 */
+	@Test
+    public void testUpdateAnotherUser() throws Exception {
+    	
+		mvc.perform(patch("/api/core/users/{id}", ADMIN_ID)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
+				.content(userPatch))
+				.andExpect(status().is(403));
+    }
+
+	/**
+	 * A bad ADMIN trying to update the name and roles of another user should throw exception
+	 * @throws Exception 
+	 */
+	@Test
+    public void testBadAdminUpdateAnotherUser() throws Exception {
+		
+		mvc.perform(patch("/api/core/users/{id}", UNVERIFIED_USER_ID)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_ADMIN_ID))
+				.content(userPatch))
+				.andExpect(status().is(403));
 
 		mvc.perform(patch("/api/core/users/{id}", UNVERIFIED_USER_ID)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(LemonUtils.toJson(user)))
-				.andExpect(status().is(201))
-				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
-				.andExpect(jsonPath("$.id").exists())
-				.andExpect(jsonPath("$.password").doesNotExist())
-				.andExpect(jsonPath("$.nonce").doesNotExist())
-				.andExpect(jsonPath("$.username").value("user.foo@example.com"))
-				.andExpect(jsonPath("$.roles").value(hasSize(1)))
-				.andExpect(jsonPath("$.roles[0]").value("UNVERIFIED"))
-				.andExpect(jsonPath("$.tag.name").value("User Foo"))
-				.andExpect(jsonPath("$.unverified").value(true))
-				.andExpect(jsonPath("$.blocked").value(false))
-				.andExpect(jsonPath("$.admin").value(false))
-				.andExpect(jsonPath("$.goodUser").value(false))
-				.andExpect(jsonPath("$.goodAdmin").value(false));
-		
-		// Ensure that password got encrypted
-		Assert.assertNotEquals("user123", userRepository.findByEmail("user.foo@example.com").get().getPassword());
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(BLOCKED_ADMIN_ID))
+				.content(userPatch))
+				.andExpect(status().is(403));
 	}
-	
-//	@Test
-//	public void testSignupLoggedIn() throws Exception {
-//		
-//		String adminToken = login("admin@example.com", "admin!");
-//
-//		User user = new User("user1@example.com", "user123", "User 1");
-//
-//		mvc.perform(post("/api/core/users")
-//				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, adminToken)
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(LemonUtils.toJson(user)))
-//				.andExpect(status().is(403));
-//	}
-//	
-	@Test
-	public void testSignupDuplicateEmail() throws Exception {
-		
-		User user = new User("user@example.com", "user123", "User");
 
-		mvc.perform(post("/api/core/users")
+	/**
+	 * A good ADMIN should not be able to change his own roles
+	 * @throws Exception 
+	 */
+	@Test
+    public void goodAdminCanNotUpdateSelfRoles() throws Exception {
+    	
+		mvc.perform(patch("/api/core/users/{id}", ADMIN_ID)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(LemonUtils.toJson(user)))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID))
+				.content(userPatchAdminRole))
+				.andExpect(status().is(200))
+				.andExpect(jsonPath("$.tag.name").value(UPDATED_NAME))
+				.andExpect(jsonPath("$.roles").value(hasSize(1)))
+				.andExpect(jsonPath("$.roles[0]").value("ADMIN"));
+    }
+	
+	/**
+	 * Invalid name
+	 * @throws Exception 
+	 */
+	@Test
+    public void testUpdateUserInvalidNewName() throws Exception {
+    	
+		// Null name
+		mvc.perform(patch("/api/core/users/{id}", UNVERIFIED_USER_ID)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
+				.content(userPatchNullName))
 				.andExpect(status().is(422));
-	}
+
+		// Too long name
+		mvc.perform(patch("/api/core/users/{id}", UNVERIFIED_USER_ID)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
+				.content(userPatchLongName))
+				.andExpect(status().is(422));
+    }
 }

@@ -1,6 +1,0 @@
-[
-  {"op": "replace", "path": "/name", "value": "Edited name"},
-  {"op": "replace", "path": "/unverified", "value": true},
-  {"op": "replace", "path": "/admin", "value": true},
-  {"op": "replace", "path": "/version", "value": 1}  
-]

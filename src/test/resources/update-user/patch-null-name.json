@@ -1,4 +1,4 @@
 [
   {"op": "replace", "path": "/name", "value": null},
-  {"op": "replace", "path": "/version", "value": 0}  
+  {"op": "replace", "path": "/version", "value": 1}  
 ]

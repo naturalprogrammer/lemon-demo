@@ -24,7 +24,6 @@ import javax.sql.DataSource;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.Matcher;
 import org.junit.Assert;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.restassured3.RestAssuredRestDocumentation;
@@ -39,26 +38,26 @@ import io.restassured.specification.RequestSpecification;
 @Component
 public class MyTestUtil {
 	
-    private static String userPatchBadAdmin;
-    private static String userPatch2;
-    
-	public static String getUserPatchBadAdmin() {
-		return userPatchBadAdmin;
-	}
-	
-	public static String getUserPatch2() {
-		return userPatch2;
-	}
-
-	@Value("classpath:/update-user/patch-bad-admin.json")
-	public void setUserPatchBadAdmin(Resource patch) throws IOException {
-		MyTestUtil.userPatchBadAdmin = MyTestUtil.toString(patch);;
-	}	
-	
-	@Value("classpath:/update-user/patch-2.json")
-	public void setUserPatch2(Resource patch) throws IOException {
-		this.userPatch2 = MyTestUtil.toString(patch);;
-	}
+//    private static String userPatchBadAdmin;
+//    private static String userPatch2;
+//    
+//	public static String getUserPatchBadAdmin() {
+//		return userPatchBadAdmin;
+//	}
+//	
+//	public static String getUserPatch2() {
+//		return userPatch2;
+//	}
+//
+//	@Value("classpath:/update-user/patch-bad-admin.json")
+//	public void setUserPatchBadAdmin(Resource patch) throws IOException {
+//		MyTestUtil.userPatchBadAdmin = MyTestUtil.toString(patch);;
+//	}	
+//	
+//	@Value("classpath:/update-user/patch-2.json")
+//	public void setUserPatch2(Resource patch) throws IOException {
+//		this.userPatch2 = MyTestUtil.toString(patch);;
+//	}
 
 	public static RequestSpecification configureFilters() {
 		
