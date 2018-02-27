@@ -123,8 +123,7 @@ public class UpdateUserMvcTests extends AbstractMvcTests {
     }
 	
 	/**
-	 * Providing an unknown id should throw exception.
-	 * @throws Exception 
+	 * Providing an unknown id should return 404.
 	 */
 	@Test
     public void testUpdateUnknownId() throws Exception {

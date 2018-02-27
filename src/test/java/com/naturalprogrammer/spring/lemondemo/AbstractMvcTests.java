@@ -42,6 +42,7 @@ public class AbstractMvcTests {
 	protected static final String ADMIN_EMAIL = "admin@example.com";
 	protected static final String ADMIN_PASSWORD = "admin!";
 	
+	protected static final String USER_PASSWORD = "Sanjay99!";
 	protected static final String UNVERIFIED_USER_EMAIL = "unverifieduser@example.com";
 	
 	protected Map<Long, String> tokens = new HashMap<>(6);
@@ -68,10 +69,10 @@ public class AbstractMvcTests {
     public void baseSetUp() throws Exception {
     	
 		tokens.put(ADMIN_ID, login(ADMIN_EMAIL, ADMIN_PASSWORD));
-		tokens.put(UNVERIFIED_ADMIN_ID, login("unverifiedadmin@example.com", "admin!"));
-		tokens.put(BLOCKED_ADMIN_ID, login("blockedadmin@example.com", "admin!"));
-		tokens.put(USER_ID, login("user@example.com", "admin!"));
-		tokens.put(UNVERIFIED_USER_ID, login(UNVERIFIED_USER_EMAIL, "admin!"));
-		tokens.put(BLOCKED_USER_ID, login("blockeduser@example.com", "admin!"));
+		tokens.put(UNVERIFIED_ADMIN_ID, login("unverifiedadmin@example.com", ADMIN_PASSWORD));
+		tokens.put(BLOCKED_ADMIN_ID, login("blockedadmin@example.com", ADMIN_PASSWORD));
+		tokens.put(USER_ID, login("user@example.com", USER_PASSWORD));
+		tokens.put(UNVERIFIED_USER_ID, login(UNVERIFIED_USER_EMAIL, USER_PASSWORD));
+		tokens.put(BLOCKED_USER_ID, login("blockeduser@example.com", USER_PASSWORD));
     }
 }
