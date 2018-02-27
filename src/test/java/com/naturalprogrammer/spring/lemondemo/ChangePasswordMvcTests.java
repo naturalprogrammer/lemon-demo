@@ -9,7 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
@@ -17,7 +16,6 @@ import org.springframework.test.context.jdbc.Sql;
 import com.naturalprogrammer.spring.lemon.domain.ChangePasswordForm;
 import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
 import com.naturalprogrammer.spring.lemon.util.LemonUtils;
-import com.naturalprogrammer.spring.lemondemo.entities.User;
 
 @Sql({"/test-data/initialize.sql", "/test-data/finalize.sql"})
 public class ChangePasswordMvcTests extends AbstractMvcTests {
