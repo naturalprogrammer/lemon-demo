@@ -8,12 +8,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Date;
+
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
+import com.naturalprogrammer.spring.lemondemo.entities.User;
 
 @Sql({"/test-data/initialize.sql", "/test-data/finalize.sql"})
 public class LoginMvcTests extends AbstractMvcTests {
@@ -24,7 +27,7 @@ public class LoginMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/login")
                 .param("username", ADMIN_EMAIL)
                 .param("password", ADMIN_PASSWORD)
-                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
+                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is(200))
 				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
 				.andExpect(jsonPath("$.id").value(ADMIN_ID))
@@ -62,13 +65,29 @@ public class LoginMvcTests extends AbstractMvcTests {
 				.andExpect(status().is(401));
 	}
 
+	/**
+	 * Token won't work if the credentials of the user gets updated afterwards
+	 */
+	@Test
+	public void testObsoleteToken() throws Exception {
+		
+		// credentials updated
+		User user = userRepository.findById(ADMIN_ID).get();
+		user.setCredentialsUpdatedAt(new Date());
+		userRepository.save(user);
+		
+		mvc.perform(get("/api/core/ping")
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID)))
+				.andExpect(status().is(401));
+	}
+
 	@Test
 	public void testLoginWrongPassword() throws Exception {
 		
 		mvc.perform(post("/login")
                 .param("username", ADMIN_EMAIL)
                 .param("password", "wrong-password")
-                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
+                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is(401));
 	}
 
@@ -78,7 +97,7 @@ public class LoginMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/login")
                 .param("username", ADMIN_EMAIL)
                 .param("password", "")
-                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
+                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is(401));
 	}
 
@@ -112,7 +131,7 @@ public class LoginMvcTests extends AbstractMvcTests {
                 .param("username", ADMIN_EMAIL)
                 .param("password", ADMIN_PASSWORD)
                 .param("expirationMilli", Long.toString(expirationMilli))
-                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
+                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andReturn();
 
 		return result.getResponse().getHeader(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME);     

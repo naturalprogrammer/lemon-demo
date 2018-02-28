@@ -68,7 +68,7 @@ public class FetchUserMvcTests extends AbstractMvcTests {
 		
 		mvc.perform(post("/api/core/users/fetch-by-email")
                 .param("email", ADMIN_EMAIL)
-                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
+                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is(200))
 				.andExpect(jsonPath("$.id").value(ADMIN_ID))
 				.andExpect(jsonPath("$.password").doesNotExist())
@@ -83,19 +83,19 @@ public class FetchUserMvcTests extends AbstractMvcTests {
 		// email does not exist
 		mvc.perform(post("/api/core/users/fetch-by-email")
                 .param("email", "foo@example.com")
-                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
+                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is(404));
 
 		// Blank email
 		mvc.perform(post("/api/core/users/fetch-by-email")
                 .param("email", "")
-                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
+                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is(422));
 
 		// Invalid email
 		mvc.perform(post("/api/core/users/fetch-by-email")
                 .param("email", "invalid-email")
-                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
+                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is(422));
 	}
 }

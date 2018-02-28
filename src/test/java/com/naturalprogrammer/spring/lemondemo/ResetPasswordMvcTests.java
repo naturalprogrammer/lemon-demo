@@ -37,7 +37,7 @@ public class ResetPasswordMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/api/core/reset-password")
                 .param("code", forgotPasswordCode)
                 .param("newPassword", NEW_PASSWORD)
-                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
+                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
 		        .andExpect(status().is(200))
 				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
 				.andExpect(jsonPath("$.id").value(ADMIN_ID));
@@ -49,7 +49,7 @@ public class ResetPasswordMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/api/core/reset-password")
                 .param("code", forgotPasswordCode)
                 .param("newPassword", NEW_PASSWORD)
-                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
+                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
 		        .andExpect(status().is(401));
 	}
 	
@@ -60,21 +60,21 @@ public class ResetPasswordMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/api/core/reset-password")
                 .param("code", "wrong-code")
                 .param("newPassword", "abc99!")
-                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
+                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
 		        .andExpect(status().is(401));
 
 		// Blank password
 		mvc.perform(post("/api/core/reset-password")
                 .param("code", forgotPasswordCode)
                 .param("newPassword", "")
-                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
+                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
 		        .andExpect(status().is(422));
 
 		// Invalid password
 		mvc.perform(post("/api/core/reset-password")
                 .param("code", forgotPasswordCode)
                 .param("newPassword", "abc")
-                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
+                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
 		        .andExpect(status().is(422));
 	}
 }
