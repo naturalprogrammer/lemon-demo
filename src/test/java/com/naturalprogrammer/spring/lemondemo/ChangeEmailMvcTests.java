@@ -121,7 +121,7 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 	public void testChangeEmailObsoleteCode() throws Exception {
 
 		// credentials updated after the request for email change was made
-		Thread.sleep(1001L);
+		// Thread.sleep(1001L);
 		User user = userRepository.findById(UNVERIFIED_USER_ID).get();
 		user.setCredentialsUpdatedAt(new Date());
 		userRepository.save(user);

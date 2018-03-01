@@ -46,7 +46,7 @@ public class ResetPasswordMvcTests extends AbstractMvcTests {
 		login(ADMIN_EMAIL, NEW_PASSWORD);
 		
 	    // Repeating shouldn't work
-		Thread.sleep(1001L);
+		// Thread.sleep(1001L);
 		mvc.perform(post("/api/core/reset-password")
                 .param("code", forgotPasswordCode)
                 .param("newPassword", NEW_PASSWORD)

@@ -100,7 +100,7 @@ public class VerificationMvcTests extends AbstractMvcTests {
 		token = jwtService.createToken(JwtService.VERIFY_AUDIENCE,
 				Long.toString(UNVERIFIED_USER_ID), 1L,
 				LemonUtils.mapOf("email", UNVERIFIED_USER_EMAIL));	
-		Thread.sleep(1001L);
+		// Thread.sleep(1001L);
 		mvc.perform(post("/api/core/users/{userId}/verification", UNVERIFIED_USER_ID)
                 .param("code", token)
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
@@ -111,7 +111,7 @@ public class VerificationMvcTests extends AbstractMvcTests {
 	public void testEmailVerificationAfterCredentialsUpdate() throws Exception {
 		
 		// Credentials updated after the verification token is issued
-		Thread.sleep(1001L);
+		// Thread.sleep(1001L);
 		User user = userRepository.findById(UNVERIFIED_USER_ID).get();
 		user.setCredentialsUpdatedAt(new Date());
 		userRepository.save(user);

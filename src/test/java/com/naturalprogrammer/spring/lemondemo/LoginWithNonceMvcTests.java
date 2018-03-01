@@ -71,7 +71,7 @@ public class LoginWithNonceMvcTests extends AbstractMvcTests {
 	public void testLoginWithNonceExpiryShouldFail() throws Exception {
 		
 		String token = loginWithNonce(100L);
-		Thread.sleep(1001L);
+		Thread.sleep(101L);
 		
 		mvc.perform(get("/api/core/context")
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, token))
@@ -115,11 +115,11 @@ public class LoginWithNonceMvcTests extends AbstractMvcTests {
 				.andExpect(status().is(401));
 	}
 
-	private String loginWithNonce(Long jwtexpirationMillis) throws JsonProcessingException, Exception {
+	private String loginWithNonce(Long jwtExpirationMillis) throws JsonProcessingException, Exception {
 
         MvcResult result = mvc.perform(post("/api/core/login-with-nonce")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(LemonUtils.toJson(form(jwtexpirationMillis))))
+				.content(LemonUtils.toJson(form(jwtExpirationMillis))))
 				.andExpect(status().is(200))
 				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
 				.andExpect(jsonPath("$.id").value(UNVERIFIED_USER_ID))

@@ -59,7 +59,7 @@ public class LoginMvcTests extends AbstractMvcTests {
 //				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, token))
 //				.andExpect(status().is(204));
 		// but, does expire after 500ms
-		Thread.sleep(1501L);
+		Thread.sleep(501L);
 		mvc.perform(get("/api/core/ping")
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, token))
 				.andExpect(status().is(401));

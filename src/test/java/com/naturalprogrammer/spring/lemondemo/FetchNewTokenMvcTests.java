@@ -36,7 +36,7 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 		
 		MvcResult result = mvc.perform(post("/api/core/fetch-new-token")
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
-		        .param("expirationMillis", "1000")
+		        .param("expirationMillis", "100")
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is(204))
 				.andReturn();
@@ -44,7 +44,7 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 		String newToken = result.getResponse().getHeader(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME);
 		
 		ensureTokenWorks(newToken);
-		Thread.sleep(1001L);
+		Thread.sleep(101L);
 		mvc.perform(get("/api/core/context")
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, newToken))
 				.andExpect(status().is(401));
