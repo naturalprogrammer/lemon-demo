@@ -1,6 +1,8 @@
 package com.naturalprogrammer.spring.lemondemo;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.HashMap;
@@ -75,4 +77,13 @@ public class AbstractMvcTests {
 		tokens.put(UNVERIFIED_USER_ID, login(UNVERIFIED_USER_EMAIL, USER_PASSWORD));
 		tokens.put(BLOCKED_USER_ID, login("blockeduser@example.com", USER_PASSWORD));
     }
+    
+	
+	protected void ensureTokenWorks(String token) throws Exception {
+
+		mvc.perform(get("/api/core/context")
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, token))
+				.andExpect(status().is(200))
+				.andExpect(jsonPath("$.user.id").value(UNVERIFIED_USER_ID));
+	}
 }

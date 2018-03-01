@@ -125,12 +125,12 @@ public class LoginMvcTests extends AbstractMvcTests {
                 .andExpect(status().is(404));
 	}
 	
-	private String login(String username, String password, long expirationMilli) throws Exception {
+	private String login(String username, String password, long expirationMillis) throws Exception {
 		
 		MvcResult result = mvc.perform(post("/login")
                 .param("username", ADMIN_EMAIL)
                 .param("password", ADMIN_PASSWORD)
-                .param("expirationMilli", Long.toString(expirationMilli))
+                .param("expirationMillis", Long.toString(expirationMillis))
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andReturn();
 

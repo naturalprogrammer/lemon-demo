@@ -126,12 +126,4 @@ public class LoginWithNonceMvcTests extends AbstractMvcTests {
 
         return result.getResponse().getHeader(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME);
 	}
-	
-	private void ensureTokenWorks(String token) throws Exception {
-
-		mvc.perform(get("/api/core/context")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, token))
-				.andExpect(status().is(200))
-				.andExpect(jsonPath("$.user.id").value(UNVERIFIED_USER_ID));
-	}
 }
