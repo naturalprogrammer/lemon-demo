@@ -26,8 +26,8 @@ import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest({
-	"logging.level.root=ERROR",
-	"debug=false",
+	"logging.level.com.naturalprogrammer=ERROR",
+	"logging.level.org.springframework=ERROR",
 	"lemon.recaptcha.sitekey="
 })
 @AutoConfigureMockMvc(secure=false)
