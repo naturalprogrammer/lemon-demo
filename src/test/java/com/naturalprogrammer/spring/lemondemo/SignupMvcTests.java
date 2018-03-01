@@ -1,6 +1,5 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
@@ -30,8 +29,9 @@ public class SignupMvcTests extends AbstractMvcTests {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(LemonUtils.toJson(invalidUser)))
 				.andExpect(status().is(422))
-				.andExpect(jsonPath("$.errors[*].field").value(allOf(hasSize(4),
-					hasItems("user.email", "user.password", "user.name"))));
+				.andExpect(jsonPath("$.errors[*].field").value(hasSize(4)))
+				.andExpect(jsonPath("$.errors[*].field").value(hasItems(
+					"user.email", "user.password", "user.name")));
 	}
 
 	@Test

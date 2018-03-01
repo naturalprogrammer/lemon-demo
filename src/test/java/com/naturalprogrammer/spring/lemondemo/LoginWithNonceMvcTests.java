@@ -1,6 +1,5 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
@@ -26,12 +25,12 @@ public class LoginWithNonceMvcTests extends AbstractMvcTests {
 	
 	private static final String NONCE = LemonUtils.uid();
 	
-	private NonceForm<Long> form(Long jwtExpirationMilli) {
+	private NonceForm<Long> form(Long jwtexpirationMillis) {
 		
 		NonceForm<Long> nonceForm = new NonceForm<>();
 		nonceForm.setNonce(NONCE);
 		nonceForm.setUserId(UNVERIFIED_USER_ID);
-		nonceForm.setExpirationMilli(jwtExpirationMilli);
+		nonceForm.setexpirationMillis(jwtexpirationMillis);
 		
 		return nonceForm;
 	}
@@ -69,10 +68,10 @@ public class LoginWithNonceMvcTests extends AbstractMvcTests {
 	}
 	
 	@Test
-	public void testLoginWithNonceExpiryFail() throws Exception {
+	public void testLoginWithNonceExpiryShouldFail() throws Exception {
 		
 		String token = loginWithNonce(100L);
-		Thread.sleep(101L);
+		Thread.sleep(1001L);
 		
 		mvc.perform(get("/api/core/context")
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, token))
@@ -86,8 +85,10 @@ public class LoginWithNonceMvcTests extends AbstractMvcTests {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(LemonUtils.toJson(new NonceForm<Long>())))
 				.andExpect(status().is(422))
-				.andExpect(jsonPath("$.errors[*].field").value(allOf(hasSize(2),
-						hasItems("nonce.userId", "nonce.nonce"))));
+				.andExpect(jsonPath("$.errors[*].field").value(hasSize(2)))
+				.andExpect(jsonPath("$.errors[*].field").value(hasItems(
+						"nonce.userId",
+						"nonce.nonce")));
 	}
 
 	@Test
@@ -114,11 +115,11 @@ public class LoginWithNonceMvcTests extends AbstractMvcTests {
 				.andExpect(status().is(401));
 	}
 
-	private String loginWithNonce(Long jwtExpirationMilli) throws JsonProcessingException, Exception {
+	private String loginWithNonce(Long jwtexpirationMillis) throws JsonProcessingException, Exception {
 
         MvcResult result = mvc.perform(post("/api/core/login-with-nonce")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(LemonUtils.toJson(form(jwtExpirationMilli))))
+				.content(LemonUtils.toJson(form(jwtexpirationMillis))))
 				.andExpect(status().is(200))
 				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
 				.andExpect(jsonPath("$.id").value(UNVERIFIED_USER_ID))

@@ -1,6 +1,5 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
@@ -120,10 +119,11 @@ public class ChangePasswordMvcTests extends AbstractMvcTests {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(LemonUtils.toJson(new ChangePasswordForm())))
 				.andExpect(status().is(422))
-				.andExpect(jsonPath("$.errors[*].field").value(allOf(hasSize(3),
-					hasItems("changePasswordForm.oldPassword",
-							 "changePasswordForm.retypePassword",
-							 "changePasswordForm.password"))));
+				.andExpect(jsonPath("$.errors[*].field").value(hasSize(3)))
+				.andExpect(jsonPath("$.errors[*].field").value(hasItems(
+						"changePasswordForm.oldPassword",
+						 "changePasswordForm.retypePassword",
+						 "changePasswordForm.password")));
 		
 		// All fields too short
 		ChangePasswordForm form = new ChangePasswordForm();
@@ -136,10 +136,11 @@ public class ChangePasswordMvcTests extends AbstractMvcTests {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(LemonUtils.toJson(form)))
 				.andExpect(status().is(422))
-				.andExpect(jsonPath("$.errors[*].field").value(allOf(hasSize(3),
-					hasItems("changePasswordForm.oldPassword",
-							 "changePasswordForm.retypePassword",
-							 "changePasswordForm.password"))));
+				.andExpect(jsonPath("$.errors[*].field").value(hasSize(3)))
+				.andExpect(jsonPath("$.errors[*].field").value(hasItems(
+						"changePasswordForm.oldPassword",
+						 "changePasswordForm.retypePassword",
+						 "changePasswordForm.password")));
 		
 		form = changePasswordForm(USER_PASSWORD);
 		form.setRetypePassword("different-retype-password");
@@ -149,8 +150,9 @@ public class ChangePasswordMvcTests extends AbstractMvcTests {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(LemonUtils.toJson(form)))
 				.andExpect(status().is(422))
-				.andExpect(jsonPath("$.errors[*].field").value(allOf(hasSize(2),
-					hasItems("changePasswordForm.retypePassword",
-							 "changePasswordForm.password"))));
+				.andExpect(jsonPath("$.errors[*].field").value(hasSize(2)))
+				.andExpect(jsonPath("$.errors[*].field").value(hasItems(
+						 "changePasswordForm.retypePassword",
+						 "changePasswordForm.password")));
 	}
 }

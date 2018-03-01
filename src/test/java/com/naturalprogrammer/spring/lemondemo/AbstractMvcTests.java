@@ -26,12 +26,14 @@ import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest({
+	"logging.level.root=ERROR",
+	"debug=false",
 	"lemon.recaptcha.sitekey="
 })
 @AutoConfigureMockMvc(secure=false)
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.HSQL)
 @Sql({"/test-data/initialize.sql", "/test-data/finalize.sql"})
-public class AbstractMvcTests {
+public abstract class AbstractMvcTests {
 	
 	protected static final long ADMIN_ID = 101L;
 	protected static final long UNVERIFIED_ADMIN_ID = 102L;

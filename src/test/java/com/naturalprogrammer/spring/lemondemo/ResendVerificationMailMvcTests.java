@@ -1,6 +1,5 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -48,7 +47,7 @@ public class ResendVerificationMailMvcTests extends AbstractMvcTests {
 	@Test
 	public void testResendVerificationMailAlreadyVerified() throws Exception {
 		
-		mvc.perform(get("/api/core/users/{id}/resend-verification-mail", USER_ID)
+		mvc.perform(post("/api/core/users/{id}/resend-verification-mail", USER_ID)
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(USER_ID)))
 			.andExpect(status().is(422));
 	}

@@ -1,6 +1,5 @@
 package com.naturalprogrammer.spring.lemondemo;
 
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -121,9 +120,10 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
 				.content(LemonUtils.toJson(new User())))
 				.andExpect(status().is(422))
-				.andExpect(jsonPath("$.errors[*].field").value(allOf(hasSize(2),
-					hasItems("updatedUser.newEmail",
-							 "updatedUser.password"))));
+				.andExpect(jsonPath("$.errors[*].field").value(hasSize(2)))
+				.andExpect(jsonPath("$.errors[*].field").value(hasItems(
+						"updatedUser.newEmail",
+						"updatedUser.password")));
     	
 		User updatedUser = new User();
 		updatedUser.setPassword("");
@@ -135,9 +135,10 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
 				.content(LemonUtils.toJson(updatedUser)))
 				.andExpect(status().is(422))
-				.andExpect(jsonPath("$.errors[*].field").value(allOf(hasSize(4),
-					hasItems("updatedUser.newEmail",
-							 "updatedUser.password"))));
+				.andExpect(jsonPath("$.errors[*].field").value(hasSize(4)))
+				.andExpect(jsonPath("$.errors[*].field").value(hasItems(
+						"updatedUser.newEmail",
+						"updatedUser.password")));
 
 		// try with invalid newEmail
 		updatedUser = form();
@@ -147,8 +148,8 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
 				.content(LemonUtils.toJson(updatedUser)))
 				.andExpect(status().is(422))
-				.andExpect(jsonPath("$.errors[*].field").value(allOf(hasSize(1),
-					hasItems("updatedUser.newEmail"))));
+				.andExpect(jsonPath("$.errors[*].field").value(hasSize(1)))
+				.andExpect(jsonPath("$.errors[*].field").value(hasItems("updatedUser.newEmail")));
 
 		// try with wrong password
 		updatedUser = form();
@@ -158,8 +159,8 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
 				.content(LemonUtils.toJson(updatedUser)))
 				.andExpect(status().is(422))
-				.andExpect(jsonPath("$.errors[*].field").value(allOf(hasSize(1),
-					hasItems("updatedUser.password"))));
+				.andExpect(jsonPath("$.errors[*].field").value(hasSize(1)))
+				.andExpect(jsonPath("$.errors[*].field").value(hasItems("updatedUser.password")));
 
 		// try with null password
 		updatedUser = form();
@@ -169,8 +170,8 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
 				.content(LemonUtils.toJson(updatedUser)))
 				.andExpect(status().is(422))
-				.andExpect(jsonPath("$.errors[*].field").value(allOf(hasSize(1),
-					hasItems("updatedUser.password"))));
+				.andExpect(jsonPath("$.errors[*].field").value(hasSize(1)))
+				.andExpect(jsonPath("$.errors[*].field").value(hasItems("updatedUser.password")));
 
 		// try with an existing email
 		updatedUser = form();
@@ -180,7 +181,7 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
 				.content(LemonUtils.toJson(updatedUser)))
 				.andExpect(status().is(422))
-				.andExpect(jsonPath("$.errors[*].field").value(allOf(hasSize(1),
-					hasItems("updatedUser.newEmail"))));
+				.andExpect(jsonPath("$.errors[*].field").value(hasSize(1)))
+				.andExpect(jsonPath("$.errors[*].field").value(hasItems("updatedUser.newEmail")));
 	}
 }

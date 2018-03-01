@@ -112,19 +112,29 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
 		        .andExpect(status().is(403));
+	}
+	
+    /**
+     * Providing an obsolete changeEmailCode shouldn't work.
+     */
+	@Test
+	public void testChangeEmailObsoleteCode() throws Exception {
 
 		// credentials updated after the request for email change was made
+		Thread.sleep(1001L);
 		User user = userRepository.findById(UNVERIFIED_USER_ID).get();
 		user.setCredentialsUpdatedAt(new Date());
 		userRepository.save(user);
+		
 		// A new auth token is needed, because old one would be obsolete!
 		String authToken = login(UNVERIFIED_USER_EMAIL, USER_PASSWORD);
+		
 		// now ready to test!
 		mvc.perform(post("/api/core/users/{id}/email", UNVERIFIED_USER_ID)
                 .param("code", changeEmailCode)
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, authToken)
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
-		        .andExpect(status().is(403));
+		        .andExpect(status().is(401));	
 	}
 	
 	/**

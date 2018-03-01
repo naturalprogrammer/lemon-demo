@@ -44,7 +44,7 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 		String newToken = result.getResponse().getHeader(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME);
 		
 		ensureTokenWorks(newToken);
-		Thread.sleep(1000L);
+		Thread.sleep(1001L);
 		mvc.perform(get("/api/core/context")
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, newToken))
 				.andExpect(status().is(401));
