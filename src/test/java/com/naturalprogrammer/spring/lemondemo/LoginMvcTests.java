@@ -72,11 +72,10 @@ public class LoginMvcTests extends AbstractMvcTests {
 	public void testObsoleteToken() throws Exception {
 		
 		// credentials updated
+		Thread.sleep(1001L);		
 		User user = userRepository.findById(ADMIN_ID).get();
 		user.setCredentialsUpdatedAt(new Date());
 		userRepository.save(user);
-		
-		Thread.sleep(1001L);
 		
 		mvc.perform(get("/api/core/ping")
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID)))

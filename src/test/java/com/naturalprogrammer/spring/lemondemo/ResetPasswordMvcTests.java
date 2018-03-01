@@ -34,6 +34,8 @@ public class ResetPasswordMvcTests extends AbstractMvcTests {
 		
 		final String NEW_PASSWORD = "newPassword!";
 		
+		Thread.sleep(1001L);
+		
 		mvc.perform(post("/api/core/reset-password")
                 .param("code", forgotPasswordCode)
                 .param("newPassword", NEW_PASSWORD)
@@ -46,12 +48,11 @@ public class ResetPasswordMvcTests extends AbstractMvcTests {
 		login(ADMIN_EMAIL, NEW_PASSWORD);
 		
 	    // Repeating shouldn't work
-		// Thread.sleep(1001L);
 		mvc.perform(post("/api/core/reset-password")
                 .param("code", forgotPasswordCode)
                 .param("newPassword", NEW_PASSWORD)
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
-		        .andExpect(status().is(403));
+		        .andExpect(status().is(401));
 	}
 	
 	@Test

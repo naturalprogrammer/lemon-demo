@@ -121,7 +121,7 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 	public void testChangeEmailObsoleteCode() throws Exception {
 
 		// credentials updated after the request for email change was made
-		// Thread.sleep(1001L);
+		Thread.sleep(1001L);
 		User user = userRepository.findById(UNVERIFIED_USER_ID).get();
 		user.setCredentialsUpdatedAt(new Date());
 		userRepository.save(user);
@@ -134,7 +134,7 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
                 .param("code", changeEmailCode)
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, authToken)
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
-		        .andExpect(status().is(401));	
+		        .andExpect(status().is(403));	
 	}
 	
 	/**
