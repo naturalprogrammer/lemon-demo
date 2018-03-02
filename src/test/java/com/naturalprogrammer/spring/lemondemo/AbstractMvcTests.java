@@ -26,7 +26,7 @@ import com.naturalprogrammer.spring.lemondemo.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest({
-	"logging.level.com.naturalprogrammer=ERROR",
+	"logging.level.com.naturalprogrammer=ERROR", // logging.level.root=ERROR does not work: https://stackoverflow.com/questions/49048298/springboottest-not-overriding-logging-level
 	"logging.level.org.springframework=ERROR",
 	"lemon.recaptcha.sitekey="
 })

@@ -7,8 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Date;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,7 +111,7 @@ public class VerificationMvcTests extends AbstractMvcTests {
 		// Credentials updated after the verification token is issued
 		Thread.sleep(1001L);
 		User user = userRepository.findById(UNVERIFIED_USER_ID).get();
-		user.setCredentialsUpdatedAt(new Date());
+		user.setCredentialsUpdatedMillis(System.currentTimeMillis());
 		userRepository.save(user);
 		
 		mvc.perform(post("/api/core/users/{userId}/verification", UNVERIFIED_USER_ID)

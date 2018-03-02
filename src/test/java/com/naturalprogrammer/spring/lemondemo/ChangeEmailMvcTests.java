@@ -6,8 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Date;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -123,7 +121,7 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 		// credentials updated after the request for email change was made
 		Thread.sleep(1001L);
 		User user = userRepository.findById(UNVERIFIED_USER_ID).get();
-		user.setCredentialsUpdatedAt(new Date());
+		user.setCredentialsUpdatedMillis(System.currentTimeMillis());
 		userRepository.save(user);
 		
 		// A new auth token is needed, because old one would be obsolete!

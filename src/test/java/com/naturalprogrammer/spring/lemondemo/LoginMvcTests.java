@@ -8,8 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Date;
-
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
@@ -74,7 +72,7 @@ public class LoginMvcTests extends AbstractMvcTests {
 		// credentials updated
 		Thread.sleep(1001L);		
 		User user = userRepository.findById(ADMIN_ID).get();
-		user.setCredentialsUpdatedAt(new Date());
+		user.setCredentialsUpdatedMillis(System.currentTimeMillis());
 		userRepository.save(user);
 		
 		mvc.perform(get("/api/core/ping")
