@@ -70,7 +70,7 @@ public class LoginMvcTests extends AbstractMvcTests {
 	public void testObsoleteToken() throws Exception {
 		
 		// credentials updated
-		Thread.sleep(1001L);		
+		// Thread.sleep(1001L);		
 		User user = userRepository.findById(ADMIN_ID).get();
 		user.setCredentialsUpdatedMillis(System.currentTimeMillis());
 		userRepository.save(user);

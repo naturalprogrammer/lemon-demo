@@ -34,7 +34,7 @@ public class ResetPasswordMvcTests extends AbstractMvcTests {
 		
 		final String NEW_PASSWORD = "newPassword!";
 		
-		Thread.sleep(1001L);
+		//Thread.sleep(1001L);
 		
 		mvc.perform(post("/api/core/reset-password")
                 .param("code", forgotPasswordCode)
