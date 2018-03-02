@@ -25,12 +25,12 @@ public class LoginWithNonceMvcTests extends AbstractMvcTests {
 	
 	private static final String NONCE = LemonUtils.uid();
 	
-	private NonceForm<Long> form(Long jwtexpirationMillis) {
+	private NonceForm<Long> form(Long jwtExpirationMillis) {
 		
 		NonceForm<Long> nonceForm = new NonceForm<>();
 		nonceForm.setNonce(NONCE);
 		nonceForm.setUserId(UNVERIFIED_USER_ID);
-		nonceForm.setexpirationMillis(jwtexpirationMillis);
+		nonceForm.setExpirationMillis(jwtExpirationMillis);
 		
 		return nonceForm;
 	}
