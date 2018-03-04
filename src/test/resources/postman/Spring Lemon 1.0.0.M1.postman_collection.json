@@ -44,7 +44,7 @@
 					},
 					"response": [
 						{
-							"id": "0345ba24-ce68-4f80-b085-8624fd577d1b",
+							"id": "ce129c02-0b0b-4d29-86fe-c191aa2ad956",
 							"name": "Ping",
 							"originalRequest": {
 								"method": "GET",
@@ -174,7 +174,7 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "multipart/form-data"
 							}
 						],
 						"body": {
@@ -213,7 +213,7 @@
 					},
 					"response": [
 						{
-							"id": "20978cdd-64fe-45e0-a99d-400ba32c4f6a",
+							"id": "25bbab86-2ca0-408f-b1ee-6e9cf0b170c1",
 							"name": "Login",
 							"originalRequest": {
 								"method": "POST",
@@ -361,7 +361,7 @@
 							"body": "{\"id\":1,\"username\":\"admin@example.com\",\"roles\":[\"ADMIN\"],\"tag\":{\"name\":\"Administrator\"},\"unverified\":false,\"blocked\":false,\"admin\":true,\"goodUser\":true,\"goodAdmin\":true}"
 						},
 						{
-							"id": "abe4240b-6f81-40a7-b4fc-45d735dd066d",
+							"id": "4c8227bd-8e29-47d2-bd7d-44bb3239784a",
 							"name": "Login with wrong credentials",
 							"originalRequest": {
 								"method": "POST",
@@ -550,7 +550,7 @@
 					},
 					"response": [
 						{
-							"id": "126adbbb-8faa-41d5-9668-43934491eff0",
+							"id": "b82624fd-8ba9-4c77-bb20-4f35836f8ae3",
 							"name": "Get context with Authorization header",
 							"originalRequest": {
 								"method": "GET",
@@ -673,7 +673,7 @@
 							"body": "{\"context\":{\"reCaptchaSiteKey\":\"  \",\"shared\":{\"fooBar\":\"123...\"}},\"user\":{\"id\":1,\"username\":\"admin@example.com\",\"roles\":[\"ADMIN\"],\"tag\":{\"name\":\"Administrator\"},\"unverified\":false,\"blocked\":false,\"admin\":true,\"goodUser\":true,\"goodAdmin\":true}}"
 						},
 						{
-							"id": "96a79fa6-c205-4266-878b-a1897b2c5494",
+							"id": "d84ef20e-90a7-459d-8832-173fb8937533",
 							"name": "Get context using a wrong Authorization token",
 							"originalRequest": {
 								"method": "GET",
@@ -796,7 +796,7 @@
 							"body": "{\"timestamp\":\"2018-03-03T06:21:34.748+0000\",\"status\":401,\"error\":\"Unauthorized\",\"message\":\"Authentication Failed: Invalid JWT serialization: Missing dot delimiter(s)\",\"path\":\"/api/core/context\"}"
 						},
 						{
-							"id": "152744e2-27f5-469e-b2c4-648d3ed8298f",
+							"id": "2f0adc83-1d84-4f9c-8139-a625a6fd1aa7",
 							"name": "Get context without Authorization header",
 							"originalRequest": {
 								"method": "GET",
@@ -978,7 +978,7 @@
 					},
 					"response": [
 						{
-							"id": "b9234f5a-2df6-48ed-9635-6b3db9f8dfc8",
+							"id": "2bbd99a6-0f41-4318-853d-50e4f3ade807",
 							"name": "Sign up",
 							"originalRequest": {
 								"method": "POST",
@@ -1110,7 +1110,7 @@
 							"body": "{\"id\":2,\"username\":\"skpatel20+lemon1842637@example.com\",\"roles\":[\"UNVERIFIED\"],\"tag\":{\"name\":\"Sample User\"},\"unverified\":true,\"blocked\":false,\"admin\":false,\"goodUser\":false,\"goodAdmin\":false}"
 						},
 						{
-							"id": "9096670d-ff42-412c-a29f-5abd854e5650",
+							"id": "a79ee3ec-b93e-49e8-aecc-01bffe4c7302",
 							"name": "Sign up with invalid data",
 							"originalRequest": {
 								"method": "POST",
@@ -1278,7 +1278,7 @@
 					},
 					"response": [
 						{
-							"id": "27ac9ba0-ebf2-4e61-acf1-9c9522b0ed8d",
+							"id": "b595c9ff-17ec-4080-9eb8-2c43271452fa",
 							"name": "Resend verification mail",
 							"originalRequest": {
 								"method": "POST",
@@ -1441,7 +1441,7 @@
 					},
 					"response": [
 						{
-							"id": "dd9683f0-d77c-4ae0-b813-341fbb61d415",
+							"id": "e8b0af46-c730-4f18-a8a0-b5f64a23d26b",
 							"name": "Verify User",
 							"originalRequest": {
 								"method": "POST",
@@ -1620,7 +1620,7 @@
 					},
 					"response": [
 						{
-							"id": "9049e518-7274-4c13-bf61-9dab6047d636",
+							"id": "3d144d9d-254d-49c0-8eb5-bf1eccd45d53",
 							"name": "Forgot password",
 							"originalRequest": {
 								"method": "POST",
@@ -1787,7 +1787,7 @@
 					},
 					"response": [
 						{
-							"id": "586ec098-1624-4397-afe7-6c184e0ef713",
+							"id": "3cd4a4a8-f0e7-4130-89c0-792f4842cfed",
 							"name": "Reset password",
 							"originalRequest": {
 								"method": "POST",
@@ -1976,7 +1976,7 @@
 					},
 					"response": [
 						{
-							"id": "624dc28b-0ab3-45e0-b210-9d91a09fbde9",
+							"id": "5bed6095-953c-4cd8-9ebe-69b63c21f966",
 							"name": "Fetch user by email - Self or Admin",
 							"originalRequest": {
 								"method": "POST",
@@ -2110,7 +2110,7 @@
 							"body": "{\"id\":2,\"version\":2,\"email\":\"skpatel20+lemon1842637@example.com\",\"roles\":[],\"name\":\"Sample User\",\"new\":false}"
 						},
 						{
-							"id": "f1a31ecd-7230-4e96-a694-8ff7f6448246",
+							"id": "90004ee6-8276-4103-861e-d56d91a886ab",
 							"name": "Fetch user by email - Others",
 							"originalRequest": {
 								"method": "POST",
@@ -2285,7 +2285,7 @@
 					},
 					"response": [
 						{
-							"id": "ee014ce0-70ab-4a04-bc96-5663e8fd8e0c",
+							"id": "e98416fa-980a-4dba-9995-0206d262edb4",
 							"name": "Fetch user by ID - Self or Admin",
 							"originalRequest": {
 								"method": "GET",
@@ -2409,7 +2409,7 @@
 							"body": "{\"id\":2,\"version\":2,\"email\":\"skpatel20+lemon1842637@example.com\",\"roles\":[],\"name\":\"Sample User\",\"new\":false}"
 						},
 						{
-							"id": "b7ae7dba-f5ca-4930-a147-7083a8427a68",
+							"id": "42c482ac-d569-40c5-b244-a8977ad5bfd1",
 							"name": "Fetch user by ID - Others",
 							"originalRequest": {
 								"method": "GET",
@@ -2578,7 +2578,7 @@
 					},
 					"response": [
 						{
-							"id": "99a1a329-2743-499a-b758-744b15f74b84",
+							"id": "59cf0f82-7118-4e46-8af8-1e6502090070",
 							"name": "Update user",
 							"originalRequest": {
 								"method": "PATCH",
@@ -2768,7 +2768,7 @@
 					},
 					"response": [
 						{
-							"id": "d27b69a4-a120-403f-8e83-b0e84db9192e",
+							"id": "19a24a53-308f-43c2-84d7-235850295ed1",
 							"name": "Change password",
 							"originalRequest": {
 								"method": "POST",
@@ -2954,7 +2954,7 @@
 					},
 					"response": [
 						{
-							"id": "df442902-7ce9-462c-82f5-0be8bf9a2be5",
+							"id": "9a850fb9-d7e4-4f4e-99ad-6ceefedb626e",
 							"name": "Requesting for changing email",
 							"originalRequest": {
 								"method": "POST",
@@ -3138,7 +3138,7 @@
 					},
 					"response": [
 						{
-							"id": "084a782f-f045-4583-9baf-110027db9fa4",
+							"id": "7ed2f887-b2e0-4fbf-b669-80aa94bfed20",
 							"name": "Change email",
 							"originalRequest": {
 								"method": "POST",
@@ -3291,12 +3291,12 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "465c68b2-efac-413e-8e7e-2011f513666f",
+								"id": "4cede665-1d25-412b-916f-a48761bf786d",
 								"type": "text/javascript",
 								"exec": [
-									"tests[\"Fetch new token\"] = responseCode.code === 204;",
+									"tests[\"Fetch new token\"] = responseCode.code === 200;",
 									"",
-									"if (responseCode.code === 204)",
+									"if (responseCode.code === 200)",
 									"    postman.setEnvironmentVariable(\"userAuthHeader\", postman.getResponseHeader(\"Lemon-Authorization\"));",
 									""
 								]
@@ -3341,7 +3341,7 @@
 					},
 					"response": [
 						{
-							"id": "0ce03b91-8dd9-455a-8d4d-98e9b9ff7209",
+							"id": "5b607921-e906-434d-8465-6fe3e6d45f1c",
 							"name": "Fetch new token",
 							"originalRequest": {
 								"method": "POST",
@@ -3382,172 +3382,6 @@
 									]
 								}
 							},
-							"status": "No Content",
-							"code": 204,
-							"_postman_previewlanguage": "plain",
-							"header": [
-								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true",
-									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
-								},
-								{
-									"key": "Access-Control-Allow-Headers",
-									"value": "Accept,Accept-Encoding,Accept-Language,Cache-Control,Connection,Content-Length,Content-Type,Cookie,Host,Origin,Pragma,Referer,User-Agent,x-requested-with,X-XSRF-TOKEN,Lemon-Authorization",
-									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
-								},
-								{
-									"key": "Access-Control-Allow-Methods",
-									"value": "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH",
-									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "http://localhost:9000",
-									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
-								},
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "Cache-Control,Connection,Content-Type,Date,Expires,Pragma,Server,Set-Cookie,Transfer-Encoding,X-Content-Type-Options,X-XSS-Protection,X-Frame-Options,X-Application-Context,X-XSRF-TOKEN",
-									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
-								},
-								{
-									"key": "Access-Control-Max-Age",
-									"value": "3600",
-									"name": "Access-Control-Max-Age",
-									"description": "Indicates how long the results of a preflight request can be cached in seconds."
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, no-store, max-age=0, must-revalidate",
-									"name": "Cache-Control",
-									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 03 Mar 2018 08:46:18 GMT",
-									"name": "Date",
-									"description": "The date and time that the message was sent"
-								},
-								{
-									"key": "Expires",
-									"value": "0",
-									"name": "Expires",
-									"description": "Gives the date/time after which the response is considered stale"
-								},
-								{
-									"key": "Lemon-Authorization",
-									"value": "Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..SjO5CE3QN8DmB_6B2bactg.dpjcVOz4WpvQg372G8-hK_VGKg5-PGJa9LQNNnEqZg9GolbCx08VeuDkt2UQkyfagB9RakENZIkaPsUNR5yL3UxfdTziLziQ_kpXCYNeC1I6fxcE2CQtMq1tRE_1sO4kK02TjEywAEU0CxxJy2d0mQ.S6YD2jR9dTAHgCiyURZ8IQ",
-									"name": "Lemon-Authorization",
-									"description": "Custom header"
-								},
-								{
-									"key": "Pragma",
-									"value": "no-cache",
-									"name": "Pragma",
-									"description": "Implementation-specific headers that may have various effects anywhere along the request-response chain."
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff",
-									"name": "X-Content-Type-Options",
-									"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
-								},
-								{
-									"key": "X-Frame-Options",
-									"value": "DENY",
-									"name": "X-Frame-Options",
-									"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
-								},
-								{
-									"key": "X-XSS-Protection",
-									"value": "1; mode=block",
-									"name": "X-XSS-Protection",
-									"description": "Cross-site scripting (XSS) filter"
-								}
-							],
-							"cookie": [],
-							"body": ""
-						}
-					]
-				},
-				{
-					"name": "Login with nonce",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "12f8fc30-3b16-4f61-8c6f-9b2c2b0aa6d3",
-								"type": "text/javascript",
-								"exec": [
-									"tests[\"Login with nonce\"] = responseCode.code === 200;",
-									"",
-									"if (postman.getResponseHeader(\"Lemon-Authorization\"))",
-									"    postman.setEnvironmentVariable(\"userAuthHeader\", postman.getResponseHeader(\"Lemon-Authorization\"));",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"userId\": {{userId}},\n\t\"nonce\": \"a-unique-secret\",\n\t\"expirationMillis\": null\n}"
-						},
-						"url": {
-							"raw": "{{lemonDemoUrl}}/api/core/login-with-nonce",
-							"host": [
-								"{{lemonDemoUrl}}"
-							],
-							"path": [
-								"api",
-								"core",
-								"login-with-nonce"
-							]
-						},
-						"description": "Used for fetching a new Authorization token after a user does social login.\n\nWhen the user finishes social login, he is redirected to the front end url https://front-end.example.com/users/{userId}/{nonce}. The front end should then call this endpoint to receive a Authorization token in the `Lemon-Authorization` header. Note that the nonce can be used only once.\n\n`expirationMillis` is an optional field. If not provided, defaults to 864000000 (10 days)."
-					},
-					"response": [
-						{
-							"id": "0b26ebb5-41cf-4073-b58a-2f4d1c1d5635",
-							"name": "Login with nonce",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"disabled": false
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"userId\": {{userId}},\n\t\"nonce\": \"a-unique-secret\",\n\t\"expirationMillis\": null\n}"
-								},
-								"url": {
-									"raw": "{{lemonDemoUrl}}/api/core/login-with-nonce",
-									"host": [
-										"{{lemonDemoUrl}}"
-									],
-									"path": [
-										"api",
-										"core",
-										"login-with-nonce"
-									]
-								}
-							},
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
@@ -3560,7 +3394,7 @@
 								},
 								{
 									"key": "Access-Control-Allow-Headers",
-									"value": "Accept,Accept-Encoding,Accept-Language,Cache-Control,Connection,Content-Length,Content-Type,Cookie,Host,Origin,Pragma,Referer,User-Agent,x-requested-with,X-XSRF-TOKEN,Lemon-Authorization",
+									"value": "Accept,Accept-Encoding,Accept-Language,Cache-Control,Connection,Content-Length,Content-Type,Cookie,Host,Origin,Pragma,Referer,User-Agent,x-requested-with,Authorization",
 									"name": "Access-Control-Allow-Headers",
 									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
 								},
@@ -3578,7 +3412,7 @@
 								},
 								{
 									"key": "Access-Control-Expose-Headers",
-									"value": "Cache-Control,Connection,Content-Type,Date,Expires,Pragma,Server,Set-Cookie,Transfer-Encoding,X-Content-Type-Options,X-XSS-Protection,X-Frame-Options,X-Application-Context,X-XSRF-TOKEN",
+									"value": "Cache-Control,Connection,Content-Type,Date,Expires,Pragma,Server,Set-Cookie,Transfer-Encoding,X-Content-Type-Options,X-XSS-Protection,X-Frame-Options,X-Application-Context,Lemon-Authorization",
 									"name": "Access-Control-Expose-Headers",
 									"description": "Lets a server whitelist headers that browsers are allowed to access."
 								},
@@ -3602,7 +3436,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sat, 03 Mar 2018 08:57:30 GMT",
+									"value": "Sun, 04 Mar 2018 13:15:40 GMT",
 									"name": "Date",
 									"description": "The date and time that the message was sent"
 								},
@@ -3614,7 +3448,7 @@
 								},
 								{
 									"key": "Lemon-Authorization",
-									"value": "Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..67vCQNaR-VM37YEO571uLg.1jXeBb0Ae1eywMSjc9d8IUA4yidb1uK8JMCR1RiA-RoX3oroBULLi77f_dIQfPHpG_wAaT-j4RfUGvNfWlNU2Fq23gYWLMcEMMzHlOwxTu0zsCIrDI389Z5ElggG_Bxefq9HWwIMkoo91H2bImJY-w.8zgr1-WFF2TaIJdmLIaYtQ",
+									"value": "Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..uVlMfrRtyKZ1kIoqEEG7iw.JkH3RMK2tI8wCLmvSwkPnoY4ljX4dcAx-kyAbtUQKIQbMKLMZF_pzw-8HJ5kSwimLQ52geMi8_sTw7ue9MdP3V0ksNOQjhVDnX3sMpucBz4f4XOf8Rb3zHGTvsjoLJF9.29SwE31IZnDm_78rFQOJ5Q",
 									"name": "Lemon-Authorization",
 									"description": "Custom header"
 								},
@@ -3650,7 +3484,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\"id\":2,\"username\":\"skpatel20+changedlemon6524790@example.com\",\"roles\":[],\"tag\":{\"name\":\"Edited name\"},\"unverified\":false,\"blocked\":false,\"admin\":false,\"goodUser\":true,\"goodAdmin\":false}"
+							"body": "{\"id\":1,\"username\":\"admin@example.com\",\"roles\":[\"ADMIN\"],\"tag\":{\"name\":\"Administrator\"},\"unverified\":false,\"blocked\":false,\"admin\":true,\"goodUser\":true,\"goodAdmin\":true}"
 						}
 					]
 				}

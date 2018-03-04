@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Assert;
@@ -21,8 +22,9 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 		MvcResult result = mvc.perform(post("/api/core/fetch-new-token")
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
-                .andExpect(status().is(204))
+                .andExpect(status().is(200))
 				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
+				.andExpect(jsonPath("$.username").value(UNVERIFIED_USER_EMAIL))
 				.andReturn();
 
 		String newToken = result.getResponse().getHeader(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME);
@@ -38,7 +40,7 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
 		        .param("expirationMillis", "1000")
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
-                .andExpect(status().is(204))
+                .andExpect(status().is(200))
 				.andReturn();
 
 		String newToken = result.getResponse().getHeader(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME);
@@ -58,7 +60,8 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(ADMIN_ID))
 		        .param("username", UNVERIFIED_USER_EMAIL)
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
-                .andExpect(status().is(204))
+                .andExpect(status().is(200))
+				.andExpect(jsonPath("$.username").value(ADMIN_EMAIL)) // should return data of logged in user
 				.andReturn();
 
 		String newToken = result.getResponse().getHeader(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME);

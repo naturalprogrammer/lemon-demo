@@ -30,7 +30,6 @@ public class LoginMvcTests extends AbstractMvcTests {
 				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
 				.andExpect(jsonPath("$.id").value(ADMIN_ID))
 				.andExpect(jsonPath("$.password").doesNotExist())
-				.andExpect(jsonPath("$.nonce").doesNotExist())
 				.andExpect(jsonPath("$.username").value("admin@example.com"))
 				.andExpect(jsonPath("$.roles").value(hasSize(1)))
 				.andExpect(jsonPath("$.roles[0]").value("ADMIN"))

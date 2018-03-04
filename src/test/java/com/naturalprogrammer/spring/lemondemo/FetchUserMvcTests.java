@@ -22,7 +22,6 @@ public class FetchUserMvcTests extends AbstractMvcTests {
 				.andExpect(jsonPath("$.id").value(ADMIN_ID))
 				.andExpect(jsonPath("$.email").doesNotExist())
 				.andExpect(jsonPath("$.password").doesNotExist())
-				.andExpect(jsonPath("$.nonce").doesNotExist())
 				.andExpect(jsonPath("$.credentialsUpdatedAt").doesNotExist())
 				.andExpect(jsonPath("$.name").value("Admin 1"));
 	}
@@ -37,7 +36,6 @@ public class FetchUserMvcTests extends AbstractMvcTests {
 				.andExpect(jsonPath("$.id").value(ADMIN_ID))
 				.andExpect(jsonPath("$.email").value(ADMIN_EMAIL))
 				.andExpect(jsonPath("$.password").doesNotExist())
-				.andExpect(jsonPath("$.nonce").doesNotExist())
 				.andExpect(jsonPath("$.credentialsUpdatedAt").doesNotExist())
 				.andExpect(jsonPath("$.name").value("Admin 1"));
 		
@@ -72,7 +70,6 @@ public class FetchUserMvcTests extends AbstractMvcTests {
                 .andExpect(status().is(200))
 				.andExpect(jsonPath("$.id").value(ADMIN_ID))
 				.andExpect(jsonPath("$.password").doesNotExist())
-				.andExpect(jsonPath("$.nonce").doesNotExist())
 				.andExpect(jsonPath("$.credentialsUpdatedAt").doesNotExist())
 				.andExpect(jsonPath("$.name").value("Admin 1"));
 	}
