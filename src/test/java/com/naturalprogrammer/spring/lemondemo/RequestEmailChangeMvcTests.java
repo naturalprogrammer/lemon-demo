@@ -33,7 +33,7 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 		
 		mvc.perform(post("/api/core/users/{id}/email-change-request", UNVERIFIED_USER_ID)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
 				.content(LemonUtils.toJson(form())))
 				.andExpect(status().is(204));
 		
@@ -50,7 +50,7 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 		
 		mvc.perform(post("/api/core/users/{id}/email-change-request", UNVERIFIED_USER_ID)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(ADMIN_ID))
 				.content(LemonUtils.toJson(form())))
 				.andExpect(status().is(204));
 		
@@ -66,7 +66,7 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 		
 		mvc.perform(post("/api/core/users/99/email-change-request")
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(ADMIN_ID))
 				.content(LemonUtils.toJson(form())))
 				.andExpect(status().is(404));
 	}
@@ -80,7 +80,7 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 		
 		mvc.perform(post("/api/core/users/{id}/email-change-request", ADMIN_ID)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(USER_ID))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(USER_ID))
 				.content(LemonUtils.toJson(form())))
 				.andExpect(status().is(403));
 		
@@ -101,7 +101,7 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 		
 		mvc.perform(post("/api/core/users/{id}/email-change-request", ADMIN_ID)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_ADMIN_ID))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_ADMIN_ID))
 				.content(LemonUtils.toJson(form())))
 				.andExpect(status().is(403));
 	}
@@ -117,7 +117,7 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
     	// try with null newEmail and password
 		mvc.perform(post("/api/core/users/{id}/email-change-request", UNVERIFIED_USER_ID)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
 				.content(LemonUtils.toJson(new User())))
 				.andExpect(status().is(422))
 				.andExpect(jsonPath("$.errors[*].field").value(hasSize(2)))
@@ -132,7 +132,7 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
     	// try with null newEmail and password
 		mvc.perform(post("/api/core/users/{id}/email-change-request", UNVERIFIED_USER_ID)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
 				.content(LemonUtils.toJson(updatedUser)))
 				.andExpect(status().is(422))
 				.andExpect(jsonPath("$.errors[*].field").value(hasSize(4)))
@@ -145,7 +145,7 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 		updatedUser.setNewEmail("an-invalid-email");
 		mvc.perform(post("/api/core/users/{id}/email-change-request", UNVERIFIED_USER_ID)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
 				.content(LemonUtils.toJson(updatedUser)))
 				.andExpect(status().is(422))
 				.andExpect(jsonPath("$.errors[*].field").value(hasSize(1)))
@@ -156,7 +156,7 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 		updatedUser.setPassword("wrong-password");
 		mvc.perform(post("/api/core/users/{id}/email-change-request", UNVERIFIED_USER_ID)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
 				.content(LemonUtils.toJson(updatedUser)))
 				.andExpect(status().is(422))
 				.andExpect(jsonPath("$.errors[*].field").value(hasSize(1)))
@@ -167,7 +167,7 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 		updatedUser.setPassword(null);
 		mvc.perform(post("/api/core/users/{id}/email-change-request", UNVERIFIED_USER_ID)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
 				.content(LemonUtils.toJson(updatedUser)))
 				.andExpect(status().is(422))
 				.andExpect(jsonPath("$.errors[*].field").value(hasSize(1)))
@@ -178,7 +178,7 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 		updatedUser.setNewEmail(ADMIN_EMAIL);;
 		mvc.perform(post("/api/core/users/{id}/email-change-request", UNVERIFIED_USER_ID)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
 				.content(LemonUtils.toJson(updatedUser)))
 				.andExpect(status().is(422))
 				.andExpect(jsonPath("$.errors[*].field").value(hasSize(1)))

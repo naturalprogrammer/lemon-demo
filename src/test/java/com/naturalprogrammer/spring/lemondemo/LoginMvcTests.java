@@ -48,18 +48,18 @@ public class LoginMvcTests extends AbstractMvcTests {
 //		// Test that default token does not expire before 10 days		
 //		Thread.sleep(1001L);
 //		mvc.perform(get("/api/core/ping")
-//				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID)))
+//				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(ADMIN_ID)))
 //				.andExpect(status().is(204));
 		
 		// Test that a 500ms token does not expire before 500ms
 		String token = login(ADMIN_EMAIL, ADMIN_PASSWORD, 500L);
 //		mvc.perform(get("/api/core/ping")
-//				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, token))
+//				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, token))
 //				.andExpect(status().is(204));
 		// but, does expire after 500ms
 		Thread.sleep(501L);
 		mvc.perform(get("/api/core/ping")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, token))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, token))
 				.andExpect(status().is(401));
 	}
 
@@ -76,7 +76,7 @@ public class LoginMvcTests extends AbstractMvcTests {
 		userRepository.save(user);
 		
 		mvc.perform(get("/api/core/ping")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID)))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(ADMIN_ID)))
 				.andExpect(status().is(401));
 	}
 
@@ -104,7 +104,7 @@ public class LoginMvcTests extends AbstractMvcTests {
 	public void testTokenLogin() throws Exception {
 		
 		mvc.perform(get("/api/core/context")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID)))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(ADMIN_ID)))
 				.andExpect(status().is(200))
 				.andExpect(jsonPath("$.user.id").value(ADMIN_ID));
 	}
@@ -113,7 +113,7 @@ public class LoginMvcTests extends AbstractMvcTests {
 	public void testTokenLoginWrongToken() throws Exception {
 		
 		mvc.perform(get("/api/core/context")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, "Bearer a-wrong-token"))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, "Bearer a-wrong-token"))
 				.andExpect(status().is(401));
 	}
 	

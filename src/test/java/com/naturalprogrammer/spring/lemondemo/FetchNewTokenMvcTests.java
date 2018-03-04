@@ -19,7 +19,7 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 	public void testFetchNewToken() throws Exception {
 		
 		MvcResult result = mvc.perform(post("/api/core/fetch-new-token")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is(204))
 				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
@@ -35,7 +35,7 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 	public void testFetchNewTokenExpiration() throws Exception {
 		
 		MvcResult result = mvc.perform(post("/api/core/fetch-new-token")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
 		        .param("expirationMillis", "1000")
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is(204))
@@ -46,7 +46,7 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 
 		Thread.sleep(1001L);
 		mvc.perform(get("/api/core/context")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, newToken))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, newToken))
 				.andExpect(status().is(401));
 		
 	}
@@ -55,7 +55,7 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 	public void testFetchNewTokenByAdminForAnotherUser() throws Exception {
 		
 		MvcResult result = mvc.perform(post("/api/core/fetch-new-token")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(ADMIN_ID))
 		        .param("username", UNVERIFIED_USER_EMAIL)
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is(204))
@@ -70,7 +70,7 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 	public void testFetchNewTokenByNonAdminForAnotherUser() throws Exception {
 		
 		mvc.perform(post("/api/core/fetch-new-token")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
 		        .param("username", ADMIN_EMAIL)
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is(403));

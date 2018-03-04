@@ -69,7 +69,7 @@ public class SignupMvcTests extends AbstractMvcTests {
 //		User user = new User("user1@example.com", "user123", "User 1");
 //
 //		mvc.perform(post("/api/core/users")
-//				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, adminToken)
+//				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, adminToken)
 //				.contentType(MediaType.APPLICATION_JSON)
 //				.content(LemonUtils.toJson(user)))
 //				.andExpect(status().is(403));

@@ -58,7 +58,7 @@ public class VerificationMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/api/core/users/99/verification")
                 .param("code", verificationCode)
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA)
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(UNVERIFIED_USER_ID)))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID)))
                 .andExpect(status().is(404));
 	}
 	

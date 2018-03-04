@@ -74,7 +74,7 @@ public class LoginWithNonceMvcTests extends AbstractMvcTests {
 		Thread.sleep(101L);
 		
 		mvc.perform(get("/api/core/context")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, token))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, token))
 				.andExpect(status().is(401));
 	}
 

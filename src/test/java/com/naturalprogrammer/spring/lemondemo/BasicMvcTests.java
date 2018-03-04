@@ -23,7 +23,7 @@ public class BasicMvcTests extends AbstractMvcTests {
 	public void testGetContextLoggedIn() throws Exception {
 		
 		mvc.perform(get("/api/core/context")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER, tokens.get(ADMIN_ID)))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(ADMIN_ID)))
 				.andExpect(status().is(200))
 				.andExpect(jsonPath("$.context.reCaptchaSiteKey").isString())
 				.andExpect(jsonPath("$.user.id").value(ADMIN_ID))
