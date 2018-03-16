@@ -67,10 +67,10 @@ public class UpdateUserMvcTests extends AbstractMvcTests {
 				.content(userPatch))
 				.andExpect(status().is(200))
 				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
-				.andExpect(jsonPath("$.name").value(UPDATED_NAME))
+				.andExpect(jsonPath("$.tag.name").value(UPDATED_NAME))
 				.andExpect(jsonPath("$.roles").value(hasSize(1)))
 				.andExpect(jsonPath("$.roles[0]").value("UNVERIFIED"))
-				.andExpect(jsonPath("$.email").value(UNVERIFIED_USER_EMAIL));
+				.andExpect(jsonPath("$.username").value(UNVERIFIED_USER_EMAIL));
 		
 		User user = userRepository.findById(UNVERIFIED_USER_ID).get();
 		
@@ -105,10 +105,10 @@ public class UpdateUserMvcTests extends AbstractMvcTests {
 				.andExpect(status().is(200))
 				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
 				.andExpect(jsonPath("$.id").value(UNVERIFIED_USER_ID))
-				.andExpect(jsonPath("$.name").value(UPDATED_NAME))
+				.andExpect(jsonPath("$.tag.name").value(UPDATED_NAME))
 				.andExpect(jsonPath("$.roles").value(hasSize(1)))
 				.andExpect(jsonPath("$.roles[0]").value("ADMIN"))
-				.andExpect(jsonPath("$.email").value(UNVERIFIED_USER_EMAIL));
+				.andExpect(jsonPath("$.username").value(UNVERIFIED_USER_EMAIL));
 		
 		User user = userRepository.findById(UNVERIFIED_USER_ID).get();
     	
@@ -177,7 +177,7 @@ public class UpdateUserMvcTests extends AbstractMvcTests {
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(ADMIN_ID))
 				.content(userPatchAdminRole))
 				.andExpect(status().is(200))
-				.andExpect(jsonPath("$.name").value(UPDATED_NAME))
+				.andExpect(jsonPath("$.tag.name").value(UPDATED_NAME))
 				.andExpect(jsonPath("$.roles").value(hasSize(1)))
 				.andExpect(jsonPath("$.roles[0]").value("ADMIN"));
     }
