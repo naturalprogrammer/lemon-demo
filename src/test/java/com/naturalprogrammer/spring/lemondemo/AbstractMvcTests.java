@@ -84,7 +84,7 @@ public abstract class AbstractMvcTests {
 	protected void ensureTokenWorks(String token) throws Exception {
 
 		mvc.perform(get("/api/core/context")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, token))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, LemonSecurityConfig.TOKEN_PREFIX + token))
 				.andExpect(status().is(200))
 				.andExpect(jsonPath("$.user.id").value(UNVERIFIED_USER_ID));
 	}

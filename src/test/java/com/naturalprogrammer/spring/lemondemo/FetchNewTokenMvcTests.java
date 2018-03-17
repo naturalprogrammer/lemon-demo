@@ -3,19 +3,31 @@ package com.naturalprogrammer.spring.lemondemo;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.naturalprogrammer.spring.lemon.security.LemonSecurityConfig;
+import com.naturalprogrammer.spring.lemon.util.LemonUtils;
 
 public class FetchNewTokenMvcTests extends AbstractMvcTests {
 	
+	public static class Response {
+		
+		private String token;
+
+		public String getToken() {
+			return token;
+		}
+
+		public void setToken(String token) {
+			this.token = token;
+		}		
+	}
+
 	@Test
 	public void testFetchNewToken() throws Exception {
 		
@@ -23,14 +35,11 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is(200))
-				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
-				.andExpect(jsonPath("$.username").value(UNVERIFIED_USER_EMAIL))
+				.andExpect(jsonPath("$.token").value(containsString(".")))
 				.andReturn();
 
-		String newToken = result.getResponse().getHeader(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME);
-		
-		Assert.assertNotEquals(tokens.get(UNVERIFIED_USER_ID), newToken);
-		ensureTokenWorks(newToken);
+		Response response = LemonUtils.fromJson(result.getResponse().getContentAsString(), Response.class);
+		ensureTokenWorks(response.getToken());
 	}
 	
 	@Test
@@ -43,12 +52,13 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
                 .andExpect(status().is(200))
 				.andReturn();
 
-		String newToken = result.getResponse().getHeader(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME);
-		ensureTokenWorks(newToken);
+		Response response = LemonUtils.fromJson(result.getResponse().getContentAsString(), Response.class);
+		ensureTokenWorks(response.getToken());
 
 		Thread.sleep(1001L);
 		mvc.perform(get("/api/core/context")
-				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, newToken))
+				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME,
+						LemonSecurityConfig.TOKEN_PREFIX + response.getToken()))
 				.andExpect(status().is(401));
 		
 	}
@@ -61,12 +71,10 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 		        .param("username", UNVERIFIED_USER_EMAIL)
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is(200))
-				.andExpect(jsonPath("$.username").value(ADMIN_EMAIL)) // should return data of logged in user
 				.andReturn();
 
-		String newToken = result.getResponse().getHeader(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME);
-		
-		ensureTokenWorks(newToken);		
+		Response response = LemonUtils.fromJson(result.getResponse().getContentAsString(), Response.class);
+		ensureTokenWorks(response.getToken());
 	}
 	
 	@Test
