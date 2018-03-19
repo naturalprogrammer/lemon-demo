@@ -44,7 +44,7 @@
 					},
 					"response": [
 						{
-							"id": "e20d5258-dee7-496a-9121-885ecc1fc8ad",
+							"id": "0bdcbc45-d838-4e5c-9ea0-835b4bfc03ed",
 							"name": "Ping",
 							"originalRequest": {
 								"method": "GET",
@@ -213,7 +213,7 @@
 					},
 					"response": [
 						{
-							"id": "50e03b1c-0a4e-4787-b040-780806374720",
+							"id": "9cca8a52-d16a-46c7-9672-b5a590922d64",
 							"name": "Login",
 							"originalRequest": {
 								"method": "POST",
@@ -361,7 +361,7 @@
 							"body": "{\"id\":1,\"username\":\"admin@example.com\",\"roles\":[\"ADMIN\"],\"tag\":{\"name\":\"Administrator\"},\"unverified\":false,\"blocked\":false,\"admin\":true,\"goodUser\":true,\"goodAdmin\":true}"
 						},
 						{
-							"id": "ce994fa1-2a8b-4847-8ad4-0fb0e2a894b0",
+							"id": "ba31bec1-9862-4cdf-9179-de29e49463db",
 							"name": "Login with wrong credentials",
 							"originalRequest": {
 								"method": "POST",
@@ -551,7 +551,7 @@
 					},
 					"response": [
 						{
-							"id": "47c2bbc0-d875-4c31-b94c-4d10974eac70",
+							"id": "f2dfbe8f-c566-47d3-a0e7-308b280349d2",
 							"name": "Get context using a wrong Authorization token",
 							"originalRequest": {
 								"method": "GET",
@@ -674,7 +674,7 @@
 							"body": "{\"timestamp\":\"2018-03-03T06:21:34.748+0000\",\"status\":401,\"error\":\"Unauthorized\",\"message\":\"Authentication Failed: Invalid JWT serialization: Missing dot delimiter(s)\",\"path\":\"/api/core/context\"}"
 						},
 						{
-							"id": "06b80add-c211-44da-984c-f90f52600471",
+							"id": "0e8f08c6-1b4d-434d-b79c-32d097735b56",
 							"name": "Get context without Authorization header",
 							"originalRequest": {
 								"method": "GET",
@@ -791,7 +791,7 @@
 							"body": "{\"context\":{\"reCaptchaSiteKey\":\"  \",\"shared\":{\"fooBar\":\"123...\"}}}"
 						},
 						{
-							"id": "332f4217-114a-45d3-b3c0-2ae3ea694bc0",
+							"id": "e40f814c-370a-4aee-82ff-496b234d492b",
 							"name": "Get context with Authorization header",
 							"originalRequest": {
 								"method": "GET",
@@ -921,6 +921,48 @@
 							"body": "{\"context\":{\"reCaptchaSiteKey\":\"6LdwxRcUAAAAABkhOGWQXhl9FsR27D5YUJRuGzx0\",\"shared\":{\"fooBar\":\"123...\"}},\"user\":{\"id\":2,\"username\":\"skpatel20@gmail.com\",\"roles\":[\"UNVERIFIED\"],\"tag\":{\"name\":\"Sanjay Patel\"},\"unverified\":true,\"blocked\":false,\"admin\":false,\"goodUser\":false,\"goodAdmin\":false}}"
 						}
 					]
+				},
+				{
+					"name": "Google SignUp / SignIn",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{lemonDemoUrl}}/oauth2/authorization/google",
+							"host": [
+								"{{lemonDemoUrl}}"
+							],
+							"path": [
+								"oauth2",
+								"authorization",
+								"google"
+							]
+						},
+						"description": "Front-ends can use this URL to redirect the user to logging in using Google. On successful Google authentication, if the email id of the user will not be found in our database, a new user will be created (and a link will be mailed to him for setting up a password, in case he needs username/password login sometime in future).\n\nUpon successful authentication, the user will be reirected to _http://front-end-app-url/social-login-success?token=short-lived-token_\n\nThe front-end should use the _short-lived-token_ above and call `GET /context` to receive the user data and a longer term token.\n\nThe `front-end-app-url` above would be `localhost:9000` by default. To change it, define an application property as below:\n\n```\nlemon.oauth2-authentication-success-url: http://your-front-end-app-url/your-social-login-success?token=\n```\n\nIn case a front-end needs to chanage the _authentication-success-url_ dynamically, it can pass the url as a `lemon_redirect_uri` parameter to the request, e.g.\n```\nGET /oauth2/authorization/google?lemon_redirect_uri=http://your-front-end-app-url/dynamic-social-login-success?token=\n```\n\n### References\nLooking at [example front-end applications](https://github.com/naturalprogrammer/spring-lemon#documentation-and-resources) might help knowing how exactly front-ends could implement this."
+					},
+					"response": []
+				},
+				{
+					"name": "Facebook SignUp / SignIn",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{lemonDemoUrl}}/oauth2/authorization/facebook",
+							"host": [
+								"{{lemonDemoUrl}}"
+							],
+							"path": [
+								"oauth2",
+								"authorization",
+								"facebook"
+							]
+						},
+						"description": "Similar to Google SignUp/SignIn."
+					},
+					"response": []
 				}
 			]
 		},
@@ -986,7 +1028,7 @@
 					},
 					"response": [
 						{
-							"id": "89fd66e3-b513-4a97-b0bd-6851f22edf3b",
+							"id": "42f55ef2-6f1e-403a-bb1f-2e638e46d1ac",
 							"name": "Sign up",
 							"originalRequest": {
 								"method": "POST",
@@ -1118,7 +1160,7 @@
 							"body": "{\"id\":2,\"username\":\"skpatel20+lemon1842637@example.com\",\"roles\":[\"UNVERIFIED\"],\"tag\":{\"name\":\"Sample User\"},\"unverified\":true,\"blocked\":false,\"admin\":false,\"goodUser\":false,\"goodAdmin\":false}"
 						},
 						{
-							"id": "9128cb28-fc11-4077-b6a3-e302f9574b2c",
+							"id": "737f1c87-4e48-4bef-b5da-0edf3460a7d2",
 							"name": "Sign up with invalid data",
 							"originalRequest": {
 								"method": "POST",
@@ -1286,7 +1328,7 @@
 					},
 					"response": [
 						{
-							"id": "0fbfbbdf-eb2a-4db5-8efc-fb42c6305fde",
+							"id": "fa898fec-4060-4468-b0ec-1aec01c9862b",
 							"name": "Resend verification mail",
 							"originalRequest": {
 								"method": "POST",
@@ -1449,7 +1491,7 @@
 					},
 					"response": [
 						{
-							"id": "7065fa63-8d06-4615-9ce1-44b5adcc3965",
+							"id": "3a0f1069-bb3a-42c0-a2d6-121df5da38e6",
 							"name": "Verify User",
 							"originalRequest": {
 								"method": "POST",
@@ -1628,7 +1670,7 @@
 					},
 					"response": [
 						{
-							"id": "64c24254-dd8a-41ae-83a1-0fd9659e6da6",
+							"id": "ad71fd8f-35a6-4f06-806a-845391156120",
 							"name": "Forgot password",
 							"originalRequest": {
 								"method": "POST",
@@ -1795,7 +1837,7 @@
 					},
 					"response": [
 						{
-							"id": "31893b4f-33c9-4850-8dda-27e2491fd3a9",
+							"id": "d1a5ca30-5028-41a3-b768-b2949e819799",
 							"name": "Reset password",
 							"originalRequest": {
 								"method": "POST",
@@ -1984,7 +2026,7 @@
 					},
 					"response": [
 						{
-							"id": "4bacb6fd-b68d-4f58-af9a-61615ba3e3d1",
+							"id": "014e0524-67b2-41cb-b511-8392d5263d53",
 							"name": "Fetch user by email - Self or Admin",
 							"originalRequest": {
 								"method": "POST",
@@ -2118,7 +2160,7 @@
 							"body": "{\"id\":2,\"version\":2,\"email\":\"skpatel20+lemon1842637@example.com\",\"roles\":[],\"name\":\"Sample User\",\"new\":false}"
 						},
 						{
-							"id": "9ac969a4-4b63-4abe-93b2-731037f3f11b",
+							"id": "55eabf01-de25-4d67-a3b0-0fe258068776",
 							"name": "Fetch user by email - Others",
 							"originalRequest": {
 								"method": "POST",
@@ -2293,7 +2335,7 @@
 					},
 					"response": [
 						{
-							"id": "2da8ca94-477e-43aa-b6fe-0811c70d93cf",
+							"id": "394351e3-af2f-4c3b-96e3-da0846324f2f",
 							"name": "Fetch user by ID - Self or Admin",
 							"originalRequest": {
 								"method": "GET",
@@ -2417,7 +2459,7 @@
 							"body": "{\"id\":2,\"version\":2,\"email\":\"skpatel20+lemon1842637@example.com\",\"roles\":[],\"name\":\"Sample User\",\"new\":false}"
 						},
 						{
-							"id": "6202d2b0-d8de-4e32-802e-3b3dc4c35b9e",
+							"id": "57d2e057-2cd9-494b-b4a3-67fde495fa08",
 							"name": "Fetch user by ID - Others",
 							"originalRequest": {
 								"method": "GET",
@@ -2586,7 +2628,7 @@
 					},
 					"response": [
 						{
-							"id": "911320c6-4027-4812-94b1-03fd600648e5",
+							"id": "d6c09da3-2f85-43d9-9c16-6fc6de15894a",
 							"name": "Update user",
 							"originalRequest": {
 								"method": "PATCH",
@@ -2776,7 +2818,7 @@
 					},
 					"response": [
 						{
-							"id": "1faf4bbf-a5e5-4eee-9e5e-54ed916de8af",
+							"id": "886ad7ae-2a09-418c-abcf-b0c73293b6fd",
 							"name": "Change password",
 							"originalRequest": {
 								"method": "POST",
@@ -2962,7 +3004,7 @@
 					},
 					"response": [
 						{
-							"id": "0fa44bf3-e64c-4b03-ae90-16521bc00da6",
+							"id": "6a7244e4-232f-496c-a89a-82e8eb4078cd",
 							"name": "Requesting for changing email",
 							"originalRequest": {
 								"method": "POST",
@@ -3146,7 +3188,7 @@
 					},
 					"response": [
 						{
-							"id": "cf870c67-6102-458c-bb09-43b49fb44d99",
+							"id": "a3ca2c00-a4f4-4f7c-98c6-576d61b87f00",
 							"name": "Change email",
 							"originalRequest": {
 								"method": "POST",
@@ -3355,7 +3397,7 @@
 					},
 					"response": [
 						{
-							"id": "90ef075d-d299-4407-9644-ec7bc2b293f8",
+							"id": "84a23e90-c2e8-4c07-a071-108c45446f4a",
 							"name": "Fetch new token",
 							"originalRequest": {
 								"method": "POST",
