@@ -1,6 +1,8 @@
 package com.naturalprogrammer.spring.lemondemo;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -25,6 +27,7 @@ public class BasicMvcTests extends AbstractMvcTests {
 		mvc.perform(get("/api/core/context")
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(ADMIN_ID)))
 				.andExpect(status().is(200))
+				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
 				.andExpect(jsonPath("$.context.reCaptchaSiteKey").isString())
 				.andExpect(jsonPath("$.user.id").value(ADMIN_ID))
 				.andExpect(jsonPath("$.user.roles[0]").value("ADMIN"));
@@ -35,6 +38,7 @@ public class BasicMvcTests extends AbstractMvcTests {
 		
 		mvc.perform(get("/api/core/context"))
 				.andExpect(status().is(200))
+				.andExpect(header().doesNotExist(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME))
 				.andExpect(jsonPath("$.context.reCaptchaSiteKey").isString())
 				.andExpect(jsonPath("$.user").doesNotExist());
 	}	

@@ -2,6 +2,9 @@
 
 spring:
   jpa.hibernate.ddl-auto: update
+  jpa:
+    hibernate:
+      use-new-id-generator-mappings: false
   datasource:
     url: jdbc:mysql://localhost:3306/lemon?useSSL=false
     username: lemon
