@@ -3,6 +3,9 @@ package com.naturalprogrammer.spring.lemondemo;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -32,6 +35,8 @@ public class SignupMvcTests extends AbstractMvcTests {
 				.andExpect(jsonPath("$.errors[*].field").value(hasSize(4)))
 				.andExpect(jsonPath("$.errors[*].field").value(hasItems(
 					"user.email", "user.password", "user.name")));
+		
+		verify(mailSender, never()).send(any());
 	}
 
 	@Test
@@ -55,7 +60,9 @@ public class SignupMvcTests extends AbstractMvcTests {
 				.andExpect(jsonPath("$.admin").value(false))
 				.andExpect(jsonPath("$.goodUser").value(false))
 				.andExpect(jsonPath("$.goodAdmin").value(false));
-		
+				
+		verify(mailSender).send(any());
+
 		// Ensure that password got encrypted
 		Assert.assertNotEquals("user123", userRepository.findByEmail("user.foo@example.com").get().getPassword());
 	}
@@ -83,5 +90,7 @@ public class SignupMvcTests extends AbstractMvcTests {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(LemonUtils.toJson(user)))
 				.andExpect(status().is(422));
+		
+		verify(mailSender, never()).send(any());
 	}
 }

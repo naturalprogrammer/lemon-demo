@@ -1,5 +1,8 @@
 package com.naturalprogrammer.spring.lemondemo;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -15,6 +18,8 @@ public class ForgotPasswordMvcTests extends AbstractMvcTests {
                 .param("email", ADMIN_EMAIL)
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is(204));
+		
+		verify(mailSender).send(any());
 	}
 	
 	@Test
@@ -42,5 +47,7 @@ public class ForgotPasswordMvcTests extends AbstractMvcTests {
                 .param("email", "wrong-email-format")
                 .header("contentType",  MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().is(422));
+		
+		verify(mailSender, never()).send(any());
 	}
 }

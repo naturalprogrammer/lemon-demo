@@ -2,6 +2,9 @@ package com.naturalprogrammer.spring.lemondemo;
 
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,6 +40,8 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 				.content(LemonUtils.toJson(form())))
 				.andExpect(status().is(204));
 		
+		verify(mailSender).send(any());
+		
 		User updatedUser = userRepository.findById(UNVERIFIED_USER_ID).get();
 		Assert.assertEquals(NEW_EMAIL, updatedUser.getNewEmail());
 		Assert.assertEquals(UNVERIFIED_USER_EMAIL, updatedUser.getEmail());
@@ -69,6 +74,8 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(ADMIN_ID))
 				.content(LemonUtils.toJson(form())))
 				.andExpect(status().is(404));
+		
+		verify(mailSender, never()).send(any());
 	}
 
 	/**
@@ -84,6 +91,8 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 				.content(LemonUtils.toJson(form())))
 				.andExpect(status().is(403));
 		
+		verify(mailSender, never()).send(any());
+
 		User updatedUser = userRepository.findById(UNVERIFIED_USER_ID).get();
 		Assert.assertNull(updatedUser.getNewEmail());
 	}
@@ -104,6 +113,8 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_ADMIN_ID))
 				.content(LemonUtils.toJson(form())))
 				.andExpect(status().is(403));
+		
+		verify(mailSender, never()).send(any());
 	}
 
 	/**
@@ -183,5 +194,7 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 				.andExpect(status().is(422))
 				.andExpect(jsonPath("$.errors[*].field").value(hasSize(1)))
 				.andExpect(jsonPath("$.errors[*].field").value(hasItems("updatedUser.newEmail")));
+		
+		verify(mailSender, never()).send(any());
 	}
 }
