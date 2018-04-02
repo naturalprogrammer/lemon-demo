@@ -35,7 +35,6 @@ lemon:
    # Spring Lemon flags
    # enabled:
       # json-prefix: false
-      # user-details-service: false
       
   # Properties to be passed to client
   shared:
