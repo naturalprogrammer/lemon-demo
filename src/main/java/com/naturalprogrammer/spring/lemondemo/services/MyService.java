@@ -21,11 +21,6 @@ public class MyService extends LemonService<User, Long> {
     }
 
 	@Override
-	public Long parseId(String id) {
-		return Long.valueOf(id);
-	}
-
-	@Override
     protected void updateUserFields(User user, User updatedUser, UserDto<Long> currentUser) {
 
         super.updateUserFields(user, updatedUser, currentUser);
