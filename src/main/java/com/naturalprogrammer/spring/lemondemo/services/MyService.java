@@ -6,7 +6,7 @@ import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.stereotype.Service;
 
 import com.naturalprogrammer.spring.lemon.LemonService;
-import com.naturalprogrammer.spring.lemon.security.SpringUser;
+import com.naturalprogrammer.spring.lemon.security.UserDto;
 import com.naturalprogrammer.spring.lemon.util.LemonUtils;
 import com.naturalprogrammer.spring.lemondemo.entities.User;
 
@@ -26,7 +26,7 @@ public class MyService extends LemonService<User, Long> {
 	}
 
 	@Override
-    protected void updateUserFields(User user, User updatedUser, SpringUser<Long> currentUser) {
+    protected void updateUserFields(User user, User updatedUser, UserDto<Long> currentUser) {
 
         super.updateUserFields(user, updatedUser, currentUser);
 
