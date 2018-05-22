@@ -146,7 +146,7 @@
 						<include>**/*Documentation.java</include>
 					</includes>
 				</configuration>
-			</plugin> -->
+			</plugin>
 			
 			<plugin> 
 				<groupId>org.asciidoctor</groupId>
@@ -170,7 +170,7 @@
 				</executions>
 			</plugin>
 
-			<!-- <plugin>
+			<plugin>
 			    <groupId>org.jacoco</groupId>
 			    <artifactId>jacoco-maven-plugin</artifactId>
 			    <version>0.8.0</version>
