@@ -67,7 +67,7 @@ public abstract class AbstractMvcTests {
         MvcResult result = mvc.perform(post("/login")
                 .param("username", userName)
                 .param("password", password)
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(200))
                 .andReturn();
 

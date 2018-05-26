@@ -45,7 +45,7 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/api/core/users/{id}/email", UNVERIFIED_USER_ID)
                 .param("code", changeEmailCode)
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
 		        .andExpect(status().is(200))
 				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
 				.andExpect(jsonPath("$.id").value(UNVERIFIED_USER_ID));
@@ -58,7 +58,7 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/api/core/users/{id}/email", UNVERIFIED_USER_ID)
                 .param("code", changeEmailCode)
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
 		        .andExpect(status().is(401));
 	}
 	
@@ -72,7 +72,7 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/api/core/users/{id}/email", UNVERIFIED_USER_ID)
                 .param("code", "")
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
 		        .andExpect(status().is(422));
 
 		// Wrong audience
@@ -84,7 +84,7 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/api/core/users/{id}/email", UNVERIFIED_USER_ID)
                 .param("code", code)
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
 		        .andExpect(status().is(403));
 
 		// Wrong userId subject
@@ -96,7 +96,7 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/api/core/users/{id}/email", UNVERIFIED_USER_ID)
                 .param("code", code)
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
 		        .andExpect(status().is(403));
 		
 		// Wrong new email
@@ -108,7 +108,7 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/api/core/users/{id}/email", UNVERIFIED_USER_ID)
                 .param("code", code)
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
 		        .andExpect(status().is(403));
 	}
 	
@@ -131,7 +131,7 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/api/core/users/{id}/email", UNVERIFIED_USER_ID)
                 .param("code", changeEmailCode)
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, authToken)
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
 		        .andExpect(status().is(403));	
 	}
 	
@@ -145,7 +145,7 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/api/core/users/{id}/email", USER_ID)
                 .param("code", changeEmailCode)
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(USER_ID))
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
 		        .andExpect(status().is(422));
 	}
 	
@@ -164,7 +164,7 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/api/core/users/{id}/email", UNVERIFIED_USER_ID)
                 .param("code", changeEmailCode)
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
 		        .andExpect(status().is(422));
 	}
 }

@@ -25,7 +25,7 @@ public class LoginMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/login")
                 .param("username", ADMIN_EMAIL)
                 .param("password", ADMIN_PASSWORD)
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(200))
 				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
 				.andExpect(jsonPath("$.id").value(ADMIN_ID))
@@ -85,7 +85,7 @@ public class LoginMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/login")
                 .param("username", ADMIN_EMAIL)
                 .param("password", "wrong-password")
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(401));
 	}
 
@@ -95,7 +95,7 @@ public class LoginMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/login")
                 .param("username", ADMIN_EMAIL)
                 .param("password", "")
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(401));
 	}
 
@@ -129,7 +129,7 @@ public class LoginMvcTests extends AbstractMvcTests {
                 .param("username", ADMIN_EMAIL)
                 .param("password", ADMIN_PASSWORD)
                 .param("expirationMillis", Long.toString(expirationMillis))
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andReturn();
 
 		return result.getResponse().getHeader(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME);     

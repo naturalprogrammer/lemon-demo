@@ -37,7 +37,7 @@ public class VerificationMvcTests extends AbstractMvcTests {
 		
 		mvc.perform(post("/api/core/users/{userId}/verification", UNVERIFIED_USER_ID)
                 .param("code", verificationCode)
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(200))
 				.andExpect(header().string(LemonSecurityConfig.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
 				.andExpect(jsonPath("$.id").value(UNVERIFIED_USER_ID))
@@ -48,7 +48,7 @@ public class VerificationMvcTests extends AbstractMvcTests {
 		// Already verified
 		mvc.perform(post("/api/core/users/{userId}/verification", UNVERIFIED_USER_ID)
                 .param("code", verificationCode)
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(422));
 	}
 	
@@ -57,7 +57,7 @@ public class VerificationMvcTests extends AbstractMvcTests {
 		
 		mvc.perform(post("/api/core/users/99/verification")
                 .param("code", verificationCode)
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA)
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED)
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID)))
                 .andExpect(status().is(404));
 	}
@@ -67,13 +67,13 @@ public class VerificationMvcTests extends AbstractMvcTests {
 		
 		// null token
 		mvc.perform(post("/api/core/users/{userId}/verification", UNVERIFIED_USER_ID)
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(400));
 
 		// blank token
 		mvc.perform(post("/api/core/users/{userId}/verification", UNVERIFIED_USER_ID)
                 .param("code", "")
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(401));
 
 		// Wrong audience
@@ -82,7 +82,7 @@ public class VerificationMvcTests extends AbstractMvcTests {
 				LemonUtils.mapOf("email", UNVERIFIED_USER_EMAIL));
 		mvc.perform(post("/api/core/users/{userId}/verification", UNVERIFIED_USER_ID)
                 .param("code", token)
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(403));
 		
 		// Wrong email
@@ -91,7 +91,7 @@ public class VerificationMvcTests extends AbstractMvcTests {
 				LemonUtils.mapOf("email", "wrong.email@example.com"));
 		mvc.perform(post("/api/core/users/{userId}/verification", UNVERIFIED_USER_ID)
                 .param("code", token)
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(403));
 
 		// expired token
@@ -101,7 +101,7 @@ public class VerificationMvcTests extends AbstractMvcTests {
 		// Thread.sleep(1001L);
 		mvc.perform(post("/api/core/users/{userId}/verification", UNVERIFIED_USER_ID)
                 .param("code", token)
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(403));
 	}
 	
@@ -116,7 +116,7 @@ public class VerificationMvcTests extends AbstractMvcTests {
 		
 		mvc.perform(post("/api/core/users/{userId}/verification", UNVERIFIED_USER_ID)
                 .param("code", verificationCode)
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(403));
 	}
 }

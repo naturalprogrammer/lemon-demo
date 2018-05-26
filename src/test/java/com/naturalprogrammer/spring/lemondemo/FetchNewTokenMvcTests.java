@@ -33,7 +33,7 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 		
 		MvcResult result = mvc.perform(post("/api/core/fetch-new-auth-token")
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(200))
 				.andExpect(jsonPath("$.token").value(containsString(".")))
 				.andReturn();
@@ -48,7 +48,7 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 		MvcResult result = mvc.perform(post("/api/core/fetch-new-auth-token")
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
 		        .param("expirationMillis", "1000")
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(200))
 				.andReturn();
 
@@ -69,7 +69,7 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 		MvcResult result = mvc.perform(post("/api/core/fetch-new-auth-token")
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(ADMIN_ID))
 		        .param("username", UNVERIFIED_USER_EMAIL)
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(200))
 				.andReturn();
 
@@ -83,7 +83,7 @@ public class FetchNewTokenMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/api/core/fetch-new-auth-token")
 				.header(LemonSecurityConfig.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
 		        .param("username", ADMIN_EMAIL)
-                .header("contentType",  MediaType.MULTIPART_FORM_DATA))
+                .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(403));
 	}
 }
