@@ -46,7 +46,7 @@
 					},
 					"response": [
 						{
-							"id": "bcbdc141-e7a4-43f5-9989-cdfd20bcadbb",
+							"id": "dc13c098-4ab6-4708-9a22-4c6647aa1698",
 							"name": "Ping",
 							"originalRequest": {
 								"method": "GET",
@@ -178,23 +178,23 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "multipart/form-data"
+								"value": "application/x-www-form-urlencoded"
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
+							"mode": "urlencoded",
+							"urlencoded": [
 								{
 									"key": "username",
 									"value": "admin@example.com",
-									"type": "text",
-									"description": "Email"
+									"description": "Email",
+									"type": "text"
 								},
 								{
 									"key": "password",
 									"value": "admin!",
-									"type": "text",
-									"description": "Password"
+									"description": "Password",
+									"type": "text"
 								},
 								{
 									"key": "expirationMillis",
@@ -217,35 +217,149 @@
 					},
 					"response": [
 						{
-							"id": "dd9e29ed-8101-4f71-9881-9ba2a1211248",
+							"id": "e6eefb5e-b4a3-4b42-b9ad-2d2e6dbfb48d",
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"disabled": false
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "admin@example.com",
+											"description": "Email",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "admin!",
+											"description": "Password",
+											"type": "text"
+										},
+										{
+											"key": "expirationMillis",
+											"value": "864000000",
+											"description": "Optional - defaults to 864000000 (10 days)",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{lemonDemoUrl}}/login",
+									"host": [
+										"{{lemonDemoUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Content-Length",
+									"value": "169",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 May 2018 12:39:00 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Expires",
+									"value": "0",
+									"name": "Expires",
+									"description": "Gives the date/time after which the response is considered stale"
+								},
+								{
+									"key": "Lemon-Authorization",
+									"value": "Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..AqIlYN5HLXZIYLjrMKdk0A.IErc8xXFz5NplCLSoe4Is0Bj0tk5fqH9VXCioWJXjeuBJ1LaP3iKlHUV50z5BckwegJwVpTsaLrz2pLXeT7KOSwesU9v5BQ5pPdfLnnriNQJJRtCxnI2aPT6DFl6eBcc.Ko4VwTUe242rIfcmdjHteQ",
+									"name": "Lemon-Authorization",
+									"description": "Custom header"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache",
+									"name": "Pragma",
+									"description": "Implementation-specific headers that may have various effects anywhere along the request-response chain."
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff",
+									"name": "X-Content-Type-Options",
+									"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY",
+									"name": "X-Frame-Options",
+									"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block",
+									"name": "X-XSS-Protection",
+									"description": "Cross-site scripting (XSS) filter"
+								}
+							],
+							"cookie": [],
+							"body": "{\"id\":9,\"username\":\"admin@example.com\",\"roles\":[\"ADMIN\"],\"tag\":{\"name\":\"Administrator\"},\"unverified\":false,\"blocked\":false,\"admin\":true,\"goodUser\":true,\"goodAdmin\":true}"
+						},
+						{
+							"id": "e3a0b42d-4ad2-46bd-aa6e-ef47d47c60c2",
 							"name": "Login with wrong credentials",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/json"
+										"value": "application/x-www-form-urlencoded",
+										"disabled": false
 									}
 								],
 								"body": {
-									"mode": "formdata",
-									"formdata": [
+									"mode": "urlencoded",
+									"urlencoded": [
 										{
 											"key": "username",
 											"value": "admin@example.com",
-											"type": "text",
-											"description": "Email"
+											"description": "Email",
+											"type": "text"
 										},
 										{
 											"key": "password",
 											"value": "wrong-password",
-											"type": "text",
-											"description": "Password"
+											"description": "Password",
+											"type": "text"
 										},
 										{
 											"key": "expirationMillis",
 											"value": "864000000",
-											"description": "By defult 864000000 (10 days)",
+											"description": "Optional - defaults to 864000000 (10 days)",
 											"type": "text"
 										}
 									]
@@ -265,42 +379,6 @@
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true",
-									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
-								},
-								{
-									"key": "Access-Control-Allow-Headers",
-									"value": "Accept,Accept-Encoding,Accept-Language,Cache-Control,Connection,Content-Length,Content-Type,Cookie,Host,Origin,Pragma,Referer,User-Agent,x-requested-with,X-XSRF-TOKEN,Lemon-Authorization",
-									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
-								},
-								{
-									"key": "Access-Control-Allow-Methods",
-									"value": "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH",
-									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "http://localhost:9000",
-									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
-								},
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "Cache-Control,Connection,Content-Type,Date,Expires,Pragma,Server,Set-Cookie,Transfer-Encoding,X-Content-Type-Options,X-XSS-Protection,X-Frame-Options,X-Application-Context,X-XSRF-TOKEN",
-									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
-								},
-								{
-									"key": "Access-Control-Max-Age",
-									"value": "3600",
-									"name": "Access-Control-Max-Age",
-									"description": "Indicates how long the results of a preflight request can be cached in seconds."
-								},
-								{
 									"key": "Cache-Control",
 									"value": "no-cache, no-store, max-age=0, must-revalidate",
 									"name": "Cache-Control",
@@ -314,7 +392,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 02 Mar 2018 16:01:41 GMT",
+									"value": "Sat, 26 May 2018 12:38:14 GMT",
 									"name": "Date",
 									"description": "The date and time that the message was sent"
 								},
@@ -356,155 +434,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\"timestamp\":\"2018-03-02T16:01:41.531+0000\",\"status\":401,\"error\":\"Unauthorized\",\"message\":\"Unauthorized\",\"path\":\"/login\"}"
-						},
-						{
-							"id": "5dc285b1-6009-4525-8816-c34cd3bc0eb3",
-							"name": "Login",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "username",
-											"value": "admin@example.com",
-											"type": "text",
-											"description": "Email"
-										},
-										{
-											"key": "password",
-											"value": "admin!",
-											"type": "text",
-											"description": "Password"
-										},
-										{
-											"key": "expirationMillis",
-											"value": "864000000",
-											"description": "By defult 864000000 (10 days)",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{lemonDemoUrl}}/login",
-									"host": [
-										"{{lemonDemoUrl}}"
-									],
-									"path": [
-										"login"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true",
-									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
-								},
-								{
-									"key": "Access-Control-Allow-Headers",
-									"value": "Accept,Accept-Encoding,Accept-Language,Cache-Control,Connection,Content-Length,Content-Type,Cookie,Host,Origin,Pragma,Referer,User-Agent,x-requested-with,X-XSRF-TOKEN,Lemon-Authorization",
-									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
-								},
-								{
-									"key": "Access-Control-Allow-Methods",
-									"value": "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH",
-									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "http://localhost:9000",
-									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
-								},
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "Cache-Control,Connection,Content-Type,Date,Expires,Pragma,Server,Set-Cookie,Transfer-Encoding,X-Content-Type-Options,X-XSS-Protection,X-Frame-Options,X-Application-Context,X-XSRF-TOKEN",
-									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
-								},
-								{
-									"key": "Access-Control-Max-Age",
-									"value": "3600",
-									"name": "Access-Control-Max-Age",
-									"description": "Indicates how long the results of a preflight request can be cached in seconds."
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, no-store, max-age=0, must-revalidate",
-									"name": "Cache-Control",
-									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
-								},
-								{
-									"key": "Content-Length",
-									"value": "169",
-									"name": "Content-Length",
-									"description": "The length of the response body in octets (8-bit bytes)"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json",
-									"name": "Content-Type",
-									"description": "The mime type of this content"
-								},
-								{
-									"key": "Date",
-									"value": "Fri, 02 Mar 2018 13:43:18 GMT",
-									"name": "Date",
-									"description": "The date and time that the message was sent"
-								},
-								{
-									"key": "Expires",
-									"value": "0",
-									"name": "Expires",
-									"description": "Gives the date/time after which the response is considered stale"
-								},
-								{
-									"key": "Lemon-Authorization",
-									"value": "Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..x_LjxSnecBiaRVJH46pjxA.HPLsSqScB9dF7Ax568sPUiPfi9Q6tY5jiI0Xco3kuxDjCaRlEemQ6HtJo-WgvrEsTWWx3_v_c6C5a_STjZfD4cPdjlq8_6Tgbq5-aCDLidLF7Obz5O3O9VTEimu77mva.bGp0g-WCbHKXu2Y0l_ToSw",
-									"name": "Lemon-Authorization",
-									"description": "Custom header"
-								},
-								{
-									"key": "Pragma",
-									"value": "no-cache",
-									"name": "Pragma",
-									"description": "Implementation-specific headers that may have various effects anywhere along the request-response chain."
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff",
-									"name": "X-Content-Type-Options",
-									"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
-								},
-								{
-									"key": "X-Frame-Options",
-									"value": "DENY",
-									"name": "X-Frame-Options",
-									"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
-								},
-								{
-									"key": "X-XSS-Protection",
-									"value": "1; mode=block",
-									"name": "X-XSS-Protection",
-									"description": "Cross-site scripting (XSS) filter"
-								}
-							],
-							"cookie": [],
-							"body": "{\"id\":1,\"username\":\"admin@example.com\",\"roles\":[\"ADMIN\"],\"tag\":{\"name\":\"Administrator\"},\"unverified\":false,\"blocked\":false,\"admin\":true,\"goodUser\":true,\"goodAdmin\":true}"
+							"body": "{\"timestamp\":\"2018-05-26T12:38:14.153+0000\",\"status\":401,\"error\":\"Unauthorized\",\"message\":\"Unauthorized\",\"path\":\"/login\"}"
 						}
 					]
 				},
@@ -556,7 +486,7 @@
 					},
 					"response": [
 						{
-							"id": "95a3d9fc-84e7-4800-9555-890ef1fe45cf",
+							"id": "123567f0-1a53-4fe1-b75d-3775da8559e1",
 							"name": "Get context with Authorization header",
 							"originalRequest": {
 								"method": "GET",
@@ -688,7 +618,7 @@
 							"body": "{\"context\":{\"reCaptchaSiteKey\":\"6LdwxRcUAAAAABkhOGWQXhl9FsR27D5YUJRuGzx0\",\"shared\":{\"fooBar\":\"123...\"}},\"user\":{\"id\":2,\"username\":\"skpatel20@gmail.com\",\"roles\":[\"UNVERIFIED\"],\"tag\":{\"name\":\"Sanjay Patel\"},\"unverified\":true,\"blocked\":false,\"admin\":false,\"goodUser\":false,\"goodAdmin\":false}}"
 						},
 						{
-							"id": "3d67fa1d-998b-46a5-a058-3e030588ffbb",
+							"id": "6f023dfc-2374-4155-86b7-236b150c427e",
 							"name": "Get context using a wrong Authorization token",
 							"originalRequest": {
 								"method": "GET",
@@ -814,7 +744,7 @@
 							"body": "{\"timestamp\":\"2018-03-03T06:21:34.748+0000\",\"status\":401,\"error\":\"Unauthorized\",\"message\":\"Authentication Failed: Invalid JWT serialization: Missing dot delimiter(s)\",\"path\":\"/api/core/context\"}"
 						},
 						{
-							"id": "f8cb2de0-beea-4105-bd12-1ace556d4904",
+							"id": "761ee1eb-aaa5-48ae-ac7b-d91a666f7ae1",
 							"name": "Get context without Authorization header",
 							"originalRequest": {
 								"method": "GET",
@@ -1028,7 +958,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"{{registeredEmail}}\",\r\n    \"password\": \"user123\",\r\n    \"name\": \"Sample User\",\r\n    \"captchaResponse\": null\r\n}"
+							"raw": "{\r\n    \"email\": \"{{registeredEmail}}\",\r\n    \"password\": \"sanjay\",\r\n    \"name\": \"Sample User\",\r\n    \"captchaResponse\": null\r\n}"
 						},
 						"url": {
 							"raw": "{{lemonDemoUrl}}/api/core/users",
@@ -1045,7 +975,7 @@
 					},
 					"response": [
 						{
-							"id": "b6a8596e-b94d-4376-9246-c1006f682d4f",
+							"id": "e7d318ce-ae30-4120-a3b2-4207ffcf6661",
 							"name": "Sign up with invalid data",
 							"originalRequest": {
 								"method": "POST",
@@ -1170,7 +1100,7 @@
 							"body": "{\"exception\":\"ConstraintViolationException\",\"error\":\"Unprocessable Entity\",\"message\":\"Validation Error\",\"status\":422,\"errors\":[{\"field\":\"user.email\",\"code\":\"{com.naturalprogrammer.spring.invalid.email}\",\"message\":\"Not a well formed email address\"},{\"field\":\"user.password\",\"code\":\"{com.naturalprogrammer.spring.invalid.password.size}\",\"message\":\"Password must be between 6 and 50 characters\"},{\"field\":\"user.name\",\"code\":\"{blank.name}\",\"message\":\"Name required\"},{\"field\":\"user.email\",\"code\":\"{com.naturalprogrammer.spring.invalid.email.size}\",\"message\":\"Email must be between 4 and 250 characters\"}]}"
 						},
 						{
-							"id": "3341347e-bc0b-4a82-8630-4613ba3199fb",
+							"id": "ee65ea2e-743a-4135-bbab-fad97ce3c06f",
 							"name": "Sign up",
 							"originalRequest": {
 								"method": "POST",
@@ -1345,7 +1275,7 @@
 					},
 					"response": [
 						{
-							"id": "3b86adc1-2083-45de-ade0-f5df2e1f46a2",
+							"id": "7b70613c-b89e-45e4-b641-4ccfbde839d8",
 							"name": "Resend verification mail",
 							"originalRequest": {
 								"method": "POST",
@@ -1480,18 +1410,13 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "code",
-									"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..sGRLLFqDn1pDExwmRNzkEg.cHaoiAMjWvK5VI5xrijuBnWXe2fAk6gJw_If07FqDr3AX2CXLtRGucD1mNhddfqiAIOt4YaUTM_cKMingPv_KEEEyh9c5BfpDXBrBbe0sVyuscUSyDlAggHK50tUCqieysrEe1d6QiO10_MJFU7AY2-lGxRljRuMIwPXFOa7eXY.AS0TYMnEBn1Ee42gwfh84A",
-									"description": "",
-									"type": "text"
-								}
-							]
-						},
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {},
 						"url": {
 							"raw": "{{lemonDemoUrl}}/api/core/users/{{userId}}/verification",
 							"host": [
@@ -1509,17 +1434,24 @@
 					},
 					"response": [
 						{
-							"id": "a6f8b8bb-2b19-4c3f-9750-d3f8f6057b47",
+							"id": "79277fc4-5434-4863-99b7-cf4529a4cbcf",
 							"name": "Verify User",
 							"originalRequest": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"disabled": false
+									}
+								],
 								"body": {
-									"mode": "formdata",
-									"formdata": [
+									"mode": "urlencoded",
+									"urlencoded": [
 										{
 											"key": "code",
-											"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..sGRLLFqDn1pDExwmRNzkEg.cHaoiAMjWvK5VI5xrijuBnWXe2fAk6gJw_If07FqDr3AX2CXLtRGucD1mNhddfqiAIOt4YaUTM_cKMingPv_KEEEyh9c5BfpDXBrBbe0sVyuscUSyDlAggHK50tUCqieysrEe1d6QiO10_MJFU7AY2-lGxRljRuMIwPXFOa7eXY.AS0TYMnEBn1Ee42gwfh84A",
+											"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..bgPz5wkdew5HThpgJgNiUA.HkHqjo4EUf9VOpzX5ugKmDmkKwFzFom87HBgSPvTNrqzD5ZoQs28IckTlLt867n4ZtkGtqWd340m5bLdKF3lqVrqcw1oQ7GVbtqMPatGtKn5c2ouPbscTKACQ_CPplSD62-25oZlHQus8bIa3SovkTVzV8oHuIO-C6NnUJ635wc.yc-ewibiFQ0HDUHp49R-4Q",
 											"description": "",
 											"type": "text"
 										}
@@ -1544,42 +1476,6 @@
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true",
-									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
-								},
-								{
-									"key": "Access-Control-Allow-Headers",
-									"value": "Accept,Accept-Encoding,Accept-Language,Cache-Control,Connection,Content-Length,Content-Type,Cookie,Host,Origin,Pragma,Referer,User-Agent,x-requested-with,X-XSRF-TOKEN,Lemon-Authorization",
-									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
-								},
-								{
-									"key": "Access-Control-Allow-Methods",
-									"value": "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH",
-									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "http://localhost:9000",
-									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
-								},
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "Cache-Control,Connection,Content-Type,Date,Expires,Pragma,Server,Set-Cookie,Transfer-Encoding,X-Content-Type-Options,X-XSS-Protection,X-Frame-Options,X-Application-Context,X-XSRF-TOKEN",
-									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
-								},
-								{
-									"key": "Access-Control-Max-Age",
-									"value": "3600",
-									"name": "Access-Control-Max-Age",
-									"description": "Indicates how long the results of a preflight request can be cached in seconds."
-								},
-								{
 									"key": "Cache-Control",
 									"value": "no-cache, no-store, max-age=0, must-revalidate",
 									"name": "Cache-Control",
@@ -1593,7 +1489,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sat, 03 Mar 2018 07:25:53 GMT",
+									"value": "Sat, 26 May 2018 12:58:20 GMT",
 									"name": "Date",
 									"description": "The date and time that the message was sent"
 								},
@@ -1605,7 +1501,7 @@
 								},
 								{
 									"key": "Lemon-Authorization",
-									"value": "Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..hUlUm7W15yR7sQLLvVsTxw.VudpH4qxSnDVNE2sYcZDKsZH3fniHxGg5E7pfuBYQLUHiRdjMlaHjlqfSOGTq9BaWcQVFkAwse_6rIH7ypELaWa6DU9BqlSWuY0VO7Oc4lMBNZm5BzwHayky6FpObEjIVejyJBpNDXG5oWFnXcYUqQ.4Uo-8XMjJl--UcESad_04A",
+									"value": "Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..YKawRAwKMxBN_Ohz9k09FA.Sa5WokvHmgm_RVd3CTLrQTPShSET2m6Zbq-x9r46V_S0rmZOsaops0J3ZoNWy2EVFn5jh2tt10UwvjWOi8BXLKtE8QaT-hOZ3zil-S1nz-gKLZSUYK_m08LXJSsoPYq5VfmtVxaRxGriWqongpak3A.LqtQZgfp8srgb88VbmBsGw",
 									"name": "Lemon-Authorization",
 									"description": "Custom header"
 								},
@@ -1640,8 +1536,18 @@
 									"description": "Cross-site scripting (XSS) filter"
 								}
 							],
-							"cookie": [],
-							"body": "{\"id\":2,\"username\":\"skpatel20+lemon1842637@example.com\",\"roles\":[],\"tag\":{\"name\":\"Sample User\"},\"unverified\":false,\"blocked\":false,\"admin\":false,\"goodUser\":true,\"goodAdmin\":false}"
+							"cookie": [
+								{
+									"expires": "Sat May 26 2018 20:06:10 GMT+0530 (India Standard Time)",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "rO0ABXNyAExvcmcuc3ByaW5nZnJhbWV3b3JrLnNlY3VyaXR5Lm9hdXRoMi5jb3JlLmVuZHBvaW50Lk9BdXRoMkF1dGhvcml6YXRpb25SZXF1ZXN0AAAAAAAAAfQCAAhMABRhZGRpdGlvbmFsUGFyYW1ldGVyc3QAD0xqYXZhL3V0aWwvTWFwO0wAFmF1dGhvcml6YXRpb25HcmFudFR5cGV0AEFMb3JnL3NwcmluZ2ZyYW1ld29yay9zZWN1cml0eS9vYXV0aDIvY29yZS9BdXRob3JpemF0aW9uR3JhbnRUeXBlO0wAEGF1dGhvcml6YXRpb25Vcml0ABJMamF2YS9sYW5nL1N0cmluZztMAAhjbGllbnRJZHEAfgADTAALcmVkaXJlY3RVcmlxAH4AA0wADHJlc3BvbnNlVHlwZXQAU0xvcmcvc3ByaW5nZnJhbWV3b3JrL3NlY3VyaXR5L29hdXRoMi9jb3JlL2VuZHBvaW50L09BdXRoMkF1dGhvcml6YXRpb25SZXNwb25zZVR5cGU7TAAGc2NvcGVzdAAPTGphdmEvdXRpbC9TZXQ7TAAFc3RhdGVxAH4AA3hwc3IAJWphdmEudXRpbC5Db2xsZWN0aW9ucyRVbm1vZGlmaWFibGVNYXDxpaj-dPUHQgIAAUwAAW1xAH4AAXhwc3IAF2phdmEudXRpbC5MaW5rZWRIYXNoTWFwNMBOXBBswPsCAAFaAAthY2Nlc3NPcmRlcnhyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAF3CAAAAAIAAAABdAAPcmVnaXN0cmF0aW9uX2lkdAAIZmFjZWJvb2t4AHNyAD9vcmcuc3ByaW5nZnJhbWV3b3JrLnNlY3VyaXR5Lm9hdXRoMi5jb3JlLkF1dGhvcml6YXRpb25HcmFudFR5cGUAAAAAAAAB9AIAAUwABXZhbHVlcQB-AAN4cHQAEmF1dGhvcml6YXRpb25fY29kZXQAKmh0dHBzOi8vd3d3LmZhY2Vib29rLmNvbS92Mi44L2RpYWxvZy9vYXV0aHQAEDEyMzQwMjAxODY3MTg3NDF0ADBodHRwOi8vbG9jYWxob3N0OjgwODAvbG9naW4vb2F1dGgyL2NvZGUvZmFjZWJvb2tzcgBRb3JnLnNwcmluZ2ZyYW1ld29yay5zZWN1cml0eS5vYXV0aDIuY29yZS5lbmRwb2ludC5PQXV0aDJBdXRob3JpemF0aW9uUmVzcG9uc2VUeXBlAAAAAAAAAfQCAAFMAAV2YWx1ZXEAfgADeHB0AARjb2Rlc3IAJWphdmEudXRpbC5Db2xsZWN0aW9ucyRVbm1vZGlmaWFibGVTZXSAHZLRj5uAVQIAAHhyACxqYXZhLnV0aWwuQ29sbGVjdGlvbnMkVW5tb2RpZmlhYmxlQ29sbGVjdGlvbhlCAIDLXvceAgABTAABY3QAFkxqYXZhL3V0aWwvQ29sbGVjdGlvbjt4cHNyABdqYXZhLnV0aWwuTGlua2VkSGFzaFNldNhs11qV3SoeAgAAeHIAEWphdmEudXRpbC5IYXNoU2V0ukSFlZa4tzQDAAB4cHcMAAAAED9AAAAAAAACdAAOcHVibGljX3Byb2ZpbGV0AAVlbWFpbHh0ACxkM2ppcWU0ZXBfeVhHSWZoNUVNaTZ1ZGs3WFdXQnZ4V3hjQmYtNE5oZ3hjPQ==",
+									"key": "lemon_oauth2_authorization_request"
+								}
+							],
+							"body": "{\"id\":11,\"username\":\"skpatel20+lemon3382895@example.com\",\"roles\":[],\"tag\":{\"name\":\"Sample User\"},\"unverified\":false,\"blocked\":false,\"admin\":false,\"goodUser\":true,\"goodAdmin\":false}"
 						}
 					]
 				},
@@ -1661,13 +1567,19 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
+							"mode": "urlencoded",
+							"urlencoded": [
 								{
 									"key": "email",
 									"value": "{{userEmail}}",
+									"description": "",
 									"type": "text"
 								}
 							]
@@ -1687,17 +1599,26 @@
 					},
 					"response": [
 						{
-							"id": "7a6fdd27-fc09-4fdd-93d3-6178805a7589",
+							"id": "b7913835-3286-4c8f-b2c8-56f8432bf971",
 							"name": "Forgot password",
 							"originalRequest": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"disabled": false
+									}
+								],
 								"body": {
-									"mode": "formdata",
-									"formdata": [
+									"mode": "urlencoded",
+									"urlencoded": [
 										{
 											"key": "email",
 											"value": "{{userEmail}}",
+											"description": "",
 											"type": "text"
 										}
 									]
@@ -1719,42 +1640,6 @@
 							"_postman_previewlanguage": "plain",
 							"header": [
 								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true",
-									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
-								},
-								{
-									"key": "Access-Control-Allow-Headers",
-									"value": "Accept,Accept-Encoding,Accept-Language,Cache-Control,Connection,Content-Length,Content-Type,Cookie,Host,Origin,Pragma,Referer,User-Agent,x-requested-with,X-XSRF-TOKEN,Lemon-Authorization",
-									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
-								},
-								{
-									"key": "Access-Control-Allow-Methods",
-									"value": "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH",
-									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "http://localhost:9000",
-									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
-								},
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "Cache-Control,Connection,Content-Type,Date,Expires,Pragma,Server,Set-Cookie,Transfer-Encoding,X-Content-Type-Options,X-XSS-Protection,X-Frame-Options,X-Application-Context,X-XSRF-TOKEN",
-									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
-								},
-								{
-									"key": "Access-Control-Max-Age",
-									"value": "3600",
-									"name": "Access-Control-Max-Age",
-									"description": "Indicates how long the results of a preflight request can be cached in seconds."
-								},
-								{
 									"key": "Cache-Control",
 									"value": "no-cache, no-store, max-age=0, must-revalidate",
 									"name": "Cache-Control",
@@ -1762,7 +1647,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sat, 03 Mar 2018 07:38:59 GMT",
+									"value": "Sat, 26 May 2018 13:01:15 GMT",
 									"name": "Date",
 									"description": "The date and time that the message was sent"
 								},
@@ -1797,7 +1682,17 @@
 									"description": "Cross-site scripting (XSS) filter"
 								}
 							],
-							"cookie": [],
+							"cookie": [
+								{
+									"expires": "Sat May 26 2018 20:06:10 GMT+0530 (India Standard Time)",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "rO0ABXNyAExvcmcuc3ByaW5nZnJhbWV3b3JrLnNlY3VyaXR5Lm9hdXRoMi5jb3JlLmVuZHBvaW50Lk9BdXRoMkF1dGhvcml6YXRpb25SZXF1ZXN0AAAAAAAAAfQCAAhMABRhZGRpdGlvbmFsUGFyYW1ldGVyc3QAD0xqYXZhL3V0aWwvTWFwO0wAFmF1dGhvcml6YXRpb25HcmFudFR5cGV0AEFMb3JnL3NwcmluZ2ZyYW1ld29yay9zZWN1cml0eS9vYXV0aDIvY29yZS9BdXRob3JpemF0aW9uR3JhbnRUeXBlO0wAEGF1dGhvcml6YXRpb25Vcml0ABJMamF2YS9sYW5nL1N0cmluZztMAAhjbGllbnRJZHEAfgADTAALcmVkaXJlY3RVcmlxAH4AA0wADHJlc3BvbnNlVHlwZXQAU0xvcmcvc3ByaW5nZnJhbWV3b3JrL3NlY3VyaXR5L29hdXRoMi9jb3JlL2VuZHBvaW50L09BdXRoMkF1dGhvcml6YXRpb25SZXNwb25zZVR5cGU7TAAGc2NvcGVzdAAPTGphdmEvdXRpbC9TZXQ7TAAFc3RhdGVxAH4AA3hwc3IAJWphdmEudXRpbC5Db2xsZWN0aW9ucyRVbm1vZGlmaWFibGVNYXDxpaj-dPUHQgIAAUwAAW1xAH4AAXhwc3IAF2phdmEudXRpbC5MaW5rZWRIYXNoTWFwNMBOXBBswPsCAAFaAAthY2Nlc3NPcmRlcnhyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAF3CAAAAAIAAAABdAAPcmVnaXN0cmF0aW9uX2lkdAAIZmFjZWJvb2t4AHNyAD9vcmcuc3ByaW5nZnJhbWV3b3JrLnNlY3VyaXR5Lm9hdXRoMi5jb3JlLkF1dGhvcml6YXRpb25HcmFudFR5cGUAAAAAAAAB9AIAAUwABXZhbHVlcQB-AAN4cHQAEmF1dGhvcml6YXRpb25fY29kZXQAKmh0dHBzOi8vd3d3LmZhY2Vib29rLmNvbS92Mi44L2RpYWxvZy9vYXV0aHQAEDEyMzQwMjAxODY3MTg3NDF0ADBodHRwOi8vbG9jYWxob3N0OjgwODAvbG9naW4vb2F1dGgyL2NvZGUvZmFjZWJvb2tzcgBRb3JnLnNwcmluZ2ZyYW1ld29yay5zZWN1cml0eS5vYXV0aDIuY29yZS5lbmRwb2ludC5PQXV0aDJBdXRob3JpemF0aW9uUmVzcG9uc2VUeXBlAAAAAAAAAfQCAAFMAAV2YWx1ZXEAfgADeHB0AARjb2Rlc3IAJWphdmEudXRpbC5Db2xsZWN0aW9ucyRVbm1vZGlmaWFibGVTZXSAHZLRj5uAVQIAAHhyACxqYXZhLnV0aWwuQ29sbGVjdGlvbnMkVW5tb2RpZmlhYmxlQ29sbGVjdGlvbhlCAIDLXvceAgABTAABY3QAFkxqYXZhL3V0aWwvQ29sbGVjdGlvbjt4cHNyABdqYXZhLnV0aWwuTGlua2VkSGFzaFNldNhs11qV3SoeAgAAeHIAEWphdmEudXRpbC5IYXNoU2V0ukSFlZa4tzQDAAB4cHcMAAAAED9AAAAAAAACdAAOcHVibGljX3Byb2ZpbGV0AAVlbWFpbHh0ACxkM2ppcWU0ZXBfeVhHSWZoNUVNaTZ1ZGs3WFdXQnZ4V3hjQmYtNE5oZ3hjPQ==",
+									"key": "lemon_oauth2_authorization_request"
+								}
+							],
 							"body": ""
 						}
 					]
@@ -1821,18 +1716,24 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
+							"mode": "urlencoded",
+							"urlencoded": [
 								{
 									"key": "newPassword",
 									"value": "a-new-password",
+									"description": "",
 									"type": "text"
 								},
 								{
 									"key": "code",
-									"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..09VdWWEK81dh59o4eQ0L-g.gdFc8B52KvOHb7e8OY8Yk540lbGsVE7-W8EMha-ZEdLKOV2WFs7xGMVS-r_e7SfhL00A1-H8reZlRdYEYO8KyC4dosdMhOAFkd4urZjoRpy7Lgnx8K6_-op-TU7iXY9TcBXDwT_T0F7wfwV15m2c_A.wp5HyHxbYQGnAWI9RM7QgA",
+									"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..HoDu5pdYAx8fS7p9PKCl5g.jRNA1Vu0ZydW9G4bDd6f7GirpNahXtytXke9i7M5xmrsTqUvCitotGwOm3NwhmyIUcBeRTS53lx1SCxDa8cuv9McD2v2exRfKhnNu1i7cG1E10Cmb4m9nuDuAP2LviXpUOLJyYUFRGrxQOrCwwkMNQ.iN6xYjU1Xe-w9O4VDKDEOA",
 									"description": "",
 									"type": "text"
 								}
@@ -1853,22 +1754,31 @@
 					},
 					"response": [
 						{
-							"id": "773fe4b8-da8e-4ba8-acd1-638ab5b2d59a",
+							"id": "bbc954f4-d67a-421c-9045-58cf125ecd31",
 							"name": "Reset password",
 							"originalRequest": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"disabled": false
+									}
+								],
 								"body": {
-									"mode": "formdata",
-									"formdata": [
+									"mode": "urlencoded",
+									"urlencoded": [
 										{
 											"key": "newPassword",
 											"value": "a-new-password",
+											"description": "",
 											"type": "text"
 										},
 										{
 											"key": "code",
-											"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..09VdWWEK81dh59o4eQ0L-g.gdFc8B52KvOHb7e8OY8Yk540lbGsVE7-W8EMha-ZEdLKOV2WFs7xGMVS-r_e7SfhL00A1-H8reZlRdYEYO8KyC4dosdMhOAFkd4urZjoRpy7Lgnx8K6_-op-TU7iXY9TcBXDwT_T0F7wfwV15m2c_A.wp5HyHxbYQGnAWI9RM7QgA",
+											"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..HoDu5pdYAx8fS7p9PKCl5g.jRNA1Vu0ZydW9G4bDd6f7GirpNahXtytXke9i7M5xmrsTqUvCitotGwOm3NwhmyIUcBeRTS53lx1SCxDa8cuv9McD2v2exRfKhnNu1i7cG1E10Cmb4m9nuDuAP2LviXpUOLJyYUFRGrxQOrCwwkMNQ.iN6xYjU1Xe-w9O4VDKDEOA",
 											"description": "",
 											"type": "text"
 										}
@@ -1891,42 +1801,6 @@
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true",
-									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
-								},
-								{
-									"key": "Access-Control-Allow-Headers",
-									"value": "Accept,Accept-Encoding,Accept-Language,Cache-Control,Connection,Content-Length,Content-Type,Cookie,Host,Origin,Pragma,Referer,User-Agent,x-requested-with,X-XSRF-TOKEN,Lemon-Authorization",
-									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
-								},
-								{
-									"key": "Access-Control-Allow-Methods",
-									"value": "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH",
-									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "http://localhost:9000",
-									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
-								},
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "Cache-Control,Connection,Content-Type,Date,Expires,Pragma,Server,Set-Cookie,Transfer-Encoding,X-Content-Type-Options,X-XSS-Protection,X-Frame-Options,X-Application-Context,X-XSRF-TOKEN",
-									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
-								},
-								{
-									"key": "Access-Control-Max-Age",
-									"value": "3600",
-									"name": "Access-Control-Max-Age",
-									"description": "Indicates how long the results of a preflight request can be cached in seconds."
-								},
-								{
 									"key": "Cache-Control",
 									"value": "no-cache, no-store, max-age=0, must-revalidate",
 									"name": "Cache-Control",
@@ -1940,7 +1814,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sat, 03 Mar 2018 07:48:02 GMT",
+									"value": "Sat, 26 May 2018 13:03:22 GMT",
 									"name": "Date",
 									"description": "The date and time that the message was sent"
 								},
@@ -1952,7 +1826,7 @@
 								},
 								{
 									"key": "Lemon-Authorization",
-									"value": "Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..v0d_lc9aXcQQyzlVwL3FWA.tPwWju0fvwo9iF3s0E_QCmP537WqMlHigXsDmmUw6EPhuzrRNylMxBAdSW9bweTS81-7q6yMrk5ZLDBjhFITJOZgTXaBA3ny9T86NhezH-vKIgkEIv3HStlk9f6CSMpuL25UrBCo11gD9ocv3unrcQ.dcWWrGIYpCv4OtvyRfpO_g",
+									"value": "Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..EYfq9lEyJSw8QaWo-Dydhw.IDKnfUnbIEViYvvnjnr8BoC8QKUrCz04tUfGaWVWoXgppKHX8WmAjt90ItzN_rNh8pxP65deqHFZYastmiXIBm7FkxvR1ex7KmcUtB58BlPFw8mYpLnJgZXu1swJ5x4JQ7_8oG9y5pP9r0x4O0uL4Q.zSgIzCBcBlofxPsfRbdtmQ",
 									"name": "Lemon-Authorization",
 									"description": "Custom header"
 								},
@@ -1987,8 +1861,18 @@
 									"description": "Cross-site scripting (XSS) filter"
 								}
 							],
-							"cookie": [],
-							"body": "{\"id\":2,\"username\":\"skpatel20+lemon1842637@example.com\",\"roles\":[],\"tag\":{\"name\":\"Sample User\"},\"unverified\":false,\"blocked\":false,\"admin\":false,\"goodUser\":true,\"goodAdmin\":false}"
+							"cookie": [
+								{
+									"expires": "Sat May 26 2018 20:06:10 GMT+0530 (India Standard Time)",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "rO0ABXNyAExvcmcuc3ByaW5nZnJhbWV3b3JrLnNlY3VyaXR5Lm9hdXRoMi5jb3JlLmVuZHBvaW50Lk9BdXRoMkF1dGhvcml6YXRpb25SZXF1ZXN0AAAAAAAAAfQCAAhMABRhZGRpdGlvbmFsUGFyYW1ldGVyc3QAD0xqYXZhL3V0aWwvTWFwO0wAFmF1dGhvcml6YXRpb25HcmFudFR5cGV0AEFMb3JnL3NwcmluZ2ZyYW1ld29yay9zZWN1cml0eS9vYXV0aDIvY29yZS9BdXRob3JpemF0aW9uR3JhbnRUeXBlO0wAEGF1dGhvcml6YXRpb25Vcml0ABJMamF2YS9sYW5nL1N0cmluZztMAAhjbGllbnRJZHEAfgADTAALcmVkaXJlY3RVcmlxAH4AA0wADHJlc3BvbnNlVHlwZXQAU0xvcmcvc3ByaW5nZnJhbWV3b3JrL3NlY3VyaXR5L29hdXRoMi9jb3JlL2VuZHBvaW50L09BdXRoMkF1dGhvcml6YXRpb25SZXNwb25zZVR5cGU7TAAGc2NvcGVzdAAPTGphdmEvdXRpbC9TZXQ7TAAFc3RhdGVxAH4AA3hwc3IAJWphdmEudXRpbC5Db2xsZWN0aW9ucyRVbm1vZGlmaWFibGVNYXDxpaj-dPUHQgIAAUwAAW1xAH4AAXhwc3IAF2phdmEudXRpbC5MaW5rZWRIYXNoTWFwNMBOXBBswPsCAAFaAAthY2Nlc3NPcmRlcnhyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAF3CAAAAAIAAAABdAAPcmVnaXN0cmF0aW9uX2lkdAAIZmFjZWJvb2t4AHNyAD9vcmcuc3ByaW5nZnJhbWV3b3JrLnNlY3VyaXR5Lm9hdXRoMi5jb3JlLkF1dGhvcml6YXRpb25HcmFudFR5cGUAAAAAAAAB9AIAAUwABXZhbHVlcQB-AAN4cHQAEmF1dGhvcml6YXRpb25fY29kZXQAKmh0dHBzOi8vd3d3LmZhY2Vib29rLmNvbS92Mi44L2RpYWxvZy9vYXV0aHQAEDEyMzQwMjAxODY3MTg3NDF0ADBodHRwOi8vbG9jYWxob3N0OjgwODAvbG9naW4vb2F1dGgyL2NvZGUvZmFjZWJvb2tzcgBRb3JnLnNwcmluZ2ZyYW1ld29yay5zZWN1cml0eS5vYXV0aDIuY29yZS5lbmRwb2ludC5PQXV0aDJBdXRob3JpemF0aW9uUmVzcG9uc2VUeXBlAAAAAAAAAfQCAAFMAAV2YWx1ZXEAfgADeHB0AARjb2Rlc3IAJWphdmEudXRpbC5Db2xsZWN0aW9ucyRVbm1vZGlmaWFibGVTZXSAHZLRj5uAVQIAAHhyACxqYXZhLnV0aWwuQ29sbGVjdGlvbnMkVW5tb2RpZmlhYmxlQ29sbGVjdGlvbhlCAIDLXvceAgABTAABY3QAFkxqYXZhL3V0aWwvQ29sbGVjdGlvbjt4cHNyABdqYXZhLnV0aWwuTGlua2VkSGFzaFNldNhs11qV3SoeAgAAeHIAEWphdmEudXRpbC5IYXNoU2V0ukSFlZa4tzQDAAB4cHcMAAAAED9AAAAAAAACdAAOcHVibGljX3Byb2ZpbGV0AAVlbWFpbHh0ACxkM2ppcWU0ZXBfeVhHSWZoNUVNaTZ1ZGs3WFdXQnZ4V3hjQmYtNE5oZ3hjPQ==",
+									"key": "lemon_oauth2_authorization_request"
+								}
+							],
+							"body": "{\"id\":11,\"username\":\"skpatel20+lemon3382895@example.com\",\"roles\":[],\"tag\":{\"name\":\"Sample User\"},\"unverified\":false,\"blocked\":false,\"admin\":false,\"goodUser\":true,\"goodAdmin\":false}"
 						}
 					]
 				},
@@ -2012,11 +1896,15 @@
 							{
 								"key": "Authorization",
 								"value": "{{userAuthHeader}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
+							"mode": "urlencoded",
+							"urlencoded": [
 								{
 									"key": "email",
 									"value": "{{userEmail}}",
@@ -2041,19 +1929,139 @@
 					},
 					"response": [
 						{
-							"id": "93aeab69-7b9e-455d-b4fe-a07692fcac8d",
+							"id": "d1ccdda8-bf5d-446a-a468-e1fbc607e26c",
+							"name": "Fetch user by email - Others",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{userAuthHeader}}",
+										"disabled": true
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"disabled": false
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "{{userEmail}}",
+											"description": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{lemonDemoUrl}}/api/core/users/fetch-by-email",
+									"host": [
+										"{{lemonDemoUrl}}"
+									],
+									"path": [
+										"api",
+										"core",
+										"users",
+										"fetch-by-email"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 May 2018 13:06:17 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Expires",
+									"value": "0",
+									"name": "Expires",
+									"description": "Gives the date/time after which the response is considered stale"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache",
+									"name": "Pragma",
+									"description": "Implementation-specific headers that may have various effects anywhere along the request-response chain."
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff",
+									"name": "X-Content-Type-Options",
+									"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY",
+									"name": "X-Frame-Options",
+									"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block",
+									"name": "X-XSS-Protection",
+									"description": "Cross-site scripting (XSS) filter"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Sat May 26 2018 20:06:10 GMT+0530 (India Standard Time)",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "rO0ABXNyAExvcmcuc3ByaW5nZnJhbWV3b3JrLnNlY3VyaXR5Lm9hdXRoMi5jb3JlLmVuZHBvaW50Lk9BdXRoMkF1dGhvcml6YXRpb25SZXF1ZXN0AAAAAAAAAfQCAAhMABRhZGRpdGlvbmFsUGFyYW1ldGVyc3QAD0xqYXZhL3V0aWwvTWFwO0wAFmF1dGhvcml6YXRpb25HcmFudFR5cGV0AEFMb3JnL3NwcmluZ2ZyYW1ld29yay9zZWN1cml0eS9vYXV0aDIvY29yZS9BdXRob3JpemF0aW9uR3JhbnRUeXBlO0wAEGF1dGhvcml6YXRpb25Vcml0ABJMamF2YS9sYW5nL1N0cmluZztMAAhjbGllbnRJZHEAfgADTAALcmVkaXJlY3RVcmlxAH4AA0wADHJlc3BvbnNlVHlwZXQAU0xvcmcvc3ByaW5nZnJhbWV3b3JrL3NlY3VyaXR5L29hdXRoMi9jb3JlL2VuZHBvaW50L09BdXRoMkF1dGhvcml6YXRpb25SZXNwb25zZVR5cGU7TAAGc2NvcGVzdAAPTGphdmEvdXRpbC9TZXQ7TAAFc3RhdGVxAH4AA3hwc3IAJWphdmEudXRpbC5Db2xsZWN0aW9ucyRVbm1vZGlmaWFibGVNYXDxpaj-dPUHQgIAAUwAAW1xAH4AAXhwc3IAF2phdmEudXRpbC5MaW5rZWRIYXNoTWFwNMBOXBBswPsCAAFaAAthY2Nlc3NPcmRlcnhyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAF3CAAAAAIAAAABdAAPcmVnaXN0cmF0aW9uX2lkdAAIZmFjZWJvb2t4AHNyAD9vcmcuc3ByaW5nZnJhbWV3b3JrLnNlY3VyaXR5Lm9hdXRoMi5jb3JlLkF1dGhvcml6YXRpb25HcmFudFR5cGUAAAAAAAAB9AIAAUwABXZhbHVlcQB-AAN4cHQAEmF1dGhvcml6YXRpb25fY29kZXQAKmh0dHBzOi8vd3d3LmZhY2Vib29rLmNvbS92Mi44L2RpYWxvZy9vYXV0aHQAEDEyMzQwMjAxODY3MTg3NDF0ADBodHRwOi8vbG9jYWxob3N0OjgwODAvbG9naW4vb2F1dGgyL2NvZGUvZmFjZWJvb2tzcgBRb3JnLnNwcmluZ2ZyYW1ld29yay5zZWN1cml0eS5vYXV0aDIuY29yZS5lbmRwb2ludC5PQXV0aDJBdXRob3JpemF0aW9uUmVzcG9uc2VUeXBlAAAAAAAAAfQCAAFMAAV2YWx1ZXEAfgADeHB0AARjb2Rlc3IAJWphdmEudXRpbC5Db2xsZWN0aW9ucyRVbm1vZGlmaWFibGVTZXSAHZLRj5uAVQIAAHhyACxqYXZhLnV0aWwuQ29sbGVjdGlvbnMkVW5tb2RpZmlhYmxlQ29sbGVjdGlvbhlCAIDLXvceAgABTAABY3QAFkxqYXZhL3V0aWwvQ29sbGVjdGlvbjt4cHNyABdqYXZhLnV0aWwuTGlua2VkSGFzaFNldNhs11qV3SoeAgAAeHIAEWphdmEudXRpbC5IYXNoU2V0ukSFlZa4tzQDAAB4cHcMAAAAED9AAAAAAAACdAAOcHVibGljX3Byb2ZpbGV0AAVlbWFpbHh0ACxkM2ppcWU0ZXBfeVhHSWZoNUVNaTZ1ZGs3WFdXQnZ4V3hjQmYtNE5oZ3hjPQ==",
+									"key": "lemon_oauth2_authorization_request"
+								}
+							],
+							"body": "{\"id\":11,\"version\":2,\"roles\":[],\"name\":\"Sample User\",\"new\":false}"
+						},
+						{
+							"id": "5595f812-2a4f-4360-bf32-f1813a22a6f3",
 							"name": "Fetch user by email - Self or Admin",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "{{userAuthHeader}}"
+										"value": "{{userAuthHeader}}",
+										"disabled": false
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"disabled": false
 									}
 								],
 								"body": {
-									"mode": "formdata",
-									"formdata": [
+									"mode": "urlencoded",
+									"urlencoded": [
 										{
 											"key": "email",
 											"value": "{{userEmail}}",
@@ -2080,42 +2088,6 @@
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true",
-									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
-								},
-								{
-									"key": "Access-Control-Allow-Headers",
-									"value": "Accept,Accept-Encoding,Accept-Language,Cache-Control,Connection,Content-Length,Content-Type,Cookie,Host,Origin,Pragma,Referer,User-Agent,x-requested-with,X-XSRF-TOKEN,Lemon-Authorization",
-									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
-								},
-								{
-									"key": "Access-Control-Allow-Methods",
-									"value": "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH",
-									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "http://localhost:9000",
-									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
-								},
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "Cache-Control,Connection,Content-Type,Date,Expires,Pragma,Server,Set-Cookie,Transfer-Encoding,X-Content-Type-Options,X-XSS-Protection,X-Frame-Options,X-Application-Context,X-XSRF-TOKEN",
-									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
-								},
-								{
-									"key": "Access-Control-Max-Age",
-									"value": "3600",
-									"name": "Access-Control-Max-Age",
-									"description": "Indicates how long the results of a preflight request can be cached in seconds."
-								},
-								{
 									"key": "Cache-Control",
 									"value": "no-cache, no-store, max-age=0, must-revalidate",
 									"name": "Cache-Control",
@@ -2129,7 +2101,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sat, 03 Mar 2018 07:52:03 GMT",
+									"value": "Sat, 26 May 2018 13:05:46 GMT",
 									"name": "Date",
 									"description": "The date and time that the message was sent"
 								},
@@ -2170,136 +2142,18 @@
 									"description": "Cross-site scripting (XSS) filter"
 								}
 							],
-							"cookie": [],
-							"body": "{\"id\":2,\"version\":2,\"email\":\"skpatel20+lemon1842637@example.com\",\"roles\":[],\"name\":\"Sample User\",\"new\":false}"
-						},
-						{
-							"id": "255a70c1-662f-4550-a735-eaffa32e1a53",
-							"name": "Fetch user by email - Others",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "email",
-											"value": "{{userEmail}}",
-											"description": "",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{lemonDemoUrl}}/api/core/users/fetch-by-email",
-									"host": [
-										"{{lemonDemoUrl}}"
-									],
-									"path": [
-										"api",
-										"core",
-										"users",
-										"fetch-by-email"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
+							"cookie": [
 								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true",
-									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
-								},
-								{
-									"key": "Access-Control-Allow-Headers",
-									"value": "Accept,Accept-Encoding,Accept-Language,Cache-Control,Connection,Content-Length,Content-Type,Cookie,Host,Origin,Pragma,Referer,User-Agent,x-requested-with,X-XSRF-TOKEN,Lemon-Authorization",
-									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
-								},
-								{
-									"key": "Access-Control-Allow-Methods",
-									"value": "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH",
-									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "http://localhost:9000",
-									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
-								},
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "Cache-Control,Connection,Content-Type,Date,Expires,Pragma,Server,Set-Cookie,Transfer-Encoding,X-Content-Type-Options,X-XSS-Protection,X-Frame-Options,X-Application-Context,X-XSRF-TOKEN",
-									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
-								},
-								{
-									"key": "Access-Control-Max-Age",
-									"value": "3600",
-									"name": "Access-Control-Max-Age",
-									"description": "Indicates how long the results of a preflight request can be cached in seconds."
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, no-store, max-age=0, must-revalidate",
-									"name": "Cache-Control",
-									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json;charset=UTF-8",
-									"name": "Content-Type",
-									"description": "The mime type of this content"
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 03 Mar 2018 07:52:44 GMT",
-									"name": "Date",
-									"description": "The date and time that the message was sent"
-								},
-								{
-									"key": "Expires",
-									"value": "0",
-									"name": "Expires",
-									"description": "Gives the date/time after which the response is considered stale"
-								},
-								{
-									"key": "Pragma",
-									"value": "no-cache",
-									"name": "Pragma",
-									"description": "Implementation-specific headers that may have various effects anywhere along the request-response chain."
-								},
-								{
-									"key": "Transfer-Encoding",
-									"value": "chunked",
-									"name": "Transfer-Encoding",
-									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
-								},
-								{
-									"key": "X-Content-Type-Options",
-									"value": "nosniff",
-									"name": "X-Content-Type-Options",
-									"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
-								},
-								{
-									"key": "X-Frame-Options",
-									"value": "DENY",
-									"name": "X-Frame-Options",
-									"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
-								},
-								{
-									"key": "X-XSS-Protection",
-									"value": "1; mode=block",
-									"name": "X-XSS-Protection",
-									"description": "Cross-site scripting (XSS) filter"
+									"expires": "Sat May 26 2018 20:06:10 GMT+0530 (India Standard Time)",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "rO0ABXNyAExvcmcuc3ByaW5nZnJhbWV3b3JrLnNlY3VyaXR5Lm9hdXRoMi5jb3JlLmVuZHBvaW50Lk9BdXRoMkF1dGhvcml6YXRpb25SZXF1ZXN0AAAAAAAAAfQCAAhMABRhZGRpdGlvbmFsUGFyYW1ldGVyc3QAD0xqYXZhL3V0aWwvTWFwO0wAFmF1dGhvcml6YXRpb25HcmFudFR5cGV0AEFMb3JnL3NwcmluZ2ZyYW1ld29yay9zZWN1cml0eS9vYXV0aDIvY29yZS9BdXRob3JpemF0aW9uR3JhbnRUeXBlO0wAEGF1dGhvcml6YXRpb25Vcml0ABJMamF2YS9sYW5nL1N0cmluZztMAAhjbGllbnRJZHEAfgADTAALcmVkaXJlY3RVcmlxAH4AA0wADHJlc3BvbnNlVHlwZXQAU0xvcmcvc3ByaW5nZnJhbWV3b3JrL3NlY3VyaXR5L29hdXRoMi9jb3JlL2VuZHBvaW50L09BdXRoMkF1dGhvcml6YXRpb25SZXNwb25zZVR5cGU7TAAGc2NvcGVzdAAPTGphdmEvdXRpbC9TZXQ7TAAFc3RhdGVxAH4AA3hwc3IAJWphdmEudXRpbC5Db2xsZWN0aW9ucyRVbm1vZGlmaWFibGVNYXDxpaj-dPUHQgIAAUwAAW1xAH4AAXhwc3IAF2phdmEudXRpbC5MaW5rZWRIYXNoTWFwNMBOXBBswPsCAAFaAAthY2Nlc3NPcmRlcnhyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAF3CAAAAAIAAAABdAAPcmVnaXN0cmF0aW9uX2lkdAAIZmFjZWJvb2t4AHNyAD9vcmcuc3ByaW5nZnJhbWV3b3JrLnNlY3VyaXR5Lm9hdXRoMi5jb3JlLkF1dGhvcml6YXRpb25HcmFudFR5cGUAAAAAAAAB9AIAAUwABXZhbHVlcQB-AAN4cHQAEmF1dGhvcml6YXRpb25fY29kZXQAKmh0dHBzOi8vd3d3LmZhY2Vib29rLmNvbS92Mi44L2RpYWxvZy9vYXV0aHQAEDEyMzQwMjAxODY3MTg3NDF0ADBodHRwOi8vbG9jYWxob3N0OjgwODAvbG9naW4vb2F1dGgyL2NvZGUvZmFjZWJvb2tzcgBRb3JnLnNwcmluZ2ZyYW1ld29yay5zZWN1cml0eS5vYXV0aDIuY29yZS5lbmRwb2ludC5PQXV0aDJBdXRob3JpemF0aW9uUmVzcG9uc2VUeXBlAAAAAAAAAfQCAAFMAAV2YWx1ZXEAfgADeHB0AARjb2Rlc3IAJWphdmEudXRpbC5Db2xsZWN0aW9ucyRVbm1vZGlmaWFibGVTZXSAHZLRj5uAVQIAAHhyACxqYXZhLnV0aWwuQ29sbGVjdGlvbnMkVW5tb2RpZmlhYmxlQ29sbGVjdGlvbhlCAIDLXvceAgABTAABY3QAFkxqYXZhL3V0aWwvQ29sbGVjdGlvbjt4cHNyABdqYXZhLnV0aWwuTGlua2VkSGFzaFNldNhs11qV3SoeAgAAeHIAEWphdmEudXRpbC5IYXNoU2V0ukSFlZa4tzQDAAB4cHcMAAAAED9AAAAAAAACdAAOcHVibGljX3Byb2ZpbGV0AAVlbWFpbHh0ACxkM2ppcWU0ZXBfeVhHSWZoNUVNaTZ1ZGs3WFdXQnZ4V3hjQmYtNE5oZ3hjPQ==",
+									"key": "lemon_oauth2_authorization_request"
 								}
 							],
-							"cookie": [],
-							"body": "{\"id\":2,\"version\":2,\"roles\":[],\"name\":\"Sample User\",\"new\":false}"
+							"body": "{\"id\":11,\"version\":2,\"email\":\"skpatel20+lemon3382895@example.com\",\"roles\":[],\"name\":\"Sample User\",\"new\":false}"
 						}
 					]
 				},
@@ -2351,7 +2205,7 @@
 					},
 					"response": [
 						{
-							"id": "b1a36602-915b-441a-88fc-36690a65de38",
+							"id": "2448a1cc-627d-4d23-a10f-fa4f6d32efc7",
 							"name": "Fetch user by ID - Self or Admin",
 							"originalRequest": {
 								"method": "GET",
@@ -2477,7 +2331,7 @@
 							"body": "{\"id\":2,\"version\":2,\"email\":\"skpatel20+lemon1842637@example.com\",\"roles\":[],\"name\":\"Sample User\",\"new\":false}"
 						},
 						{
-							"id": "eccff695-d1a7-45c1-b405-ec8a9a55928e",
+							"id": "7288f472-5f1e-437a-be18-bd3e0e11d789",
 							"name": "Fetch user by ID - Others",
 							"originalRequest": {
 								"method": "GET",
@@ -2648,7 +2502,7 @@
 					},
 					"response": [
 						{
-							"id": "428e286a-2c7e-4436-805c-8acd4057933b",
+							"id": "9c1fc11b-c7e2-4406-9db2-07325bdd6da2",
 							"name": "Update user",
 							"originalRequest": {
 								"method": "PATCH",
@@ -2835,7 +2689,7 @@
 					},
 					"response": [
 						{
-							"id": "ffdd558a-f2fe-478c-8099-2cbd4766ccb7",
+							"id": "81590aa2-a281-4755-bf43-568fc79f82b1",
 							"name": "Change password",
 							"originalRequest": {
 								"method": "POST",
@@ -3017,7 +2871,7 @@
 					},
 					"response": [
 						{
-							"id": "fafcaf23-ec45-4b9e-b24d-7511b01f33b9",
+							"id": "f7320de8-3bd4-45ac-851a-9b4db1870fe5",
 							"name": "Requesting for changing email",
 							"originalRequest": {
 								"method": "POST",
@@ -3163,7 +3017,7 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/x-www-form-urlencoded"
 							},
 							{
 								"key": "Authorization",
@@ -3171,11 +3025,11 @@
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
+							"mode": "urlencoded",
+							"urlencoded": [
 								{
 									"key": "code",
-									"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..Eiv9Jk5EXb9YwOeRPEIydw.EDMQrE_gIF7CLV8apdSbB6HxIyNzegYcJr0YhdwePMPnLv15wLYgoqQf29fz81YOnTCzHvE55Lt03cQ5gkD3DRG_JPf8ygrLjDuJbt9D_RxSjlXdFyOzw3efwKPSZWOC2MqOJdyUG6xjndJL64eEOFfmk_3g2I6u2XMaGU1CqczdPqMP0nTVAWsFJq8ZJvzJ.3Lz2dr_KOTzk8jZG4nPrNw",
+									"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..r2QI1lFdFcSvtU7kzsRaxA.4uAMPzfg6eAJ36r3ih77Y8XpvWmMXoJZFGGlKTl_ybno8P5Qs02RNroUXPzGZNjXqdOGJ4huslGh_r0BiZ3ry4fCJhM9lPpsLFk9sRrFWEmbg-0DHi_QNxB2I3VXGYUGGVdqYCW0P_cVtU1AHnCHWrSRKwzXUzL-UDyBkZwJtYtnA2JVavlZQTuQK7pol3Ky.z0BcfAoaXNapzIOCVgccPQ",
 									"description": "",
 									"type": "text"
 								}
@@ -3198,26 +3052,30 @@
 					},
 					"response": [
 						{
-							"id": "bfc441c8-8682-48b6-8234-cdb49ee965a8",
+							"id": "09ead591-4e70-4726-b240-f29b5e0f16af",
 							"name": "Change email",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/json"
+										"type": "text",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"disabled": false
 									},
 									{
 										"key": "Authorization",
-										"value": "{{userAuthHeader}}"
+										"value": "{{userAuthHeader}}",
+										"disabled": false
 									}
 								],
 								"body": {
-									"mode": "formdata",
-									"formdata": [
+									"mode": "urlencoded",
+									"urlencoded": [
 										{
 											"key": "code",
-											"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..Eiv9Jk5EXb9YwOeRPEIydw.EDMQrE_gIF7CLV8apdSbB6HxIyNzegYcJr0YhdwePMPnLv15wLYgoqQf29fz81YOnTCzHvE55Lt03cQ5gkD3DRG_JPf8ygrLjDuJbt9D_RxSjlXdFyOzw3efwKPSZWOC2MqOJdyUG6xjndJL64eEOFfmk_3g2I6u2XMaGU1CqczdPqMP0nTVAWsFJq8ZJvzJ.3Lz2dr_KOTzk8jZG4nPrNw",
+											"value": "eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..r2QI1lFdFcSvtU7kzsRaxA.4uAMPzfg6eAJ36r3ih77Y8XpvWmMXoJZFGGlKTl_ybno8P5Qs02RNroUXPzGZNjXqdOGJ4huslGh_r0BiZ3ry4fCJhM9lPpsLFk9sRrFWEmbg-0DHi_QNxB2I3VXGYUGGVdqYCW0P_cVtU1AHnCHWrSRKwzXUzL-UDyBkZwJtYtnA2JVavlZQTuQK7pol3Ky.z0BcfAoaXNapzIOCVgccPQ",
 											"description": "",
 											"type": "text"
 										}
@@ -3242,42 +3100,6 @@
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true",
-									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
-								},
-								{
-									"key": "Access-Control-Allow-Headers",
-									"value": "Accept,Accept-Encoding,Accept-Language,Cache-Control,Connection,Content-Length,Content-Type,Cookie,Host,Origin,Pragma,Referer,User-Agent,x-requested-with,X-XSRF-TOKEN,Lemon-Authorization",
-									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
-								},
-								{
-									"key": "Access-Control-Allow-Methods",
-									"value": "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH",
-									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "http://localhost:9000",
-									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
-								},
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "Cache-Control,Connection,Content-Type,Date,Expires,Pragma,Server,Set-Cookie,Transfer-Encoding,X-Content-Type-Options,X-XSS-Protection,X-Frame-Options,X-Application-Context,X-XSRF-TOKEN",
-									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
-								},
-								{
-									"key": "Access-Control-Max-Age",
-									"value": "3600",
-									"name": "Access-Control-Max-Age",
-									"description": "Indicates how long the results of a preflight request can be cached in seconds."
-								},
-								{
 									"key": "Cache-Control",
 									"value": "no-cache, no-store, max-age=0, must-revalidate",
 									"name": "Cache-Control",
@@ -3291,7 +3113,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sat, 03 Mar 2018 08:37:49 GMT",
+									"value": "Sat, 26 May 2018 13:09:02 GMT",
 									"name": "Date",
 									"description": "The date and time that the message was sent"
 								},
@@ -3303,7 +3125,7 @@
 								},
 								{
 									"key": "Lemon-Authorization",
-									"value": "Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..IVJLPiMFQflTOAdwDCmXYQ.EkkxujSreZ5x3Az7zciDuReAmKbezGBG3Xn4ilUC53pymbLglYkIHn1vDsiQh9578gjGh5q1RQWtTl8yDuPk1PX82cK4D83KLWwWtQDKaz2JLGEY6KV8w82ylWbnKB86MzqvS4r7pzYVnibaKuIAkQ.yOYxUHdokWAEhdRlstzONw",
+									"value": "Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..EoLCdtaB9KEjAB5ucKzuXg.TsnrZoL8oqxCuHc6T-rpCY8Gg1YSmJ1FfGUTrU0mxBbc4hx0wq4MWNO2HsRMoNUXMVqx-TOND8BsYoBqDAPUaUGDlBNQGWvD3Ijuqsh3s2MGKISZeGMdDnYD204aSd-Suwjs__nfb5_ZzwV8jsWg9g.v50pjexU4bNzIu3z1FW5bg",
 									"name": "Lemon-Authorization",
 									"description": "Custom header"
 								},
@@ -3338,8 +3160,18 @@
 									"description": "Cross-site scripting (XSS) filter"
 								}
 							],
-							"cookie": [],
-							"body": "{\"id\":2,\"username\":\"skpatel20+changedlemon6524790@example.com\",\"roles\":[],\"tag\":{\"name\":\"Edited name\"},\"unverified\":false,\"blocked\":false,\"admin\":false,\"goodUser\":true,\"goodAdmin\":false}"
+							"cookie": [
+								{
+									"expires": "Sat May 26 2018 20:06:10 GMT+0530 (India Standard Time)",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "rO0ABXNyAExvcmcuc3ByaW5nZnJhbWV3b3JrLnNlY3VyaXR5Lm9hdXRoMi5jb3JlLmVuZHBvaW50Lk9BdXRoMkF1dGhvcml6YXRpb25SZXF1ZXN0AAAAAAAAAfQCAAhMABRhZGRpdGlvbmFsUGFyYW1ldGVyc3QAD0xqYXZhL3V0aWwvTWFwO0wAFmF1dGhvcml6YXRpb25HcmFudFR5cGV0AEFMb3JnL3NwcmluZ2ZyYW1ld29yay9zZWN1cml0eS9vYXV0aDIvY29yZS9BdXRob3JpemF0aW9uR3JhbnRUeXBlO0wAEGF1dGhvcml6YXRpb25Vcml0ABJMamF2YS9sYW5nL1N0cmluZztMAAhjbGllbnRJZHEAfgADTAALcmVkaXJlY3RVcmlxAH4AA0wADHJlc3BvbnNlVHlwZXQAU0xvcmcvc3ByaW5nZnJhbWV3b3JrL3NlY3VyaXR5L29hdXRoMi9jb3JlL2VuZHBvaW50L09BdXRoMkF1dGhvcml6YXRpb25SZXNwb25zZVR5cGU7TAAGc2NvcGVzdAAPTGphdmEvdXRpbC9TZXQ7TAAFc3RhdGVxAH4AA3hwc3IAJWphdmEudXRpbC5Db2xsZWN0aW9ucyRVbm1vZGlmaWFibGVNYXDxpaj-dPUHQgIAAUwAAW1xAH4AAXhwc3IAF2phdmEudXRpbC5MaW5rZWRIYXNoTWFwNMBOXBBswPsCAAFaAAthY2Nlc3NPcmRlcnhyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAF3CAAAAAIAAAABdAAPcmVnaXN0cmF0aW9uX2lkdAAIZmFjZWJvb2t4AHNyAD9vcmcuc3ByaW5nZnJhbWV3b3JrLnNlY3VyaXR5Lm9hdXRoMi5jb3JlLkF1dGhvcml6YXRpb25HcmFudFR5cGUAAAAAAAAB9AIAAUwABXZhbHVlcQB-AAN4cHQAEmF1dGhvcml6YXRpb25fY29kZXQAKmh0dHBzOi8vd3d3LmZhY2Vib29rLmNvbS92Mi44L2RpYWxvZy9vYXV0aHQAEDEyMzQwMjAxODY3MTg3NDF0ADBodHRwOi8vbG9jYWxob3N0OjgwODAvbG9naW4vb2F1dGgyL2NvZGUvZmFjZWJvb2tzcgBRb3JnLnNwcmluZ2ZyYW1ld29yay5zZWN1cml0eS5vYXV0aDIuY29yZS5lbmRwb2ludC5PQXV0aDJBdXRob3JpemF0aW9uUmVzcG9uc2VUeXBlAAAAAAAAAfQCAAFMAAV2YWx1ZXEAfgADeHB0AARjb2Rlc3IAJWphdmEudXRpbC5Db2xsZWN0aW9ucyRVbm1vZGlmaWFibGVTZXSAHZLRj5uAVQIAAHhyACxqYXZhLnV0aWwuQ29sbGVjdGlvbnMkVW5tb2RpZmlhYmxlQ29sbGVjdGlvbhlCAIDLXvceAgABTAABY3QAFkxqYXZhL3V0aWwvQ29sbGVjdGlvbjt4cHNyABdqYXZhLnV0aWwuTGlua2VkSGFzaFNldNhs11qV3SoeAgAAeHIAEWphdmEudXRpbC5IYXNoU2V0ukSFlZa4tzQDAAB4cHcMAAAAED9AAAAAAAACdAAOcHVibGljX3Byb2ZpbGV0AAVlbWFpbHh0ACxkM2ppcWU0ZXBfeVhHSWZoNUVNaTZ1ZGs3WFdXQnZ4V3hjQmYtNE5oZ3hjPQ==",
+									"key": "lemon_oauth2_authorization_request"
+								}
+							],
+							"body": "{\"id\":11,\"username\":\"skpatel20+changedlemon1487515@example.com\",\"roles\":[],\"tag\":{\"name\":\"Sample User\"},\"unverified\":false,\"blocked\":false,\"admin\":false,\"goodUser\":true,\"goodAdmin\":false}"
 						}
 					]
 				},
@@ -3364,17 +3196,17 @@
 						"method": "POST",
 						"header": [
 							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
 								"key": "Authorization",
 								"value": "{{userAuthHeader}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
+							"mode": "urlencoded",
+							"urlencoded": [
 								{
 									"key": "username",
 									"value": "{{userEmail}}",
@@ -3404,33 +3236,37 @@
 					},
 					"response": [
 						{
-							"id": "54f2d7e5-05d9-4f15-a4e0-f35ea25d0e4e",
+							"id": "af5ab736-94b8-4ef8-9f43-c240d1331df1",
 							"name": "Fetch new token",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
 									{
-										"key": "Content-Type",
-										"value": "application/json"
+										"key": "Authorization",
+										"value": "{{userAuthHeader}}",
+										"disabled": false
 									},
 									{
-										"key": "Authorization",
-										"value": "{{userAuthHeader}}"
+										"key": "Content-Type",
+										"type": "text",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"disabled": false
 									}
 								],
 								"body": {
-									"mode": "formdata",
-									"formdata": [
+									"mode": "urlencoded",
+									"urlencoded": [
 										{
 											"key": "username",
 											"value": "{{userEmail}}",
-											"description": "Optional. Can be used by Admins for fetcing token of another user",
+											"description": "",
 											"type": "text"
 										},
 										{
 											"key": "expirationMillis",
 											"value": "864000000",
-											"description": "Optional - defaults to 864000000 (10 days)",
+											"description": "",
 											"type": "text"
 										}
 									]
@@ -3452,42 +3288,6 @@
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true",
-									"name": "Access-Control-Allow-Credentials",
-									"description": "Indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials."
-								},
-								{
-									"key": "Access-Control-Allow-Headers",
-									"value": "Accept,Accept-Encoding,Accept-Language,Cache-Control,Connection,Content-Length,Content-Type,Cookie,Host,Origin,Pragma,Referer,User-Agent,x-requested-with,Authorization",
-									"name": "Access-Control-Allow-Headers",
-									"description": "Used in response to a preflight request to indicate which HTTP headers can be used when making the actual request."
-								},
-								{
-									"key": "Access-Control-Allow-Methods",
-									"value": "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH",
-									"name": "Access-Control-Allow-Methods",
-									"description": "Specifies the method or methods allowed when accessing the resource. This is used in response to a preflight request."
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "http://localhost:9000",
-									"name": "Access-Control-Allow-Origin",
-									"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
-								},
-								{
-									"key": "Access-Control-Expose-Headers",
-									"value": "Cache-Control,Connection,Content-Type,Date,Expires,Pragma,Server,Set-Cookie,Transfer-Encoding,X-Content-Type-Options,X-XSS-Protection,X-Frame-Options,X-Application-Context,Lemon-Authorization",
-									"name": "Access-Control-Expose-Headers",
-									"description": "Lets a server whitelist headers that browsers are allowed to access."
-								},
-								{
-									"key": "Access-Control-Max-Age",
-									"value": "3600",
-									"name": "Access-Control-Max-Age",
-									"description": "Indicates how long the results of a preflight request can be cached in seconds."
-								},
-								{
 									"key": "Cache-Control",
 									"value": "no-cache, no-store, max-age=0, must-revalidate",
 									"name": "Cache-Control",
@@ -3501,7 +3301,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Mon, 19 Mar 2018 01:05:39 GMT",
+									"value": "Sat, 26 May 2018 13:13:10 GMT",
 									"name": "Date",
 									"description": "The date and time that the message was sent"
 								},
@@ -3542,8 +3342,18 @@
 									"description": "Cross-site scripting (XSS) filter"
 								}
 							],
-							"cookie": [],
-							"body": "{\"token\":\"Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..U8Hz1wGgzFDpXP1e4D0WaA.Pl1cWtkhWCKy__L5zRU3efQwnxG3_sTALrp6iyh9Oc0qwHU2iIt3AlgtbombOn14msyuRn2IJm-SXfNQ-4Zomvux-kUJGdNKaYAODAU5j9yDDP3v98fW3KYNxzbFDJBr.sraeDLzaqq4xqDAffuNSTQ\"}"
+							"cookie": [
+								{
+									"expires": "Sat May 26 2018 20:06:10 GMT+0530 (India Standard Time)",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "rO0ABXNyAExvcmcuc3ByaW5nZnJhbWV3b3JrLnNlY3VyaXR5Lm9hdXRoMi5jb3JlLmVuZHBvaW50Lk9BdXRoMkF1dGhvcml6YXRpb25SZXF1ZXN0AAAAAAAAAfQCAAhMABRhZGRpdGlvbmFsUGFyYW1ldGVyc3QAD0xqYXZhL3V0aWwvTWFwO0wAFmF1dGhvcml6YXRpb25HcmFudFR5cGV0AEFMb3JnL3NwcmluZ2ZyYW1ld29yay9zZWN1cml0eS9vYXV0aDIvY29yZS9BdXRob3JpemF0aW9uR3JhbnRUeXBlO0wAEGF1dGhvcml6YXRpb25Vcml0ABJMamF2YS9sYW5nL1N0cmluZztMAAhjbGllbnRJZHEAfgADTAALcmVkaXJlY3RVcmlxAH4AA0wADHJlc3BvbnNlVHlwZXQAU0xvcmcvc3ByaW5nZnJhbWV3b3JrL3NlY3VyaXR5L29hdXRoMi9jb3JlL2VuZHBvaW50L09BdXRoMkF1dGhvcml6YXRpb25SZXNwb25zZVR5cGU7TAAGc2NvcGVzdAAPTGphdmEvdXRpbC9TZXQ7TAAFc3RhdGVxAH4AA3hwc3IAJWphdmEudXRpbC5Db2xsZWN0aW9ucyRVbm1vZGlmaWFibGVNYXDxpaj-dPUHQgIAAUwAAW1xAH4AAXhwc3IAF2phdmEudXRpbC5MaW5rZWRIYXNoTWFwNMBOXBBswPsCAAFaAAthY2Nlc3NPcmRlcnhyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAF3CAAAAAIAAAABdAAPcmVnaXN0cmF0aW9uX2lkdAAIZmFjZWJvb2t4AHNyAD9vcmcuc3ByaW5nZnJhbWV3b3JrLnNlY3VyaXR5Lm9hdXRoMi5jb3JlLkF1dGhvcml6YXRpb25HcmFudFR5cGUAAAAAAAAB9AIAAUwABXZhbHVlcQB-AAN4cHQAEmF1dGhvcml6YXRpb25fY29kZXQAKmh0dHBzOi8vd3d3LmZhY2Vib29rLmNvbS92Mi44L2RpYWxvZy9vYXV0aHQAEDEyMzQwMjAxODY3MTg3NDF0ADBodHRwOi8vbG9jYWxob3N0OjgwODAvbG9naW4vb2F1dGgyL2NvZGUvZmFjZWJvb2tzcgBRb3JnLnNwcmluZ2ZyYW1ld29yay5zZWN1cml0eS5vYXV0aDIuY29yZS5lbmRwb2ludC5PQXV0aDJBdXRob3JpemF0aW9uUmVzcG9uc2VUeXBlAAAAAAAAAfQCAAFMAAV2YWx1ZXEAfgADeHB0AARjb2Rlc3IAJWphdmEudXRpbC5Db2xsZWN0aW9ucyRVbm1vZGlmaWFibGVTZXSAHZLRj5uAVQIAAHhyACxqYXZhLnV0aWwuQ29sbGVjdGlvbnMkVW5tb2RpZmlhYmxlQ29sbGVjdGlvbhlCAIDLXvceAgABTAABY3QAFkxqYXZhL3V0aWwvQ29sbGVjdGlvbjt4cHNyABdqYXZhLnV0aWwuTGlua2VkSGFzaFNldNhs11qV3SoeAgAAeHIAEWphdmEudXRpbC5IYXNoU2V0ukSFlZa4tzQDAAB4cHcMAAAAED9AAAAAAAACdAAOcHVibGljX3Byb2ZpbGV0AAVlbWFpbHh0ACxkM2ppcWU0ZXBfeVhHSWZoNUVNaTZ1ZGs3WFdXQnZ4V3hjQmYtNE5oZ3hjPQ==",
+									"key": "lemon_oauth2_authorization_request"
+								}
+							],
+							"body": "{\"token\":\"Bearer eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiZGlyIn0..CGn0oLJUw6SZj8qN3bv5UA.duI-9vBwLZNYwzFAvtoLGGSzW7SkBEPZcgthIcj4S18M6IGL6M-fSiBcBSehBTBpww5nGqZRykcTCB8VggM237yFLErjcsanfdNg9QlJH4pU2aKKw9oSe3ewLW9y0n8Hax5bF2pD0J4r2K0kaIokyg.twGE66-9KUMvRHDoDChpzQ\"}"
 						}
 					]
 				}
